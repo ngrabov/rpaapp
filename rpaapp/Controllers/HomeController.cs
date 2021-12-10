@@ -31,7 +31,6 @@ public class HomeController : Controller
 
     public IActionResult Load(IFormFile file)
     {
-        //Datoteka fl = new Datoteka(); 
         if(file != null)
         {
             try
@@ -49,7 +48,6 @@ public class HomeController : Controller
                         }
                         i++;
                     }
-                    //fl.BrojRacuna = arr[0];
                 }
             }
             catch(Exception e)
