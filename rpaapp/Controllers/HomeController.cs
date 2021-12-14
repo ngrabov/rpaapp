@@ -38,6 +38,14 @@ public class HomeController : Controller
         return File(bytes, "application/octet-stream", fileName);
     }
 
+    public async Task<IActionResult> ClearMe()
+    {
+        var pedefs = await _context.pdfs.ToListAsync();
+        _context.pdfs.RemoveRange(pedefs);
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
+
     public IActionResult Resolve()
     {
         return RedirectToAction(nameof(Index));
