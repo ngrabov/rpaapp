@@ -25,26 +25,27 @@ public class HomeController : Controller
         return View(files);
     }
 
-    public async Task<FileResult> DownloadFile(string fileName)
+    public async Task<IActionResult> DownloadFile(string fileName)
     {
         string path = Path.Combine(_environment.WebRootPath) + "/" + fileName;
 
         byte[] bytes = System.IO.File.ReadAllBytes(path);
 
         var ftd = await _context.pdfs.FirstOrDefaultAsync(c => c.fullpath == fileName);
+        
         _context.pdfs.Remove(ftd);
         await _context.SaveChangesAsync();
         System.IO.File.Delete(path);
         return File(bytes, "application/octet-stream", fileName);
     }
-
+/* 
     public async Task<IActionResult> ClearMe()
     {
         var pedefs = await _context.pdfs.ToListAsync();
         _context.pdfs.RemoveRange(pedefs);
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
-    }
+    } */
 
     public IActionResult Resolve()
     {
