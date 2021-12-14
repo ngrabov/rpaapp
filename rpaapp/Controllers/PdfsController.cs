@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using rpaapp.Models;
 using rpaapp.Data;
 
@@ -10,6 +11,12 @@ public class PdfsController : Controller
     public PdfsController(ApplicationDbContext context)
     {
         _context = context;
+    }
+
+    public IActionResult Index()
+    {
+        var pdfs = _context.pdfs.ToListAsync();
+        return Json(pdfs);
     }
 
     public IActionResult UploadMe()
@@ -26,7 +33,7 @@ public class PdfsController : Controller
         {
             await file.CopyToAsync(stream);
         }
-        pdf.fullpath = "./wwwroot/" + wbp;
+        pdf.fullpath = wbp;
         await _context.pdfs.AddAsync(pdf);
         await _context.SaveChangesAsync();
 

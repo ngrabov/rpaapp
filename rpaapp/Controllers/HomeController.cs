@@ -10,17 +10,32 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly ApplicationDbContext _context;
+    private IWebHostEnvironment _environment;
 
-    public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+    public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IWebHostEnvironment environment)
     {
         _context = context;
         _logger = logger;
+        _environment = environment;
     }
 
     public async Task<IActionResult> Index()
     {
         var files = await _context.pdfs.ToListAsync();
         return View(files);
+    }
+
+    public async Task<FileResult> DownloadFile(string fileName)
+    {
+        string path = Path.Combine(_environment.WebRootPath) + "/" + fileName;
+
+        byte[] bytes = System.IO.File.ReadAllBytes(path);
+
+        var ftd = await _context.pdfs.FirstOrDefaultAsync(c => c.fullpath == fileName);
+        _context.pdfs.Remove(ftd);
+        await _context.SaveChangesAsync();
+        System.IO.File.Delete(path);
+        return File(bytes, "application/octet-stream", fileName);
     }
 
     public IActionResult Resolve()
