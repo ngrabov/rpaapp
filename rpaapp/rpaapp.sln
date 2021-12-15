@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rpaapp", "rpaapp.csproj", "{A5B188D8-C56F-48AE-B1E1-1C6C1C7C9708}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A5B188D8-C56F-48AE-B1E1-1C6C1C7C9708}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5B188D8-C56F-48AE-B1E1-1C6C1C7C9708}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5B188D8-C56F-48AE-B1E1-1C6C1C7C9708}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5B188D8-C56F-48AE-B1E1-1C6C1C7C9708}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E39029A4-3D45-4C16-88A0-E0882E2F4B24}
+	EndGlobalSection
+EndGlobal

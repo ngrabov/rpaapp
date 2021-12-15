@@ -13,9 +13,9 @@ public class PdfsController : Controller
         _context = context;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        var pdfs = _context.pdfs.ToListAsync();
+        var pdfs = await _context.pdfs.ToListAsync();
         return Json(pdfs);
     }
 
@@ -25,16 +25,21 @@ public class PdfsController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> UploadMe(Pdf pdf, IFormFile file)
+    public async Task<IActionResult> UploadMe(List<IFormFile> files)
     {
-        string wbp = Path.GetFileName(file.FileName);
-
-        using(var stream = System.IO.File.Create("./wwwroot/" + wbp))
+        foreach(var file in files)
         {
-            await file.CopyToAsync(stream);
+            Pdf pdf = new Pdf();
+            string wbp = Path.GetFileName(file.FileName);
+
+            using(var stream = System.IO.File.Create("./wwwroot/" + wbp))
+            {
+                await file.CopyToAsync(stream);
+            }
+            pdf.fullpath = wbp;
+            await _context.pdfs.AddAsync(pdf);
         }
-        pdf.fullpath = wbp;
-        await _context.pdfs.AddAsync(pdf);
+
         await _context.SaveChangesAsync();
 
         return RedirectToAction("Index", "Home");
