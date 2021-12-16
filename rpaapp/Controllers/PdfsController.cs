@@ -22,7 +22,7 @@ public class PdfsController : Controller
     }
 
     [HttpPost("pdfs/UploadFiles")]
-    public IActionResult UploadFiles(/* IFormFile file */)
+    public async Task<IActionResult> UploadFiles(/* IFormFile file */)
     {
         var files = Request.Form.Files;
 
@@ -38,10 +38,10 @@ public class PdfsController : Controller
                     filez.CopyTo(stream);
 
             pdf.fullpath = wbp;
-            _context.pdfs.Add(pdf);
+            await _context.pdfs.AddAsync(pdf);
         }
 
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return Ok();
     }
 
