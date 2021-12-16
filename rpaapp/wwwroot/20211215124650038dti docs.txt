@@ -1,0 +1,35 @@
+rpaapp.azurewebsites.net
+
+.NET Core 6.0 Web app
+
+Goal: Serving robot processes in a cloud environment
+
+Finished API endpoints:
+
+Home		(./) 				- Pregled svih aktivnih pdf-ova
+Home/Download	(./DownloadFile?fileName=...)	- DL i delete datoteke sa danim imenom
+Upload files 	(./Pdfs/UploadMe) //GET i POST	- Upload novog pdf-a 
+Pdf index 	(./Pdfs)			- Pregled svih aktivnih pdf-ova u JSON formatu
+
+Tech stack:
+EntityFrameworkCore
+SQLite database (app.db)
+
+Azure free subscription (Project spin off)
+psorg resource group
+psoasp app service plan
+rpaapp app service
+
+Developed with Visual Studio Code
+Deployed with Microsoft Visual Studio 2022
+
+Ivan Jakovljevic
+Igor Krpan
+Marko Novitovic
+Filip Novoselec
+Hrvoje Lovric
+Josip Kelava
+Nikola Grabovac
+
+Robot process automation team
+Tokic Ltd., December 2021.
