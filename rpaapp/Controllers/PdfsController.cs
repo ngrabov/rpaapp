@@ -2,8 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using rpaapp.Models;
 using rpaapp.Data;
-using System.Diagnostics;
-using System.Net.Http.Headers;
 
 namespace rpaapp.Controllers;
 
@@ -21,8 +19,8 @@ public class PdfsController : Controller
         return Json(pdfs);
     }
 
-    [HttpPost("pdfs/UploadFiles")]
-    public async Task<IActionResult> UploadFiles(/* IFormFile file */)
+    [HttpPost]
+    public async Task<IActionResult> UploadFiles()
     {
         var files = Request.Form.Files;
 
