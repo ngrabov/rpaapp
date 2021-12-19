@@ -29,13 +29,15 @@ public class PdfsController : Controller
         foreach(var filez in files)
         {
             Pdf pdf = new Pdf();
-            var ts = DateTime.Now.ToString("yyyyMMddhhmmssfff");
-            string wbp = ts + "_" + Path.GetFileName(filez.FileName);
+            var gd = Guid.NewGuid();
+
+            string wbp = Path.GetFileName(filez.FileName);
             if (filez.Length > 0)
-                using (var stream = System.IO.File.Create("./wwwroot/" + wbp))
+                using (var stream = System.IO.File.Create("./wwwroot/" + gd))
                     filez.CopyTo(stream);
 
-            pdf.fullpath = wbp;
+            pdf.fname = wbp;
+            pdf.guid = gd;
             await _context.pdfs.AddAsync(pdf);
         }
 
@@ -44,25 +46,26 @@ public class PdfsController : Controller
     }
 
 
-    public IActionResult UploadMe()
+    public IActionResult Upload()
     {
         return View();
     }
 
     [HttpPost]
-    public async Task<IActionResult> UploadMe(List<IFormFile> files)
+    public async Task<IActionResult> Upload(List<IFormFile> files)
     {
         foreach(var file in files)
         {
             Pdf pdf = new Pdf();
-            var ts = DateTime.Now.ToString("yyyyMMddhhmmssfff");
-            string wbp = ts + "_" + Path.GetFileName(file.FileName);
+            var gd = Guid.NewGuid();
+            string wbp = Path.GetFileName(file.FileName);
 
-            using(var stream = System.IO.File.Create("./wwwroot/" + wbp))
+            using(var stream = System.IO.File.Create("./wwwroot/" + gd))
             {
                 await file.CopyToAsync(stream);
             }
-            pdf.fullpath = wbp;
+            pdf.fname = wbp;
+            pdf.guid = gd;
             await _context.pdfs.AddAsync(pdf);
         }
 

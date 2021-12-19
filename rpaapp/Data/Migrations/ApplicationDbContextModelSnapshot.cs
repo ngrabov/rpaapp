@@ -219,7 +219,10 @@ namespace rpaapp.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("fullpath")
+                    b.Property<string>("fname")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("guid")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

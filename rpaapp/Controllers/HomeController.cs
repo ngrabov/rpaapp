@@ -19,39 +19,32 @@ public class HomeController : Controller
         _environment = environment;
     }
 
-    public async Task<IActionResult> Index()
+    public IActionResult Index()
+    {
+        return View();
+    }
+    
+    [Route("Repository")]
+    public async Task<IActionResult> Repository()
     {
         var files = await _context.pdfs.ToListAsync();
         return View(files);
     }
 
-    public async Task<IActionResult> DownloadFile(string fileName)
+    public async Task<IActionResult> DownloadFile(string fileName, Guid gd)
     {
-        string path = Path.Combine(_environment.WebRootPath) + "/" + fileName;
+        string path = Path.Combine(_environment.WebRootPath) + "/" + gd;
 
         byte[] bytes = System.IO.File.ReadAllBytes(path);
 
-        var ftd = await _context.pdfs.FirstOrDefaultAsync(c => c.fullpath == fileName);
+        var ftd = await _context.pdfs.FirstOrDefaultAsync(c => c.guid == gd);
+        var fname = ftd.fname;
         
         _context.pdfs.Remove(ftd);
         await _context.SaveChangesAsync();
         System.IO.File.Delete(path);
-        return File(bytes, "application/octet-stream", fileName);
+        return File(bytes, "application/octet-stream", fname);
     }
-/* 
-    public async Task<IActionResult> ClearMe()
-    {
-        var pedefs = await _context.pdfs.ToListAsync();
-        _context.pdfs.RemoveRange(pedefs);
-        await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
-    } */
-
-    public IActionResult Resolve()
-    {
-        return RedirectToAction(nameof(Index));
-    }
-
 
     public IActionResult Load(IFormFile file)
     {

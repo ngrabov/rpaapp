@@ -11,8 +11,8 @@ using rpaapp.Data;
 namespace rpaapp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211210133705_pdfs")]
-    partial class pdfs
+    [Migration("20211219173342_guid")]
+    partial class guid
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -221,7 +221,10 @@ namespace rpaapp.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("fullpath")
+                    b.Property<string>("fname")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("guid")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

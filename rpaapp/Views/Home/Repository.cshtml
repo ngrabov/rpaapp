@@ -1,0 +1,111 @@
+﻿@model IEnumerable<rpaapp.Models.Pdf>
+@{
+    ViewData["Title"] = "Repository Page";
+    List<string> t = new List<string>();
+    
+    t = (List<string>)ViewData["Arry"];
+    if(t == null)
+    {
+        t = new List<string>(){"", "", "", "", "", "", "", "", ""};
+    }
+}
+<h3>Files to resolve</h3>
+<div>
+    <table class="table table-hover">
+        <thead>
+            <th>Id</th>
+            <th>File path</th>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@Html.ActionLink(item.fname, "DownloadFile", new { gd = @item.guid})</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@* 
+<div style="padding: 0 15px 0 15px;">
+    <h1>Data</h1>
+    <hr class="col-md-4" />
+    <div class="row" style="display: flex; flex-direction: row;">
+        
+@if(Model != null)
+{
+        <div class="col-md-4">
+            <form asp-action="Resolve" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label class="control-label">Broj računa</label>
+                    <input id="rcn" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Datum računa</label>
+                    <input class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Datum dospijeća</label>
+                    <input class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Neto iznos</label>
+                    <input class="form-control">
+                </div>
+                <div class="form-group hideable">
+                    <label class="control-label">Bruto iznos</label>
+                    <input class="form-control">
+                </div>
+                <div class="form-group hideable">
+                    <label class="control-label">OIB-VAT broj</label>
+                    <input class="form-control">
+                </div>
+                <div class="form-group hideable">
+                    <label class="control-label">Naziv tvrtke</label>
+                    <input class="form-control">
+                </div>
+                <div class="form-group hideable">
+                    <label class="control-label">Grupa dobavljača (DOM/INO)</label>
+                    <input class="form-control">
+                </div>
+                <div class="form-group hideable">
+                    <label class="control-label">Šifra valute (HRK/USD/EUR)</label>
+                    <input class="form-control">
+                </div>
+                <div class="form-group" style="flex-direction: row; display: flex;">
+                    <div style="padding-top: 20px; padding-right: 12px;">
+                        <input type="submit" value="OK" class="btn btn-primary" style="width: 80px;" />
+                    </div>
+                    <div style="padding-top: 20px;">
+                        <input value="Clear" id="btnClear" style="user-select: none; width: 80px;" class="btn btn-primary" />
+                    </div>
+                </div>
+            </form>
+        </div>
+}
+        <div class="col-md-4">
+            <form asp-action="Load" asp-route-file="files" enctype="multipart/form-data">
+                <div class="form-group" style="padding-top: 20px;">
+                    <input type="file" name="files" accept=".txt">
+                </div>
+                <div class="form-group" style="padding-top: 20px;">
+                    <input type="submit" value="Load" class="btn btn-primary" style="width: 80px;">
+                </div>
+            </form>
+        </div>
+    </div>
+</div> *@
+
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+	$(document).ready(function(){
+		$('#btnClear').click(function()
+        {		
+			$('input[class="form-control"]').val('');
+		});
+	});
+</script>
