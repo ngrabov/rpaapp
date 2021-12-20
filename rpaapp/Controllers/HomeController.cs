@@ -55,6 +55,36 @@ public class HomeController : Controller
         return View();
     }
 
+    [Route("Upload")]
+    public IActionResult Upload()
+    {
+        return View();
+    }
+
+    [Route("Upload")]
+    [HttpPost]
+    public async Task<IActionResult> Upload(List<IFormFile> files)
+    {
+        var tgd = Guid.NewGuid();
+        foreach(var file in files)
+        {
+            Document doc = new Document();
+            string wbp = Path.GetFileName(file.FileName);
+
+            using(var stream = System.IO.File.Create("./wwwroot/Document/" + tgd + "/" + wbp))
+            {
+                await file.CopyToAsync(stream);
+            }
+            doc.fname = wbp;
+            doc.fguid = tgd;
+            await _context.Documents.AddAsync(doc);
+        }
+
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction("Index", "Home");
+    }
+
     public IActionResult Load(IFormFile file)
     {
         if(file != null)
