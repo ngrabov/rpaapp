@@ -147,6 +147,23 @@ namespace rpaapp.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("rpaapp.Models.Document", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("fguid")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("fname")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Documents", (string)null);
+                });
+
             modelBuilder.Entity("rpaapp.Models.Pdf", b =>
                 {
                     b.Property<int>("Id")

@@ -1,0 +1,18 @@
+@model List<Document>
+
+@{ 
+    ViewData["Title"] = "Details";
+}
+
+<div>
+    <table class="table table-hover">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a>@item.fname</a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>

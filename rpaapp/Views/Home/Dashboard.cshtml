@@ -1,3 +1,20 @@
+@model IEnumerable<rpaapp.Models.Document>
+
 @{
     ViewData["Title"] = "Dashboard";
 }
+
+<div>
+    <table class="table table-hover">   
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-action="Details" asp-controller="Home" asp-route-id="@item.fguid">@item.fguid</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

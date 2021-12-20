@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using rpaapp.Models;
+using System.Linq;
 using rpaapp.Data;
 using Microsoft.AspNetCore.Authorization;
 
@@ -48,11 +49,36 @@ public class HomeController : Controller
         return File(bytes, "application/octet-stream", fname);
     }
 
-    [Authorize(Roles = "Administrator")]
+    //[Authorize(Roles = "Administrator")]
     [Route("Dashboard")]
-    public IActionResult Dashboard()
+    public async Task<IActionResult> Dashboard()
     {
-        return View();
+        var docs = new List<Document>();
+
+        var group = from doc in await _context.Documents.AsQueryable().ToListAsync() 
+                    group doc by doc.fguid into divdoc
+                    select divdoc;
+
+        foreach(var grouping in group)
+        {
+            foreach(var doc in grouping)
+            {
+                docs.Add(doc);
+            }
+        }
+
+        //var docs = await _context.Documents.ToListAsync();
+        //var q = await docs.AsQueryable().GroupBy(c => c.fguid).ToListAsync();
+        return View(docs);
+    }
+
+    public async Task<IActionResult> Details(Guid? id)
+    {
+        if(id == null) return NotFound();
+
+        var folder = await _context.Documents.Where(c => c.fguid == id).ToListAsync();
+        if(folder == null) return NotFound();
+        return View(folder);
     }
 
     [Route("Upload")]
@@ -70,6 +96,12 @@ public class HomeController : Controller
         {
             Document doc = new Document();
             string wbp = Path.GetFileName(file.FileName);
+
+            string fold = "./wwwroot/Document/" + tgd;
+            if (!Directory.Exists(fold))
+            {
+                Directory.CreateDirectory(fold);
+            }
 
             using(var stream = System.IO.File.Create("./wwwroot/Document/" + tgd + "/" + wbp))
             {

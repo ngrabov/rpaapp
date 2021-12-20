@@ -11,8 +11,8 @@ using rpaapp.Data;
 namespace rpaapp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211220095240_createdbschema")]
-    partial class createdbschema
+    [Migration("20211220141646_mymig")]
+    partial class mymig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -147,6 +147,23 @@ namespace rpaapp.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("rpaapp.Models.Document", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("fguid")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("fname")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Documents", (string)null);
                 });
 
             modelBuilder.Entity("rpaapp.Models.Pdf", b =>
