@@ -45,7 +45,6 @@ public class PdfsController : Controller
         return Ok();
     }
 
-
     public IActionResult Upload()
     {
         return View();

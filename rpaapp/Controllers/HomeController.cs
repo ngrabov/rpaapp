@@ -24,14 +24,14 @@ public class HomeController : Controller
         return View();
     }
     
-    [Route("Repository")]
+    [Route("Repository")] //authorize
     public async Task<IActionResult> Repository()
     {
         var files = await _context.pdfs.ToListAsync();
         return View(files);
     }
 
-    public async Task<IActionResult> DownloadFile(string fileName, Guid gd)
+    public async Task<IActionResult> DownloadFile(Guid gd)
     {
         string path = Path.Combine(_environment.WebRootPath) + "/" + gd;
 
@@ -44,6 +44,12 @@ public class HomeController : Controller
         await _context.SaveChangesAsync();
         System.IO.File.Delete(path);
         return File(bytes, "application/octet-stream", fname);
+    }
+
+    [Route("Dashboard")]
+    public IActionResult Dashboard()
+    {
+        return View();
     }
 
     public IActionResult Load(IFormFile file)
@@ -74,7 +80,6 @@ public class HomeController : Controller
         }
         return View();
     }
-
 
     public IActionResult Privacy()
     {
