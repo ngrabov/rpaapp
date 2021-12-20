@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using rpaapp.Models;
 using rpaapp.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace rpaapp.Controllers;
 
@@ -24,6 +25,7 @@ public class HomeController : Controller
         return View();
     }
     
+    [Authorize(Roles = "Administrator")]
     [Route("Repository")] //authorize
     public async Task<IActionResult> Repository()
     {
@@ -46,6 +48,7 @@ public class HomeController : Controller
         return File(bytes, "application/octet-stream", fname);
     }
 
+    [Authorize(Roles = "Administrator")]
     [Route("Dashboard")]
     public IActionResult Dashboard()
     {
