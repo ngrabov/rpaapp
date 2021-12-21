@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace rpaapp.Migrations
 {
-    public partial class mymig : Migration
+    public partial class serious : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -50,6 +50,39 @@ namespace rpaapp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_pdfs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Txts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    DocumentId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Group = table.Column<string>(type: "TEXT", nullable: true),
+                    State = table.Column<string>(type: "TEXT", nullable: true),
+                    VAT = table.Column<string>(type: "TEXT", nullable: true),
+                    Currency = table.Column<string>(type: "TEXT", nullable: true),
+                    BillingGroup = table.Column<string>(type: "TEXT", nullable: true),
+                    IBAN = table.Column<string>(type: "TEXT", nullable: true),
+                    VATobligation = table.Column<string>(type: "TEXT", nullable: true),
+                    InvoiceNumber1 = table.Column<string>(type: "TEXT", nullable: true),
+                    InvoiceNumber2 = table.Column<string>(type: "TEXT", nullable: true),
+                    InvoiceDate1 = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    InvoiceDate2 = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    InvoiceDueDate1 = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    InvoiceDueDate2 = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Bruto1 = table.Column<double>(type: "REAL", nullable: false),
+                    Bruto2 = table.Column<double>(type: "REAL", nullable: false),
+                    Neto1 = table.Column<double>(type: "REAL", nullable: false),
+                    Neto2 = table.Column<double>(type: "REAL", nullable: false),
+                    ReferenceNumber1 = table.Column<string>(type: "TEXT", nullable: true),
+                    ReferenceNumber2 = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Txts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -246,6 +279,9 @@ namespace rpaapp.Migrations
 
             migrationBuilder.DropTable(
                 name: "pdfs");
+
+            migrationBuilder.DropTable(
+                name: "Txts");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

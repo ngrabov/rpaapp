@@ -6,9 +6,9 @@
     <UserSecretsId>aspnet-rpaapp-500A6622-5BA9-4944-8239-AFE0FE94D55B</UserSecretsId>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
-  </ItemGroup>
+<!--   <ItemGroup>
+    <Content Update="app.db" CopyToPublishDirectory="Never"  />
+  </ItemGroup> -->
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.0" />

@@ -19,7 +19,7 @@ public class PdfsController : Controller
         return Json(pdfs);
     }
 
-    [HttpPost]
+    [HttpPost] //API endpoint za PDFove
     public async Task<IActionResult> UploadFiles()
     {
         var files = Request.Form.Files;
@@ -45,7 +45,7 @@ public class PdfsController : Controller
         return Ok();
     }
 
-    public IActionResult Upload()
+    public IActionResult Upload() 
     {
         return View();
     }
@@ -70,6 +70,6 @@ public class PdfsController : Controller
 
         await _context.SaveChangesAsync();
 
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("Repository", "Home");
     }
 }

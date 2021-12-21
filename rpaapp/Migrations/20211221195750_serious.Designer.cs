@@ -11,8 +11,8 @@ using rpaapp.Data;
 namespace rpaapp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211220141646_mymig")]
-    partial class mymig
+    [Migration("20211221195750_serious")]
+    partial class serious
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -181,6 +181,80 @@ namespace rpaapp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("pdfs", (string)null);
+                });
+
+            modelBuilder.Entity("rpaapp.Models.Txt", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("BillingGroup")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("Bruto1")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("Bruto2")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("Currency")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("DocumentId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Group")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IBAN")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("InvoiceDate1")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("InvoiceDate2")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("InvoiceDueDate1")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("InvoiceDueDate2")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("InvoiceNumber1")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("InvoiceNumber2")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("Neto1")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("Neto2")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("ReferenceNumber1")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ReferenceNumber2")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("State")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("VAT")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("VATobligation")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Txts", (string)null);
                 });
 
             modelBuilder.Entity("rpaapp.Models.Writer", b =>
