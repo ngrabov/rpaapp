@@ -61,17 +61,15 @@ public class HomeController : Controller
 
         foreach(var grouping in group)
         {
-            foreach(var doc in grouping)
-            {
-                docs.Add(doc);
-            }
+            var doc = grouping.FirstOrDefault();
+            docs.Add(doc);
         }
 
         //var docs = await _context.Documents.ToListAsync();
         //var q = await docs.AsQueryable().GroupBy(c => c.fguid).ToListAsync();
         return View(docs);
     }
-
+    
     public async Task<IActionResult> Details(Guid? id)
     {
         if(id == null) return NotFound();
