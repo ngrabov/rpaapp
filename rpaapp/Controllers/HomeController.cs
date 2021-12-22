@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using rpaapp.Models;
 using rpaapp.Data;
+using System.Globalization;
 
 namespace rpaapp.Controllers;
 
@@ -117,37 +118,6 @@ public class HomeController : Controller
 
         await Complex(files);
 
-        /* string tgd = "";
-        foreach(var file in files)
-        {
-            var ext = Path.GetExtension(file.FileName);
-            if(ext == ".pdf")
-            {
-                tgd = Path.GetFileNameWithoutExtension(file.FileName);
-            }
-        }
-
-        foreach(var file in files)
-        {
-            Document doc = new Document();
-            string wbp = Path.GetFileName(file.FileName);
-
-            string fold = "./wwwroot/Document/" + tgd;
-            if (!Directory.Exists(fold))
-            {
-                Directory.CreateDirectory(fold);
-            }
-
-            using(var stream = System.IO.File.Create("./wwwroot/Document/" + tgd + "/" + wbp))
-            {
-                await file.CopyToAsync(stream);
-            }
-            doc.fname = wbp;
-            doc.fguid = Guid.Parse(tgd);
-            await _context.Documents.AddAsync(doc);
-        }
-
-        await _context.SaveChangesAsync(); */
         return Ok();
     }
 
@@ -172,6 +142,7 @@ public class HomeController : Controller
             {
                 tgd = Path.GetFileNameWithoutExtension(file.FileName);
             }
+            
         }
 
         foreach(var file in files)
@@ -218,7 +189,7 @@ public class HomeController : Controller
                         {
                             text.Group = sr.ReadLine();
                         }
-                        if(line == "state:")
+                        if(line == "State:")
                         {
                             text.State = sr.ReadLine();
                         }
@@ -248,11 +219,13 @@ public class HomeController : Controller
                         }
                         if(line == "Neto1:")
                         {
-                            text.Neto1 = double.Parse(sr.ReadLine());
+                            var cvt = sr.ReadLine().Replace(',','.');
+                            text.Neto1 = double.Parse(cvt);
                         }
                         if(line == "Bruto1:")
                         {
-                            text.Bruto1 = double.Parse(sr.ReadLine());
+                            var cvt2 = sr.ReadLine().Replace(',','.');
+                            text.Bruto1 = double.Parse(cvt2);
                         }
                         if(line == "Reference_number1:")
                         {
@@ -272,11 +245,13 @@ public class HomeController : Controller
                         }
                         if(line == "Neto2:")
                         {
-                            text.Neto2 = double.Parse(sr.ReadLine());
+                            var cvt3 = sr.ReadLine().Replace(',','.');
+                            text.Neto2 = double.Parse(cvt3);
                         }
                         if(line == "Bruto2:")
                         {
-                            text.Bruto2 = double.Parse(sr.ReadLine());
+                            var cvt4 = sr.ReadLine().Replace(',','.');
+                            text.Bruto2 = double.Parse(cvt4);
                         }
                         if(line == "Reference_number2:")
                         {
@@ -285,6 +260,7 @@ public class HomeController : Controller
                     }
                 }
                 text.DocumentId = Guid.Parse(tgd);
+                text.isReviewed = false;
                 await _context.Txts.AddAsync(text);
             }
         }

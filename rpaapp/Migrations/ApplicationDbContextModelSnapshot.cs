@@ -250,6 +250,9 @@ namespace rpaapp.Migrations
                     b.Property<string>("VATobligation")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("isReviewed")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.ToTable("Txts", (string)null);

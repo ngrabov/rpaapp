@@ -13,7 +13,7 @@
     <hr />
     <div class="row">
         <div class="col-md-8">
-            <form asp-action="Resolve" id="frm" name="frm" enctype="multipart/form-data"> 
+            <form asp-action="Resolve" asp-route-id="@Model.Id" id="frm" name="frm" enctype="multipart/form-data"> 
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group col-md-5">
                     <b><label asp-for="Name" class="control-label"></label></b>
@@ -60,61 +60,79 @@
                     <input asp-for="InvoiceNumber1" class="form-control" required/>
                     <span asp-validation-for="InvoiceNumber1" class="text-danger"></span>
                 </div>
-                <div class="form-group col-md-5">
-                    <b><label asp-for="InvoiceNumber2" class="control-label"></label></b>
-                    <input asp-for="InvoiceNumber2" class="form-control" required/>
-                    <span asp-validation-for="InvoiceNumber2" class="text-danger"></span>
-                </div>
+                @if(Model.InvoiceNumber1 != Model.InvoiceNumber2)
+                {
+                    <div class="form-group col-md-5">
+                        <b><label asp-for="InvoiceNumber2" class="control-label"></label></b>
+                        <input asp-for="InvoiceNumber2" class="form-control" required/>
+                        <span asp-validation-for="InvoiceNumber2" class="text-danger"></span>
+                    </div>
+                }
                 <div class="form-group col-md-5">
                     <b><label asp-for="InvoiceDate1" class="control-label"></label></b>
                     <input asp-for="InvoiceDate1" class="form-control" required/>
                     <span asp-validation-for="InvoiceDate1" class="text-danger"></span>
                 </div>
-                <div class="form-group col-md-5">
-                    <b><label asp-for="InvoiceDate2" class="control-label"></label></b>
-                    <input asp-for="InvoiceDate2" class="form-control" required/>
-                    <span asp-validation-for="InvoiceDate2" class="text-danger"></span>
-                </div>
+                @if(Model.InvoiceDate1 != Model.InvoiceDate2)
+                {
+                    <div class="form-group col-md-5">
+                        <b><label asp-for="InvoiceDate2" class="control-label"></label></b>
+                        <input asp-for="InvoiceDate2" class="form-control" required/>
+                        <span asp-validation-for="InvoiceDate2" class="text-danger"></span>
+                    </div>
+                }
                 <div class="form-group col-md-5">
                     <b><label asp-for="InvoiceDueDate1" class="control-label"></label></b>
                     <input asp-for="InvoiceDueDate1" class="form-control" required/>
                     <span asp-validation-for="InvoiceDueDate1" class="text-danger"></span>
                 </div>
-                <div class="form-group col-md-5">
-                    <b><label asp-for="InvoiceDueDate2" class="control-label"></label></b>
-                    <input asp-for="InvoiceDueDate2" class="form-control" required/>
-                    <span asp-validation-for="InvoiceDueDate2" class="text-danger"></span>
-                </div>
+                @if(Model.InvoiceDueDate1 != Model.InvoiceDueDate2)
+                {
+                    <div class="form-group col-md-5">
+                        <b><label asp-for="InvoiceDueDate2" class="control-label"></label></b>
+                        <input asp-for="InvoiceDueDate2" class="form-control" required/>
+                        <span asp-validation-for="InvoiceDueDate2" class="text-danger"></span>
+                    </div>
+                }
                 <div class="form-group col-md-5">
                     <b><label asp-for="Bruto1" class="control-label"></label></b>
                     <input asp-for="Bruto1" class="form-control" required/>
                     <span asp-validation-for="Bruto1" class="text-danger"></span>
                 </div>
-                <div class="form-group col-md-5">
-                    <b><label asp-for="Bruto2" class="control-label"></label></b>
-                    <input asp-for="Bruto2" class="form-control" required/>
-                    <span asp-validation-for="Bruto2" class="text-danger"></span>
-                </div>
+                @if(Model.Bruto1 != Model.Bruto2)
+                {
+                    <div class="form-group col-md-5">
+                        <b><label asp-for="Bruto2" class="control-label"></label></b>
+                        <input asp-for="Bruto2" class="form-control" required/>
+                        <span asp-validation-for="Bruto2" class="text-danger"></span>
+                    </div>
+                }
                 <div class="form-group col-md-5">
                     <b><label asp-for="Neto1" class="control-label"></label></b>
                     <input asp-for="Neto1" class="form-control" required/>
                     <span asp-validation-for="Neto1" class="text-danger"></span>
                 </div>
-                <div class="form-group col-md-5">
-                    <b><label asp-for="Neto2" class="control-label"></label></b>
-                    <input asp-for="Neto2" class="form-control" required/>
-                    <span asp-validation-for="Neto2" class="text-danger"></span>
-                </div>
+                @if(Model.Neto1 != Model.Neto2)
+                {
+                    <div class="form-group col-md-5">
+                        <b><label asp-for="Neto2" class="control-label"></label></b>
+                        <input asp-for="Neto2" class="form-control" required/>
+                        <span asp-validation-for="Neto2" class="text-danger"></span>
+                    </div>
+                }
                 <div class="form-group col-md-5">
                     <b><label asp-for="ReferenceNumber1" class="control-label"></label></b>
                     <input asp-for="ReferenceNumber1" class="form-control" required/>
                     <span asp-validation-for="ReferenceNumber1" class="text-danger"></span>
                 </div>
-                <div class="form-group col-md-5">
-                    <b><label asp-for="ReferenceNumber2" class="control-label"></label></b>
-                    <input asp-for="ReferenceNumber2" class="form-control" required/>
-                    <span asp-validation-for="ReferenceNumber2" class="text-danger"></span>
-                </div>
+                @if(Model.ReferenceNumber1 != Model.ReferenceNumber2)
+                {
+                    <div class="form-group col-md-5">
+                        <b><label asp-for="ReferenceNumber2" class="control-label"></label></b>
+                        <input asp-for="ReferenceNumber2" class="form-control" required/>
+                        <span asp-validation-for="ReferenceNumber2" class="text-danger"></span>
+                    </div>
+                }
                 <div class="form-group" style="padding-top: 20px;">
                     <input type="submit" value="OK" class="btn btn-primary" />
                 </div>   
