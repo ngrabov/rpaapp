@@ -22,26 +22,9 @@ public class PdfsController : Controller
     [HttpPost] //API endpoint za PDFove
     public async Task<IActionResult> UploadFiles()
     {
-        var files = Request.Form.Files;
+        var files = Request.Form.Files.ToList();
 
-        var filePath = Path.GetTempFileName();
-
-        foreach(var filez in files)
-        {
-            Pdf pdf = new Pdf();
-            var gd = Guid.NewGuid();
-
-            string wbp = Path.GetFileName(filez.FileName);
-            if (filez.Length > 0)
-                using (var stream = System.IO.File.Create("./wwwroot/" + gd))
-                    filez.CopyTo(stream);
-
-            pdf.fname = wbp;
-            pdf.guid = gd;
-            await _context.pdfs.AddAsync(pdf);
-        }
-
-        await _context.SaveChangesAsync();
+        await Complex(files);
         return Ok();
     }
 
@@ -52,6 +35,13 @@ public class PdfsController : Controller
 
     [HttpPost]
     public async Task<IActionResult> Upload(List<IFormFile> files)
+    {
+        await Complex(files);
+
+        return RedirectToAction("Repository", "Home");
+    }
+
+    public async Task Complex(List<IFormFile> files)
     {
         foreach(var file in files)
         {
@@ -64,12 +54,12 @@ public class PdfsController : Controller
                 await file.CopyToAsync(stream);
             }
             pdf.fname = wbp;
+            pdf.fsize = file.Length;
+            pdf.uploaded = DateTime.Now;
             pdf.guid = gd;
             await _context.pdfs.AddAsync(pdf);
         }
 
         await _context.SaveChangesAsync();
-
-        return RedirectToAction("Repository", "Home");
     }
 }

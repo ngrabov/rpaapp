@@ -15,6 +15,8 @@
         <thead>
             <th>Id</th>
             <th>File path</th>
+            <th>File size</th>
+            <th>Upload time</th>
         </thead>
         <tbody>
             @foreach (var item in Model)
@@ -22,6 +24,8 @@
                 <tr>
                     <td>@item.Id</td>
                     <td>@Html.ActionLink(item.fname, "DownloadFile", new { gd = @item.guid})</td>
+                    <td>@item.fsize B</td>
+                    <td>@item.uploaded</td>
                 </tr>
             }
         </tbody>

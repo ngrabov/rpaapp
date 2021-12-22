@@ -135,6 +135,7 @@ public class HomeController : Controller
     public async Task Complex(List<IFormFile> files)
     {
         string tgd = "";
+        long sz = 0;
         foreach(var file in files)
         {
             var ext = Path.GetExtension(file.FileName);
@@ -142,7 +143,7 @@ public class HomeController : Controller
             {
                 tgd = Path.GetFileNameWithoutExtension(file.FileName);
             }
-            
+            sz += file.Length;
         }
 
         foreach(var file in files)
@@ -161,7 +162,9 @@ public class HomeController : Controller
             {
                 await file.CopyToAsync(stream);
             }
+            doc.fsize = sz;
             doc.fname = wbp;
+            doc.uploaded = DateTime.Now;
             doc.fguid = Guid.Parse(tgd);
             await _context.Documents.AddAsync(doc);
 

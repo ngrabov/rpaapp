@@ -31,7 +31,9 @@ namespace rpaapp.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     fguid = table.Column<Guid>(type: "TEXT", nullable: false),
-                    fname = table.Column<string>(type: "TEXT", nullable: true)
+                    fname = table.Column<string>(type: "TEXT", nullable: true),
+                    fsize = table.Column<long>(type: "INTEGER", nullable: false),
+                    uploaded = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,7 +47,9 @@ namespace rpaapp.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     fname = table.Column<string>(type: "TEXT", nullable: true),
-                    guid = table.Column<Guid>(type: "TEXT", nullable: false)
+                    guid = table.Column<Guid>(type: "TEXT", nullable: false),
+                    fsize = table.Column<long>(type: "INTEGER", nullable: false),
+                    uploaded = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -11,7 +11,7 @@ using rpaapp.Data;
 namespace rpaapp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211222144342_newmig")]
+    [Migration("20211222174142_newmig")]
     partial class newmig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -161,6 +161,12 @@ namespace rpaapp.Migrations
                     b.Property<string>("fname")
                         .HasColumnType("TEXT");
 
+                    b.Property<long>("fsize")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("uploaded")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.ToTable("Documents", (string)null);
@@ -175,7 +181,13 @@ namespace rpaapp.Migrations
                     b.Property<string>("fname")
                         .HasColumnType("TEXT");
 
+                    b.Property<long>("fsize")
+                        .HasColumnType("INTEGER");
+
                     b.Property<Guid>("guid")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("uploaded")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

@@ -44,7 +44,7 @@ namespace rpaapp.Controllers
                     {
                         text.isReviewed = true;
                         await _context.SaveChangesAsync();
-                        return RedirectToAction("Repository", "Home");
+                        return RedirectToAction("Dashboard", "Home");
                     }
                     catch(DbUpdateException)
                     {

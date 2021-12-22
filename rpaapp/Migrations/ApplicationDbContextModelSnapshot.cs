@@ -159,6 +159,12 @@ namespace rpaapp.Migrations
                     b.Property<string>("fname")
                         .HasColumnType("TEXT");
 
+                    b.Property<long>("fsize")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("uploaded")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.ToTable("Documents", (string)null);
@@ -173,7 +179,13 @@ namespace rpaapp.Migrations
                     b.Property<string>("fname")
                         .HasColumnType("TEXT");
 
+                    b.Property<long>("fsize")
+                        .HasColumnType("INTEGER");
+
                     b.Property<Guid>("guid")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("uploaded")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
