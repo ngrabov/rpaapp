@@ -19,19 +19,19 @@ namespace rpaapp.Models
         public string InvoiceNumber2 { get; set; }
         
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy.}")] 
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}")] 
         public DateTime InvoiceDate1 { get; set; }
         
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy.}")] 
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}")] 
         public DateTime InvoiceDate2 { get; set; }
         
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy.}")] 
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}")] 
         public DateTime InvoiceDueDate1 { get; set; }
         
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy.}")] 
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}")] 
         public DateTime InvoiceDueDate2 { get; set; }
         public double Bruto1 { get; set; }
         public double Bruto2 { get; set; }

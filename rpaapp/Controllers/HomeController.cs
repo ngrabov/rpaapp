@@ -68,7 +68,7 @@ public class HomeController : Controller
     [Route("Dashboard")]
     public async Task<IActionResult> Dashboard()
     {
-        var docs = new List<Document>();
+        /* var docs = new List<Document>();
 
         var group = from doc in await _context.Documents.AsQueryable().ToListAsync() 
                     group doc by doc.fguid into divdoc
@@ -78,7 +78,8 @@ public class HomeController : Controller
         {
             var doc = grouping.FirstOrDefault();
             docs.Add(doc);
-        }
+        } */
+        var docs = await _context.pdfs.ToListAsync();
 
         return View(docs);
     }
@@ -90,7 +91,7 @@ public class HomeController : Controller
         var folder = await _context.Documents.Where(c => c.fguid == id).ToListAsync();
         if(folder == null) return NotFound();
 
-        var file = await _context.Documents.FirstOrDefaultAsync(c => c.fname.EndsWith(".txt"));
+        //var file = await _context.Documents.FirstOrDefaultAsync(c => c.fname.EndsWith(".txt"));
 
         return View(folder);
     }
@@ -214,11 +215,11 @@ public class HomeController : Controller
                         }
                         if(line == "Invoice_date1:")
                         {
-                            text.InvoiceDate1 = DateTime.Parse(sr.ReadLine());
+                            text.InvoiceDate1 = DateTime.Parse(sr.ReadLine(), CultureInfo.CreateSpecificCulture("fr-FR"));
                         }
                         if(line == "Invoice_duedate1:")
                         {
-                            text.InvoiceDueDate1 = DateTime.Parse(sr.ReadLine());
+                            text.InvoiceDueDate1 = DateTime.Parse(sr.ReadLine(), CultureInfo.CreateSpecificCulture("fr-FR"));
                         }
                         if(line == "Neto1:")
                         {
