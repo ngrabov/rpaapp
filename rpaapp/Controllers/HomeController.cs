@@ -143,6 +143,11 @@ public class HomeController : Controller
             if(ext == ".pdf")
             {
                 tgd = Path.GetFileNameWithoutExtension(file.FileName);
+                var fn = Guid.Parse(tgd);
+                if( _context.Documents.Any(c => c.fguid == fn))
+                {
+                    
+                }
             }
             sz += file.Length;
         }
@@ -175,7 +180,7 @@ public class HomeController : Controller
                 using(StreamReader sr = new StreamReader("./wwwroot/Document/" + tgd + "/" + wbp))
                 {
                     string line;
-                    while((line = sr.ReadLine()) != null)
+                    while((line = sr.ReadLine()) != null) //parser
                     {
                         if(line == "Name:")
                         {
@@ -241,11 +246,11 @@ public class HomeController : Controller
                         }
                         if(line == "Invoice_date2:")
                         {
-                            text.InvoiceDate2 = DateTime.Parse(sr.ReadLine());
+                            text.InvoiceDate2 = DateTime.Parse(sr.ReadLine(), CultureInfo.CreateSpecificCulture("fr-FR"));
                         }
                         if(line == "Invoice_duedate2:")
                         {
-                            text.InvoiceDueDate2 = DateTime.Parse(sr.ReadLine());
+                            text.InvoiceDueDate2 = DateTime.Parse(sr.ReadLine(), CultureInfo.CreateSpecificCulture("fr-FR"));
                         }
                         if(line == "Neto2:")
                         {

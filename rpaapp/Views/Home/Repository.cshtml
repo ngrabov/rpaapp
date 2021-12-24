@@ -21,11 +21,12 @@
         <tbody>
             @foreach (var item in Model)
             {
+                var mb = @item.fsize / 1000000.0;
                 <tr>
                     <td>@item.Id</td>
                     <td>@Html.ActionLink(item.fname, "DownloadFile", new { gd = @item.guid})</td>
-                    <td>@item.fsize B</td>
-                    <td>@item.uploaded</td>
+                    <td>@Math.Round(mb, 2) MB</td>
+                    <td>@item.uploaded.ToString("dd.MM.yyyy. H:mm:ss")</td>
                 </tr>
             }
         </tbody>
