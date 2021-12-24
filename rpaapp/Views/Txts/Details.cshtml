@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Invoice details";
+    var temp = Model.DocumentId;
+    var png = "untitled.png";
 }
 
 <div style="padding: 0 15px 0 15px;">
@@ -136,6 +138,7 @@
                 </div>   
             </form>
         </div>
+        <img id="myImg" src="~/Document/@temp/@png" alt="zasave" style="width:100%;max-width:300px">
     </div>
 </div>
 
