@@ -162,6 +162,9 @@ namespace rpaapp.Migrations
                     b.Property<long>("fsize")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("pdfname")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("uploaded")
                         .HasColumnType("TEXT");
 
@@ -264,6 +267,9 @@ namespace rpaapp.Migrations
 
                     b.Property<bool>("isReviewed")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("pngNames")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 

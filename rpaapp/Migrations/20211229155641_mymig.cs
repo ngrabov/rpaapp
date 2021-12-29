@@ -32,6 +32,7 @@ namespace rpaapp.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     fguid = table.Column<Guid>(type: "TEXT", nullable: false),
                     fname = table.Column<string>(type: "TEXT", nullable: true),
+                    pdfname = table.Column<string>(type: "TEXT", nullable: true),
                     fsize = table.Column<long>(type: "INTEGER", nullable: false),
                     uploaded = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
@@ -64,6 +65,7 @@ namespace rpaapp.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     DocumentId = table.Column<Guid>(type: "TEXT", nullable: false),
                     isReviewed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    pngNames = table.Column<string>(type: "TEXT", nullable: true),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     Group = table.Column<string>(type: "TEXT", nullable: true),
                     State = table.Column<string>(type: "TEXT", nullable: true),

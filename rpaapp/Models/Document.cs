@@ -6,6 +6,7 @@ namespace rpaapp.Models
         public int Id { get; set; }
         public Guid fguid { get; set; }
         public string fname { get; set; }
+        public string pdfname { get; set; }
         public long fsize { get; set; }
         
         [DataType(DataType.Date)]

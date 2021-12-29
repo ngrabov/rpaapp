@@ -11,7 +11,7 @@ using rpaapp.Data;
 namespace rpaapp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211223084709_mymig")]
+    [Migration("20211229155641_mymig")]
     partial class mymig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -164,6 +164,9 @@ namespace rpaapp.Migrations
                     b.Property<long>("fsize")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("pdfname")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("uploaded")
                         .HasColumnType("TEXT");
 
@@ -266,6 +269,9 @@ namespace rpaapp.Migrations
 
                     b.Property<bool>("isReviewed")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("pngNames")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 

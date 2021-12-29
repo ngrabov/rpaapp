@@ -7,6 +7,7 @@ namespace rpaapp.Models
         public int Id { get; set; }
         public Guid DocumentId { get; set; }
         public bool isReviewed { get; set; }
+        public string pngNames { get; set; }
         public string Name { get; set; }
         public string Group { get; set;}
         public string State { get; set; }

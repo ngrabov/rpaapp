@@ -33,7 +33,7 @@ public class HomeController : Controller
         return View(files);
     }
 
-    public async Task<IActionResult> DownloadFile(Guid gd)
+    public async Task<IActionResult> DownloadFile(Guid gd) //pdfs
     {
         string path = Path.Combine(_environment.WebRootPath) + "/" + gd;
 
@@ -49,7 +49,7 @@ public class HomeController : Controller
         return File(bytes, "application/octet-stream", dname);
     }
 
-    public async Task<IActionResult> DownloadFiles(Guid gd, string filename)
+    public async Task<IActionResult> DownloadFiles(Guid gd, string filename) //documents
     {
         string path = Path.Combine(_environment.WebRootPath) + "/Document/" + gd + "/" + filename;
 
@@ -68,7 +68,7 @@ public class HomeController : Controller
     [Route("Dashboard")]
     public async Task<IActionResult> Dashboard()
     {
-        /* var docs = new List<Document>();
+        var docs = new List<Document>();
 
         var group = from doc in await _context.Documents.AsQueryable().ToListAsync() 
                     group doc by doc.fguid into divdoc
@@ -78,20 +78,17 @@ public class HomeController : Controller
         {
             var doc = grouping.FirstOrDefault();
             docs.Add(doc);
-        } */
-        var docs = await _context.pdfs.ToListAsync();
-
+        }
+        //var docs = await _context.pdfs.ToListAsync();
         return View(docs);
     }
     
-    public async Task<IActionResult> Details(Guid? id)
+    public async Task<IActionResult> Details(Guid? id) //izbrisi kasnije
     {
         if(id == null) return NotFound();
 
         var folder = await _context.Documents.Where(c => c.fguid == id).ToListAsync();
         if(folder == null) return NotFound();
-
-        //var file = await _context.Documents.FirstOrDefaultAsync(c => c.fname.EndsWith(".txt"));
 
         return View(folder);
     }
@@ -137,26 +134,30 @@ public class HomeController : Controller
     {
         string tgd = "";
         long sz = 0;
+        Guid fn = Guid.Empty;
+        string pngs = "";
         foreach(var file in files)
         {
-            var ext = Path.GetExtension(file.FileName);
+            string ext = Path.GetExtension(file.FileName);
             if(ext == ".pdf")
             {
                 tgd = Path.GetFileNameWithoutExtension(file.FileName);
-                var fn = Guid.Parse(tgd);
-                if( _context.Documents.Any(c => c.fguid == fn))
-                {
-                    
-                }
+                fn = Guid.Parse(tgd);
             }
-            sz += file.Length;
+            if(ext == ".png") //pazi
+            {
+                pngs += Path.GetFileName(file.FileName) + "|";
+            }
         }
 
         foreach(var file in files)
         {
+            sz = file.Length;
             Document doc = new Document();
             string wbp = Path.GetFileName(file.FileName);
             string ext = Path.GetExtension(file.FileName);
+            
+            var pdf = await _context.pdfs.FirstOrDefaultAsync(c => c.guid == fn);
 
             string fold = "./wwwroot/Document/" + tgd;
             if (!Directory.Exists(fold))
@@ -170,6 +171,7 @@ public class HomeController : Controller
             }
             doc.fsize = sz;
             doc.fname = wbp;
+            doc.pdfname = pdf.fname;
             doc.uploaded = DateTime.Now;
             doc.fguid = Guid.Parse(tgd);
             await _context.Documents.AddAsync(doc);
@@ -268,6 +270,7 @@ public class HomeController : Controller
                         }
                     }
                 }
+                text.pngNames = pngs.Remove(pngs.Length - 1);
                 text.DocumentId = Guid.Parse(tgd);
                 text.isReviewed = false;
                 await _context.Txts.AddAsync(text);

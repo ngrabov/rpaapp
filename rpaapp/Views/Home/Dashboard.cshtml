@@ -1,5 +1,5 @@
-@* @model IEnumerable<rpaapp.Models.Document> *@
-@model IEnumerable<rpaapp.Models.Pdf>
+@model IEnumerable<rpaapp.Models.Document>
+@* @model IEnumerable<rpaapp.Models.Pdf> *@
 @{
     ViewData["Title"] = "Dashboard";
 }
@@ -18,7 +18,7 @@
                 <tr>
                     <td>@* 
                         <a asp-action="Details" asp-controller="Home" asp-route-id="@item.guid">@item.fname</a> *@
-                        <a asp-action="Details" asp-controller="Txts" asp-route-id="@item.guid">@item.fname</a>
+                        <a asp-action="Details" asp-controller="Txts" asp-route-id="@item.fguid">@item.pdfname</a>
                     </td>
                     <td>@Math.Round(mb, 2) MB</td>
                     <td>@item.uploaded.ToString("dd.MM.yyyy. H:mm:ss")</td>
