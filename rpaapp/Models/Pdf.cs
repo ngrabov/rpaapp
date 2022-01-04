@@ -7,6 +7,7 @@ public class Pdf
     public string fname { get; set; }
     public Guid guid { get; set; }
     public long fsize { get; set; }
+    public bool isDownloaded { get; set; }
     
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy. H:mm:ss}")] 

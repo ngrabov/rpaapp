@@ -50,6 +50,7 @@ namespace rpaapp.Migrations
                     fname = table.Column<string>(type: "TEXT", nullable: true),
                     guid = table.Column<Guid>(type: "TEXT", nullable: false),
                     fsize = table.Column<long>(type: "INTEGER", nullable: false),
+                    isDownloaded = table.Column<bool>(type: "INTEGER", nullable: false),
                     uploaded = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>

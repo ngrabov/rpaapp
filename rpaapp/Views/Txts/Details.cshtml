@@ -139,31 +139,36 @@
         </div>
         <div class="col-md-8">
             <div class="row">
-            @foreach (var item in Model.pngNames.Split('|'))
-            {
-                <img id="myImg" style="width: 50%; height: auto;" src="~/Document/@temp/@item">
+                @{int c = 1;}
+                @foreach (var item in Model.pngNames.Split('|'))
+                {
+                    <img id="myImg" class="mimg" style="width: 50%; height: auto;" src="~/Document/@temp/@item">
 
-                <div id="myModal" class="modal">
-                    <span class="close">&times;</span>
-                    <img class="modal-content" id="img01">
-                    <div id="caption"></div>
-                </div>
-            }
+                    <div id="myModal" class="modal">
+                        <span class="close">&times;</span>
+                        <img class="modal-content" id="img01">
+                        <div id="caption"></div>
+                    </div>
+                    c++;
+                }
             </div>
         </div>
     </div>
 </div>
 
 <script>
-// Get the modal
-var modal = document.getElementById("myModal");
 
-// Get the image and insert it inside the modal - use its "alt" text as a caption
-var img = document.getElementById("myImg");
+var modal = document.getElementById("myModal");
+var i;
+var imgs = document.getElementsByClassName("mimg");
 var modalImg = document.getElementById("img01");
-img.onclick = function(){
-  modal.style.display = "block";
-  modalImg.src = this.src;
+for(i = 0; i < imgs.length; i++)
+{
+    imgs[i].onclick = function()
+    {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+    } 
 }
 
 // Get the <span> element that closes the modal
@@ -176,13 +181,13 @@ span.onclick = function() {
 </script>
 
 <style>
-    #myImg {
+.mimg {
   border-radius: 5px;
   cursor: pointer;
   transition: 0.3s;
 }
 
-#myImg:hover {opacity: 0.7;}
+.mimg:hover {opacity: 0.7;}
 
 /* The Modal (background) */
 .modal {
@@ -204,7 +209,7 @@ span.onclick = function() {
   margin: auto;
   display: block;
   width: 80%;
-  max-width: 700px;
+  max-width: 1300px;
 }
 
 /* Add Animation */

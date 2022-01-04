@@ -29,7 +29,7 @@ public class HomeController : Controller
     [Route("Repository")]
     public async Task<IActionResult> Repository()
     {
-        var files = await _context.pdfs.ToListAsync();
+        var files = await _context.pdfs.Where(c => c.isDownloaded == false).ToListAsync();
         return View(files);
     }
 
@@ -43,9 +43,10 @@ public class HomeController : Controller
         var fname = ftd.fname;
         var dname = gd.ToString() + ".pdf";
         
-        /* _context.pdfs.Remove(ftd);
+        //_context.pdfs.Remove(ftd);
+        ftd.isDownloaded = true;
         await _context.SaveChangesAsync();
-        System.IO.File.Delete(path); */
+        System.IO.File.Delete(path);
         return File(bytes, "application/octet-stream", dname);
     }
 

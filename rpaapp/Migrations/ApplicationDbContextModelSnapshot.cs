@@ -188,6 +188,9 @@ namespace rpaapp.Migrations
                     b.Property<Guid>("guid")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("isDownloaded")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("uploaded")
                         .HasColumnType("TEXT");
 
