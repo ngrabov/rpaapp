@@ -208,10 +208,7 @@ namespace rpaapp.Migrations
                     b.Property<string>("BillingGroup")
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("Bruto1")
-                        .HasColumnType("REAL");
-
-                    b.Property<double>("Bruto2")
+                    b.Property<double>("Bruto")
                         .HasColumnType("REAL");
 
                     b.Property<string>("Currency")
@@ -226,37 +223,22 @@ namespace rpaapp.Migrations
                     b.Property<string>("IBAN")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("InvoiceDate1")
+                    b.Property<DateTime>("InvoiceDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("InvoiceDate2")
+                    b.Property<DateTime>("InvoiceDueDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("InvoiceDueDate1")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("InvoiceDueDate2")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("InvoiceNumber1")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("InvoiceNumber2")
+                    b.Property<string>("InvoiceNumber")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("Neto1")
+                    b.Property<double>("Neto")
                         .HasColumnType("REAL");
 
-                    b.Property<double>("Neto2")
-                        .HasColumnType("REAL");
-
-                    b.Property<string>("ReferenceNumber1")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ReferenceNumber2")
+                    b.Property<string>("ReferenceNumber")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("State")

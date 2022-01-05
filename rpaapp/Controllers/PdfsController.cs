@@ -15,7 +15,7 @@ public class PdfsController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var pdfs = await _context.pdfs.ToListAsync();
+        var pdfs = await _context.pdfs.Where(c => c.isDownloaded == false).ToListAsync();
         return Json(pdfs);
     }
 

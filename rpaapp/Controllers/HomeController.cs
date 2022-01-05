@@ -217,33 +217,33 @@ public class HomeController : Controller
                         {
                             text.VATobligation = sr.ReadLine();
                         }
-                        if(line == "Invoice_number1:")
+                        if(line == "Invoice_number:")
                         {
-                            text.InvoiceNumber1 = sr.ReadLine();
+                            text.InvoiceNumber = sr.ReadLine();
                         }
-                        if(line == "Invoice_date1:")
+                        if(line == "Invoice_date:")
                         {
-                            text.InvoiceDate1 = DateTime.Parse(sr.ReadLine(), CultureInfo.CreateSpecificCulture("fr-FR"));
+                            text.InvoiceDate = DateTime.Parse(sr.ReadLine(), CultureInfo.CreateSpecificCulture("fr-FR"));
                         }
-                        if(line == "Invoice_duedate1:")
+                        if(line == "Invoice_duedate:")
                         {
-                            text.InvoiceDueDate1 = DateTime.Parse(sr.ReadLine(), CultureInfo.CreateSpecificCulture("fr-FR"));
+                            text.InvoiceDueDate = DateTime.Parse(sr.ReadLine(), CultureInfo.CreateSpecificCulture("fr-FR"));
                         }
-                        if(line == "Neto1:")
+                        if(line == "Neto:")
                         {
                             var cvt = sr.ReadLine().Replace(',','.');
-                            text.Neto1 = double.Parse(cvt);
+                            text.Neto = double.Parse(cvt);
                         }
-                        if(line == "Bruto1:")
+                        if(line == "Bruto:")
                         {
                             var cvt2 = sr.ReadLine().Replace(',','.');
-                            text.Bruto1 = double.Parse(cvt2);
+                            text.Bruto = double.Parse(cvt2);
                         }
-                        if(line == "Reference_number1:")
+                        if(line == "Reference_number:")
                         {
-                            text.ReferenceNumber1 = sr.ReadLine();
+                            text.ReferenceNumber = sr.ReadLine();
                         }
-                        if(line == "Invoice_number2:")
+                        /*if(line == "Invoice_number2:")
                         {
                             text.InvoiceNumber2 = sr.ReadLine();
                         }
@@ -268,7 +268,7 @@ public class HomeController : Controller
                         if(line == "Reference_number2:")
                         {
                             text.ReferenceNumber2 = sr.ReadLine();
-                        }
+                        }*/
                     }
                 }
                 text.pngNames = pngs.Remove(pngs.Length - 1);

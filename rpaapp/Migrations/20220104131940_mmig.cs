@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace rpaapp.Migrations
 {
-    public partial class mymig : Migration
+    public partial class mmig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -75,18 +75,12 @@ namespace rpaapp.Migrations
                     BillingGroup = table.Column<string>(type: "TEXT", nullable: true),
                     IBAN = table.Column<string>(type: "TEXT", nullable: true),
                     VATobligation = table.Column<string>(type: "TEXT", nullable: true),
-                    InvoiceNumber1 = table.Column<string>(type: "TEXT", nullable: true),
-                    InvoiceNumber2 = table.Column<string>(type: "TEXT", nullable: true),
-                    InvoiceDate1 = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    InvoiceDate2 = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    InvoiceDueDate1 = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    InvoiceDueDate2 = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Bruto1 = table.Column<double>(type: "REAL", nullable: false),
-                    Bruto2 = table.Column<double>(type: "REAL", nullable: false),
-                    Neto1 = table.Column<double>(type: "REAL", nullable: false),
-                    Neto2 = table.Column<double>(type: "REAL", nullable: false),
-                    ReferenceNumber1 = table.Column<string>(type: "TEXT", nullable: true),
-                    ReferenceNumber2 = table.Column<string>(type: "TEXT", nullable: true)
+                    InvoiceNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    InvoiceDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    InvoiceDueDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Bruto = table.Column<double>(type: "REAL", nullable: false),
+                    Neto = table.Column<double>(type: "REAL", nullable: false),
+                    ReferenceNumber = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
