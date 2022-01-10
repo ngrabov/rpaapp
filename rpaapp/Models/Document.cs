@@ -13,6 +13,7 @@ namespace rpaapp.Models
         public string fname { get; set; }
         public string pdfname { get; set; }
         public long fsize { get; set; }
+        public Status Status { get; set; }
         public string writername { get; set; }
         
         [DataType(DataType.Date)]

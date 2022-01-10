@@ -12,12 +12,13 @@
 </div>
 
 <div id="All" class="tabcontent">
-    <table class="table table-hover">  
+    <table class="table table-hover" style="margin-top: 10px;">  
         <thead>
-            <th><a asp-action="Dashboard" asp-route-order="@ViewData["SortParm"]" style="text-decoration: none; color: black;"><b>Name</b></a></th>
-            <th>Size</th>
-            <th>Uploaded by</th>
-            <th>Upload time</th>
+            <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["SortParm"]" style="text-decoration: none; color: black;"><b>Name</b></a></th>
+            <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["SizeParm"]" style="text-decoration: none; color: black;">Size</a></th>
+            <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["UpldParm"]" style="text-decoration: none; color: black;">Uploaded by</a></th>
+            <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["TimeParm"]" style="text-decoration: none; color: black;">Upload time</a></th>
+            <th><a style="text-decoration: none; color: black;">Status</a></th>
         </thead> 
         <tbody>
             @foreach (var item in Model)
@@ -25,7 +26,7 @@
                 var mb = @item.fsize / 1000000.0;
                 <tr>
                     <td>
-                        <a asp-action="Details" asp-controller="Txts" asp-route-id="@item.fguid">@item.pdfname</a>
+                        <a asp-action="Details" asp-controller="Txts" asp-route-id="@item.fguid" style="text-decoration: none;">@item.pdfname</a>
                     </td>
                     <td>@Math.Round(mb, 2) MB</td>
                     @if(item.writername != null)
@@ -37,6 +38,7 @@
                         <td></td>
                     }
                     <td>@item.uploaded.ToString("dd.MM.yyyy. H:mm:ss")</td>
+                    <td>@item.Status</td>
                 </tr>
             }
         </tbody>
@@ -56,11 +58,12 @@
 </div>
 
 <div style="width: 150px; margin: auto; padding-top: 25px;">
-    <a asp-controller="Home" asp-action="Upload"><button class="btn btn-primary" style="background-color: #034791; color: white; width: 150px;">Upload files</button></a>
+    <a asp-controller="Home" asp-action="Upload" style="margin-top: 25px;"><button class="btn btn-primary" style="background-color: #034791; color: white; width: 150px;">Upload files</button></a>
 </div>
 
 <script>
-    function openCity(evt, cityName) {
+
+function openCity(evt, cityName) {
   // Declare all variables
   var i, tabcontent, tablinks;
 
@@ -86,12 +89,40 @@ document.getElementById("defaultOpen").click();
 </script>
 
 <style>
-    * {box-sizing: border-box}
+
+table td,
+table th {
+  border: 1px solid silver;
+}
+
+.headerSortDown:after,
+.headerSortUp:after {
+  content: ' ';
+  position: relative;
+  left: 2px;
+  border: 8px solid transparent;
+}
+
+.headerSortDown:after {
+  top: 10px;
+  border-top-color: silver;
+}
+
+.headerSortUp:after {
+  bottom: 15px;
+  border-bottom-color: silver;
+}
+
+.headerSortDown,
+.headerSortUp {
+  padding-right: 10px;
+}
+
+* {box-sizing: border-box}
 
 /* Style the tab */
 .tab {
   float: left;
-  border: 1px solid #ccc;
   background-color: #f1f1f1;
   width: 10%;
   height: 120px;
@@ -128,5 +159,6 @@ document.getElementById("defaultOpen").click();
   border: 1px solid #ccc;
   width: 90%;
   height: 500px;
+  margin-bottom: 25px;
 }
 </style>

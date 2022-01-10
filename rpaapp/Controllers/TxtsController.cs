@@ -18,7 +18,7 @@ namespace rpaapp.Controllers
         {
             if(id == null) return NotFound();
 
-            var txt = await _context.Txts.FirstOrDefaultAsync(c => c.DocumentId == id);
+            var txt = await _context.Txts.FirstOrDefaultAsync(c => c.Document.fguid == id);
 
             if(txt == null) return NotFound();
 
@@ -31,7 +31,7 @@ namespace rpaapp.Controllers
         {
             if(id == null) return NotFound();
 
-            var text = await _context.Txts.FirstOrDefaultAsync(c => c.Id == id);
+            var text = await _context.Txts.Include(c => c.Document).FirstOrDefaultAsync(c => c.Id == id);
 
             if(text != null)
             {
@@ -42,6 +42,10 @@ namespace rpaapp.Controllers
                 { 
                     try
                     {
+                        foreach(var doc in _context.Documents.Where(c => c.fguid == text.Document.fguid))
+                        {
+                            doc.Status = Status.Confirmed;
+                        }
                         text.isReviewed = true;
                         await _context.SaveChangesAsync();
                         return RedirectToAction("Dashboard", "Home");

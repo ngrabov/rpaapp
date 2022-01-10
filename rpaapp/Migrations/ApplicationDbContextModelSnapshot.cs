@@ -153,6 +153,9 @@ namespace rpaapp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("INTEGER");
+
                     b.Property<Guid>("fguid")
                         .HasColumnType("TEXT");
 
@@ -222,8 +225,8 @@ namespace rpaapp.Migrations
                     b.Property<string>("Currency")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("DocumentId")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("DocumentId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Group")
                         .HasColumnType("TEXT");
@@ -265,6 +268,8 @@ namespace rpaapp.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DocumentId");
 
                     b.ToTable("Txts", (string)null);
                 });
@@ -400,6 +405,15 @@ namespace rpaapp.Migrations
                         .HasForeignKey("WriterId");
 
                     b.Navigation("Writer");
+                });
+
+            modelBuilder.Entity("rpaapp.Models.Txt", b =>
+                {
+                    b.HasOne("rpaapp.Models.Document", "Document")
+                        .WithMany()
+                        .HasForeignKey("DocumentId");
+
+                    b.Navigation("Document");
                 });
 #pragma warning restore 612, 618
         }

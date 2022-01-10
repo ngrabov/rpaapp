@@ -81,6 +81,33 @@ public class HomeController : Controller
             ViewData["SortParm"] = "";
         }
 
+        if(order == "Size")
+        {
+            ViewData["SizeParm"] = "size_desc";
+        }
+        else
+        {
+            ViewData["SizeParm"] = "Size";
+        }
+
+        if(order == "Upld")
+        {
+            ViewData["UpldParm"] = "upld_desc";
+        }
+        else
+        {
+            ViewData["UpldParm"] = "Upld";
+        }
+
+        if(order == "Time")
+        {
+            ViewData["TimeParm"] = "time_desc";
+        }
+        else
+        {
+            ViewData["TimeParm"] = "Time";
+        }
+
         var group = from doc in await _context.Documents.AsQueryable().ToListAsync() 
                     group doc by doc.fguid into divdoc
                     select divdoc;
@@ -93,11 +120,35 @@ public class HomeController : Controller
 
         if(order == "name_desc")
         {
-            docs = docs.OrderByDescending(c => c.fname).ToList();
+            docs = docs.OrderByDescending(c => c.pdfname).ToList();
+        }
+        else if (order == "time_desc")
+        {
+            docs = docs.OrderByDescending(c => c.uploaded).ToList();
+        }
+        else if (order == "upld_desc")
+        {
+            docs = docs.OrderByDescending(c => c.writername).ToList();
+        }
+        else if (order == "size_desc")
+        {
+            docs = docs.OrderByDescending(c => c.fsize).ToList();
+        }
+        else if (order == "Time")
+        {
+            docs = docs.OrderBy(c => c.uploaded).ToList();
+        }
+        else if (order == "Upld")
+        {
+            docs = docs.OrderBy(c => c.writername).ToList();
+        }
+        else if (order == "Size")
+        {
+            docs = docs.OrderBy(c => c.fsize).ToList();
         }
         else
         {
-            docs = docs.OrderBy(c => c.fname).ToList();
+            docs = docs.OrderBy(c => c.pdfname).ToList();
         }
 
         return View(docs);
@@ -268,7 +319,7 @@ public class HomeController : Controller
                     }
                 }
                 text.pngNames = pngs.Remove(pngs.Length - 1);
-                text.DocumentId = Guid.Parse(tgd);
+                text.Document.fguid = Guid.Parse(tgd);
                 text.isReviewed = false;
                 await _context.Txts.AddAsync(text);
             }
