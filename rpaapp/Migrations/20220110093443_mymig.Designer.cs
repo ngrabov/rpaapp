@@ -11,8 +11,8 @@ using rpaapp.Data;
 namespace rpaapp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220104131940_mmig")]
-    partial class mmig
+    [Migration("20220110093443_mymig")]
+    partial class mymig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -181,6 +181,9 @@ namespace rpaapp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("WriterId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("fname")
                         .HasColumnType("TEXT");
 
@@ -197,6 +200,8 @@ namespace rpaapp.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("WriterId");
 
                     b.ToTable("pdfs", (string)null);
                 });
@@ -387,6 +392,15 @@ namespace rpaapp.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("rpaapp.Models.Pdf", b =>
+                {
+                    b.HasOne("rpaapp.Models.Writer", "Writer")
+                        .WithMany()
+                        .HasForeignKey("WriterId");
+
+                    b.Navigation("Writer");
                 });
 #pragma warning restore 612, 618
         }

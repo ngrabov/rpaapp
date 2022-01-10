@@ -30,7 +30,7 @@ public class HomeController : Controller
     [Route("Repository")]
     public async Task<IActionResult> Repository()
     {
-        var files = await _context.pdfs.Where(c => c.isDownloaded == false).ToListAsync();
+        var files = await _context.pdfs.Include(c => c.Writer).Where(c => c.isDownloaded == false).ToListAsync();
         return View(files);
     }
 
@@ -72,6 +72,15 @@ public class HomeController : Controller
     {
         var docs = new List<Document>();
 
+        if(String.IsNullOrEmpty(order))
+        {
+            ViewData["SortParm"] = "name_desc";
+        }
+        else
+        {
+            ViewData["SortParm"] = "";
+        }
+
         var group = from doc in await _context.Documents.AsQueryable().ToListAsync() 
                     group doc by doc.fguid into divdoc
                     select divdoc;
@@ -88,7 +97,7 @@ public class HomeController : Controller
         }
         else
         {
-
+            docs = docs.OrderBy(c => c.fname).ToList();
         }
 
         return View(docs);

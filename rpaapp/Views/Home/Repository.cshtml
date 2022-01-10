@@ -1,13 +1,6 @@
 ﻿@model IEnumerable<rpaapp.Models.Pdf>
 @{
     ViewData["Title"] = "Repository Page";
-    List<string> t = new List<string>();
-    
-    t = (List<string>)ViewData["Arry"];
-    if(t == null)
-    {
-        t = new List<string>(){"", "", "", "", "", "", "", "", ""};
-    }
 }
 <h3>Files to resolve</h3>
 <div>
@@ -16,6 +9,7 @@
             <th>Id</th>
             <th>File path</th>
             <th>File size</th>
+            <th>Uploaded by</th>
             <th>Upload time</th>
         </thead>
         <tbody>
@@ -26,6 +20,7 @@
                     <td>@item.Id</td>
                     <td>@Html.ActionLink(item.fname, "DownloadFile", new { gd = @item.guid})</td>
                     <td>@Math.Round(mb, 2) MB</td>
+                    <td>@item.Writer.FirstName @item.Writer.LastName</td>
                     <td>@item.uploaded.ToString("dd.MM.yyyy. H:mm:ss")</td>
                 </tr>
             }
@@ -36,12 +31,3 @@
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
-
-<script>
-	$(document).ready(function(){
-		$('#btnClear').click(function()
-        {		
-			$('input[class="form-control"]').val('');
-		});
-	});
-</script>

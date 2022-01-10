@@ -1,5 +1,4 @@
 @model IEnumerable<rpaapp.Models.Document>
-@* @model IEnumerable<rpaapp.Models.Pdf> *@
 @{
     ViewData["Title"] = "Dashboard";
 }
@@ -7,7 +6,7 @@
 <div>
     <table class="table table-hover">  
         <thead>
-            <th>Name</th>
+            <th><a asp-action="Dashboard" asp-route-order="@ViewData["SortParm"]" style="text-decoration: none; color: black;"><b>Name</b></a></th>
             <th>Size</th>
             <th>Upload time</th>
         </thead> 
@@ -16,8 +15,7 @@
             {
                 var mb = @item.fsize / 1000000.0;
                 <tr>
-                    <td>@* 
-                        <a asp-action="Details" asp-controller="Home" asp-route-id="@item.guid">@item.fname</a> *@
+                    <td>
                         <a asp-action="Details" asp-controller="Txts" asp-route-id="@item.fguid">@item.pdfname</a>
                     </td>
                     <td>@Math.Round(mb, 2) MB</td>

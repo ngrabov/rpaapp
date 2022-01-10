@@ -2,15 +2,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using rpaapp.Models;
 using rpaapp.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace rpaapp.Controllers;
 
 public class PdfsController : Controller
 {
     private ApplicationDbContext _context;
-    public PdfsController(ApplicationDbContext context)
+    private SignInManager<Writer> _signInManager;
+    private UserManager<Writer> _userManager;
+    public PdfsController(ApplicationDbContext context, SignInManager<Writer> signInManager, UserManager<Writer> userManager)
     {
         _context = context;
+        _userManager = userManager;
+        _signInManager = signInManager;
     }
 
     public async Task<IActionResult> Index()
@@ -43,11 +48,17 @@ public class PdfsController : Controller
 
     public async Task Complex(List<IFormFile> files)
     {
+        var currentuser = await _userManager.GetUserAsync(User);
         foreach(var file in files)
         {
             Pdf pdf = new Pdf();
             var gd = Guid.NewGuid();
             string wbp = Path.GetFileName(file.FileName);
+
+            if(currentuser != null)
+            {
+                pdf.Writer = currentuser;
+            }
 
             using(var stream = System.IO.File.Create("./wwwroot/" + gd))
             {

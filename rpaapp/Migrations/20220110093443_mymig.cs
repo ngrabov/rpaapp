@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace rpaapp.Migrations
 {
-    public partial class mmig : Migration
+    public partial class mymig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,23 +39,6 @@ namespace rpaapp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Documents", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "pdfs",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    fname = table.Column<string>(type: "TEXT", nullable: true),
-                    guid = table.Column<Guid>(type: "TEXT", nullable: false),
-                    fsize = table.Column<long>(type: "INTEGER", nullable: false),
-                    isDownloaded = table.Column<bool>(type: "INTEGER", nullable: false),
-                    uploaded = table.Column<DateTime>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_pdfs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -221,6 +204,29 @@ namespace rpaapp.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "pdfs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    fname = table.Column<string>(type: "TEXT", nullable: true),
+                    guid = table.Column<Guid>(type: "TEXT", nullable: false),
+                    fsize = table.Column<long>(type: "INTEGER", nullable: false),
+                    isDownloaded = table.Column<bool>(type: "INTEGER", nullable: false),
+                    uploaded = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    WriterId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_pdfs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_pdfs_Writers_WriterId",
+                        column: x => x.WriterId,
+                        principalTable: "Writers",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -246,6 +252,11 @@ namespace rpaapp.Migrations
                 name: "IX_AspNetUserRoles_RoleId",
                 table: "AspNetUserRoles",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_pdfs_WriterId",
+                table: "pdfs",
+                column: "WriterId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
