@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using rpaapp.Models;
 using rpaapp.Data;
 using System.Globalization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace rpaapp.Controllers;
 
@@ -67,7 +68,7 @@ public class HomeController : Controller
 
     //[Authorize(Roles = "Administrator")]
     [Route("Dashboard")]
-    public async Task<IActionResult> Dashboard()
+    public async Task<IActionResult> Dashboard(string order)
     {
         var docs = new List<Document>();
 
@@ -80,7 +81,16 @@ public class HomeController : Controller
             var doc = grouping.FirstOrDefault();
             docs.Add(doc);
         }
-        //var docs = await _context.pdfs.ToListAsync();
+
+        if(order == "name_desc")
+        {
+            docs = docs.OrderByDescending(c => c.fname).ToList();
+        }
+        else
+        {
+
+        }
+
         return View(docs);
     }
     
@@ -109,6 +119,7 @@ public class HomeController : Controller
         return RedirectToAction("Index", "Home");
     }
 
+    //[Authorize(Roles = "Administrator")]
     [Route("UploadFiles")] //API endpoint
     [HttpPost]
     public async Task<IActionResult> UploadFiles()
@@ -243,32 +254,6 @@ public class HomeController : Controller
                         {
                             text.ReferenceNumber = sr.ReadLine();
                         }
-                        /*if(line == "Invoice_number2:")
-                        {
-                            text.InvoiceNumber2 = sr.ReadLine();
-                        }
-                        if(line == "Invoice_date2:")
-                        {
-                            text.InvoiceDate2 = DateTime.Parse(sr.ReadLine(), CultureInfo.CreateSpecificCulture("fr-FR"));
-                        }
-                        if(line == "Invoice_duedate2:")
-                        {
-                            text.InvoiceDueDate2 = DateTime.Parse(sr.ReadLine(), CultureInfo.CreateSpecificCulture("fr-FR"));
-                        }
-                        if(line == "Neto2:")
-                        {
-                            var cvt3 = sr.ReadLine().Replace(',','.');
-                            text.Neto2 = double.Parse(cvt3);
-                        }
-                        if(line == "Bruto2:")
-                        {
-                            var cvt4 = sr.ReadLine().Replace(',','.');
-                            text.Bruto2 = double.Parse(cvt4);
-                        }
-                        if(line == "Reference_number2:")
-                        {
-                            text.ReferenceNumber2 = sr.ReadLine();
-                        }*/
                     }
                 }
                 text.pngNames = pngs.Remove(pngs.Length - 1);
