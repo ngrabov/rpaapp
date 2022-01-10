@@ -168,6 +168,9 @@ namespace rpaapp.Migrations
                     b.Property<DateTime>("uploaded")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("writername")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.ToTable("Documents", (string)null);
@@ -287,12 +290,10 @@ namespace rpaapp.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("TEXT");
 

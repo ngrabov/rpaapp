@@ -178,7 +178,7 @@ public class HomeController : Controller
             string wbp = Path.GetFileName(file.FileName);
             string ext = Path.GetExtension(file.FileName);
             
-            var pdf = await _context.pdfs.FirstOrDefaultAsync(c => c.guid == fn);
+            var pdf = await _context.pdfs.Include(c => c.Writer).FirstOrDefaultAsync(c => c.guid == fn);
 
             string fold = "./wwwroot/Document/" + tgd;
             if (!Directory.Exists(fold))
@@ -190,6 +190,8 @@ public class HomeController : Controller
             {
                 await file.CopyToAsync(stream);
             }
+            
+            doc.writername = pdf.Writer.FullName;
             doc.fsize = sz;
             doc.fname = wbp;
             doc.pdfname = pdf.fname;

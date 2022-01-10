@@ -3,11 +3,20 @@
     ViewData["Title"] = "Dashboard";
 }
 
-<div>
+<div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'All')" id="defaultOpen">All</button>
+    <button class="tablinks" onclick="openCity(event, 'Waiting')">Waiting</button>
+    <button class="tablinks" onclick="openCity(event, 'Ready')">Ready</button>
+    <button class="tablinks" onclick="openCity(event, 'Confirmed')">Confirmed</button>
+    <button class="tablinks" onclick="openCity(event, 'Archived')">Archived</button>
+</div>
+
+<div id="All" class="tabcontent">
     <table class="table table-hover">  
         <thead>
             <th><a asp-action="Dashboard" asp-route-order="@ViewData["SortParm"]" style="text-decoration: none; color: black;"><b>Name</b></a></th>
             <th>Size</th>
+            <th>Uploaded by</th>
             <th>Upload time</th>
         </thead> 
         <tbody>
@@ -19,9 +28,105 @@
                         <a asp-action="Details" asp-controller="Txts" asp-route-id="@item.fguid">@item.pdfname</a>
                     </td>
                     <td>@Math.Round(mb, 2) MB</td>
+                    @if(item.writername != null)
+                    {
+                        <td>@item.writername</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
                     <td>@item.uploaded.ToString("dd.MM.yyyy. H:mm:ss")</td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+<div id="Ready" class="tabcontent">
+
+</div>
+<div id="Waiting" class="tabcontent">
+
+</div>
+<div id="Confirmed" class="tabcontent">
+
+</div>
+<div id="Archived" class="tabcontent">
+
+</div>
+
+<div style="width: 150px; margin: auto; padding-top: 25px;">
+    <a asp-controller="Home" asp-action="Upload"><button class="btn btn-primary" style="background-color: #034791; color: white; width: 150px;">Upload files</button></a>
+</div>
+
+<script>
+    function openCity(evt, cityName) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the link that opened the tab
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+document.getElementById("defaultOpen").click();
+
+</script>
+
+<style>
+    * {box-sizing: border-box}
+
+/* Style the tab */
+.tab {
+  float: left;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  width: 10%;
+  height: 120px;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  display: block;
+  background-color: inherit;
+  color: black;
+  padding: 12px 6px;
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current "tab button" class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  float: left;
+  padding: 0px 12px;
+  border: 1px solid #ccc;
+  width: 90%;
+  height: 500px;
+}
+</style>
