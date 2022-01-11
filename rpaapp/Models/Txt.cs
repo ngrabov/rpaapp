@@ -5,8 +5,7 @@ namespace rpaapp.Models
     public class Txt
     {
         public int Id { get; set; }
-        public Document Document { get { return _document ?? (_document = new Document()); }  set { _document = value; } }
-        private Document _document { get; set; }
+        public Guid DocId {get; set;}
         public bool isReviewed { get; set; }
         public string pngNames { get; set; }
         public string Name { get; set; }

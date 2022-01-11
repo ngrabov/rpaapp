@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using rpaapp.Models;
 using rpaapp.Data;
 using System.Globalization;
-using Microsoft.AspNetCore.Authorization;
 
 namespace rpaapp.Controllers;
 
@@ -248,6 +247,7 @@ public class HomeController : Controller
             doc.pdfname = pdf.fname;
             doc.uploaded = DateTime.Now;
             doc.fguid = Guid.Parse(tgd);
+            doc.Status = Status.Ready;
             await _context.Documents.AddAsync(doc);
 
             if(ext == ".txt")
@@ -319,7 +319,7 @@ public class HomeController : Controller
                     }
                 }
                 text.pngNames = pngs.Remove(pngs.Length - 1);
-                text.Document.fguid = Guid.Parse(tgd);
+                text.DocId = Guid.Parse(tgd);
                 text.isReviewed = false;
                 await _context.Txts.AddAsync(text);
             }

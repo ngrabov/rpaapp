@@ -11,8 +11,8 @@ using rpaapp.Data;
 namespace rpaapp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220110151154_mymig")]
-    partial class mymig
+    [Migration("20220111104249_newmigr")]
+    partial class newmigr
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -227,8 +227,8 @@ namespace rpaapp.Migrations
                     b.Property<string>("Currency")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("DocumentId")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("DocId")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Group")
                         .HasColumnType("TEXT");
@@ -270,8 +270,6 @@ namespace rpaapp.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DocumentId");
 
                     b.ToTable("Txts", (string)null);
                 });
@@ -407,15 +405,6 @@ namespace rpaapp.Migrations
                         .HasForeignKey("WriterId");
 
                     b.Navigation("Writer");
-                });
-
-            modelBuilder.Entity("rpaapp.Models.Txt", b =>
-                {
-                    b.HasOne("rpaapp.Models.Document", "Document")
-                        .WithMany()
-                        .HasForeignKey("DocumentId");
-
-                    b.Navigation("Document");
                 });
 #pragma warning restore 612, 618
         }

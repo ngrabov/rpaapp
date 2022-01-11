@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace rpaapp.Migrations
 {
-    public partial class mymig : Migration
+    public partial class newmigr : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,6 +41,35 @@ namespace rpaapp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Documents", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Txts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    DocId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    isReviewed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    pngNames = table.Column<string>(type: "TEXT", nullable: true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Group = table.Column<string>(type: "TEXT", nullable: true),
+                    State = table.Column<string>(type: "TEXT", nullable: true),
+                    VAT = table.Column<string>(type: "TEXT", nullable: true),
+                    Currency = table.Column<string>(type: "TEXT", nullable: true),
+                    BillingGroup = table.Column<string>(type: "TEXT", nullable: true),
+                    IBAN = table.Column<string>(type: "TEXT", nullable: true),
+                    VATobligation = table.Column<string>(type: "TEXT", nullable: true),
+                    InvoiceNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    InvoiceDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    InvoiceDueDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Bruto = table.Column<double>(type: "REAL", nullable: false),
+                    Neto = table.Column<double>(type: "REAL", nullable: false),
+                    ReferenceNumber = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Txts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -90,40 +119,6 @@ namespace rpaapp.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Txts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    DocumentId = table.Column<int>(type: "INTEGER", nullable: true),
-                    isReviewed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    pngNames = table.Column<string>(type: "TEXT", nullable: true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
-                    Group = table.Column<string>(type: "TEXT", nullable: true),
-                    State = table.Column<string>(type: "TEXT", nullable: true),
-                    VAT = table.Column<string>(type: "TEXT", nullable: true),
-                    Currency = table.Column<string>(type: "TEXT", nullable: true),
-                    BillingGroup = table.Column<string>(type: "TEXT", nullable: true),
-                    IBAN = table.Column<string>(type: "TEXT", nullable: true),
-                    VATobligation = table.Column<string>(type: "TEXT", nullable: true),
-                    InvoiceNumber = table.Column<string>(type: "TEXT", nullable: true),
-                    InvoiceDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    InvoiceDueDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Bruto = table.Column<double>(type: "REAL", nullable: false),
-                    Neto = table.Column<double>(type: "REAL", nullable: false),
-                    ReferenceNumber = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Txts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Txts_Documents_DocumentId",
-                        column: x => x.DocumentId,
-                        principalTable: "Documents",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -266,11 +261,6 @@ namespace rpaapp.Migrations
                 column: "WriterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Txts_DocumentId",
-                table: "Txts",
-                column: "DocumentId");
-
-            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "Writers",
                 column: "NormalizedEmail");
@@ -300,6 +290,9 @@ namespace rpaapp.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Documents");
+
+            migrationBuilder.DropTable(
                 name: "pdfs");
 
             migrationBuilder.DropTable(
@@ -310,9 +303,6 @@ namespace rpaapp.Migrations
 
             migrationBuilder.DropTable(
                 name: "Writers");
-
-            migrationBuilder.DropTable(
-                name: "Documents");
         }
     }
 }

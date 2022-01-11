@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Invoice details";
-    var temp = Model.Document.fguid;
+    var temp = Model.DocId;
 }
 
 <div style="padding: 0 15px 0 15px;">
@@ -85,7 +85,7 @@
                 </div>
                 <div class="form-group" style="padding-top: 20px;">
                     <input type="submit" value="OK" class="btn btn-primary" style="background-color: #034791;" />
-                    <a asp-controller="Home" asp-action="Dashboard" class="btn btn-primary" style="padding-left: 10px; background-color: #034791;" asp-route-id="@Model.Document.fguid">Back</a>
+                    <a asp-controller="Home" asp-action="Dashboard" class="btn btn-primary" style="padding-left: 10px; background-color: #034791;" asp-route-id="@Model.DocId">Back</a>
                 </div>   
             </form>
         </div>
