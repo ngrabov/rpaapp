@@ -15,10 +15,10 @@
     <table class="table table-hover" style="margin-top: 10px;">  
         <thead>
             <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["SortParm"]" style="text-decoration: none; color: black;"><b>Name</b></a></th>
-            <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["SizeParm"]" style="text-decoration: none; color: black;">Size</a></th>
+            <th class="headerSortDown hide"><a asp-action="Dashboard" asp-route-order="@ViewData["SizeParm"]" style="text-decoration: none; color: black;">Size</a></th>
             <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["UpldParm"]" style="text-decoration: none; color: black;">Uploaded by</a></th>
-            <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["TimeParm"]" style="text-decoration: none; color: black;">Upload time</a></th>
-            <th><a style="text-decoration: none; color: black;">Status</a></th>
+            <th class="headerSortDown hide"><a asp-action="Dashboard" asp-route-order="@ViewData["TimeParm"]" style="text-decoration: none; color: black;">Upload time</a></th>
+            <th class="hide"><a style="text-decoration: none; color: black;">Status</a></th>
         </thead> 
         <tbody>
             @foreach (var item in Model)
@@ -28,7 +28,7 @@
                     <td>
                         <a asp-action="Details" asp-controller="Txts" asp-route-id="@item.fguid" style="text-decoration: none;">@item.pdfname</a>
                     </td>
-                    <td>@Math.Round(mb, 2) MB</td>
+                    <td class="hide">@Math.Round(mb, 2) MB</td>
                     @if(item.writername != null)
                     {
                         <td>@item.writername</td>
@@ -37,8 +37,8 @@
                     {
                         <td></td>
                     }
-                    <td>@item.uploaded.ToString("dd.MM.yyyy. H:mm:ss")</td>
-                    <td>@item.Status</td>
+                    <td class="hide">@item.uploaded.ToString("dd.MM.yyyy. H:mm:ss")</td>
+                    <td class="hide">@item.Status</td>
                 </tr>
             }
         </tbody>
@@ -48,10 +48,10 @@
     <table class="table table-hover" style="margin-top: 10px;">  
         <thead>
             <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["SortParm"]" style="text-decoration: none; color: black;"><b>Name</b></a></th>
-            <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["SizeParm"]" style="text-decoration: none; color: black;">Size</a></th>
+            <th class="headerSortDown hide"><a asp-action="Dashboard" asp-route-order="@ViewData["SizeParm"]" style="text-decoration: none; color: black;">Size</a></th>
             <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["UpldParm"]" style="text-decoration: none; color: black;">Uploaded by</a></th>
-            <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["TimeParm"]" style="text-decoration: none; color: black;">Upload time</a></th>
-            <th><a style="text-decoration: none; color: black;">Status</a></th>
+            <th class="headerSortDown hide"><a asp-action="Dashboard" asp-route-order="@ViewData["TimeParm"]" style="text-decoration: none; color: black;">Upload time</a></th>
+            <th class="hide"><a style="text-decoration: none; color: black;">Status</a></th>
         </thead> 
         <tbody>
             @foreach (var item in Model.Where(c => c.Status == Status.Ready))
@@ -61,7 +61,7 @@
                     <td>
                         <a asp-action="Details" asp-controller="Txts" asp-route-id="@item.fguid" style="text-decoration: none;">@item.pdfname</a>
                     </td>
-                    <td>@Math.Round(mb, 2) MB</td>
+                    <td class="hide">@Math.Round(mb, 2) MB</td>
                     @if(item.writername != null)
                     {
                         <td>@item.writername</td>
@@ -70,8 +70,8 @@
                     {
                         <td></td>
                     }
-                    <td>@item.uploaded.ToString("dd.MM.yyyy. H:mm:ss")</td>
-                    <td>@item.Status</td>
+                    <td class="hide">@item.uploaded.ToString("dd.MM.yyyy. H:mm:ss")</td>
+                    <td class="hide">@item.Status</td>
                 </tr>
             }
         </tbody>
@@ -84,10 +84,10 @@
     <table class="table table-hover" style="margin-top: 10px;">  
         <thead>
             <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["SortParm"]" style="text-decoration: none; color: black;"><b>Name</b></a></th>
-            <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["SizeParm"]" style="text-decoration: none; color: black;">Size</a></th>
+            <th class="headerSortDown hide"><a asp-action="Dashboard" asp-route-order="@ViewData["SizeParm"]" style="text-decoration: none; color: black;">Size</a></th>
             <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["UpldParm"]" style="text-decoration: none; color: black;">Uploaded by</a></th>
-            <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["TimeParm"]" style="text-decoration: none; color: black;">Upload time</a></th>
-            <th><a style="text-decoration: none; color: black;">Status</a></th>
+            <th class="headerSortDown hide"><a asp-action="Dashboard" asp-route-order="@ViewData["TimeParm"]" style="text-decoration: none; color: black;">Upload time</a></th>
+            <th class="hide"><a style="text-decoration: none; color: black;">Status</a></th>
         </thead> 
         <tbody>
             @foreach (var item in Model.Where(c => c.Status == Status.Confirmed))
@@ -97,7 +97,7 @@
                     <td>
                         <a asp-action="Details" asp-controller="Txts" asp-route-id="@item.fguid" style="text-decoration: none;">@item.pdfname</a>
                     </td>
-                    <td>@Math.Round(mb, 2) MB</td>
+                    <td class="hide">@Math.Round(mb, 2) MB</td>
                     @if(item.writername != null)
                     {
                         <td>@item.writername</td>
@@ -106,8 +106,8 @@
                     {
                         <td></td>
                     }
-                    <td>@item.uploaded.ToString("dd.MM.yyyy. H:mm:ss")</td>
-                    <td>@item.Status</td>
+                    <td class="hide">@item.uploaded.ToString("dd.MM.yyyy. H:mm:ss")</td>
+                    <td class="hide">@item.Status</td>
                 </tr>
             }
         </tbody>
@@ -150,6 +150,38 @@ document.getElementById("defaultOpen").click();
 
 <style>
 
+@@media (max-width: 400px){
+    .hide{
+        display: none;
+    }
+    .tab{
+        width: 25%;
+    }
+    .tabcontent{
+        width: 75%;
+    }
+}
+@@media (min-width: 401px and max-width: 992px){
+    .hide{
+        display: none;
+    }
+    .tab{
+        width: 20%;
+    }
+    .tabcontent{
+        width: 80%;
+    }
+}
+@@media (min-width: 993px)
+{
+    .tab{
+        width: 10%;
+    }
+    .tabcontent{
+        width: 90%;
+    }
+}
+
 table td,
 table th {
   border: 1px solid silver;
@@ -184,7 +216,6 @@ table th {
 .tab {
   float: left;
   background-color: #f1f1f1;
-  width: 10%;
   height: 120px;
 }
 
@@ -217,7 +248,6 @@ table th {
   float: left;
   padding: 0px 12px;
   border: 1px solid #ccc;
-  width: 90%;
   height: 500px;
   margin-bottom: 25px;
 }

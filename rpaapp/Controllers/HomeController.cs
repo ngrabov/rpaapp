@@ -190,6 +190,14 @@ public class HomeController : Controller
         return Ok();
     }
 
+    [Route("DmsMove")]
+    [HttpPost]
+    public async Task<IActionResult> DmsMove()
+    {
+        var docs = await _context.Documents.Where(c => c.Status == Status.Confirmed).ToListAsync();
+        //documents that have 'Confirmed' status + their pdf links
+        return View();
+    }
     public IActionResult Privacy()
     {
         return View();
