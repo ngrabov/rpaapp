@@ -11,8 +11,8 @@ using rpaapp.Data;
 namespace rpaapp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220111104249_newmigr")]
-    partial class newmigr
+    [Migration("20220112142431_mymig")]
+    partial class mymig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -262,6 +262,9 @@ namespace rpaapp.Migrations
 
                     b.Property<string>("VATobligation")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("isDownloaded")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("isReviewed")
                         .HasColumnType("INTEGER");

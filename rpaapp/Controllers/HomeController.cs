@@ -57,11 +57,13 @@ public class HomeController : Controller
         byte[] bytes = System.IO.File.ReadAllBytes(path);
 
         var fname = gd + ".pdf";
+        var txt = await _context.Txts.Where(c => c.DocId == gd).FirstOrDefaultAsync();
+        txt.isDownloaded = true;
         var ftd = await _context.Documents.Where(c => c.fguid == gd).Where(c => c.fname == fname).FirstOrDefaultAsync();
-        /* 
-        _context.pdfs.Remove(ftd);
+        
+        //_context.pdfs.Remove(ftd);
         await _context.SaveChangesAsync();
-        System.IO.File.Delete(path); */
+        //System.IO.File.Delete(path);
         return File(bytes, "application/octet-stream", fname);
     }
 
@@ -193,7 +195,7 @@ public class HomeController : Controller
     [Route("DmsMove")]
     public async Task<IActionResult> DmsMove()
     {
-        var txts = await _context.Txts.Where(c => c.isReviewed == true).ToListAsync();
+        var txts = await _context.Txts.Where(c => c.isReviewed == true).Where(c => c.isDownloaded == false).ToListAsync();
         //documents that have 'Confirmed' status + their pdf links
         return Json(txts);
     }
@@ -329,6 +331,7 @@ public class HomeController : Controller
                 text.pngNames = pngs.Remove(pngs.Length - 1);
                 text.DocId = Guid.Parse(tgd);
                 text.isReviewed = false;
+                text.isDownloaded = false;
                 await _context.Txts.AddAsync(text);
             }
         }

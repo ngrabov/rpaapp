@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace rpaapp.Migrations
 {
-    public partial class newmigr : Migration
+    public partial class mymig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -51,6 +51,7 @@ namespace rpaapp.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     DocId = table.Column<Guid>(type: "TEXT", nullable: false),
                     isReviewed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    isDownloaded = table.Column<bool>(type: "INTEGER", nullable: false),
                     pngNames = table.Column<string>(type: "TEXT", nullable: true),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     Group = table.Column<string>(type: "TEXT", nullable: true),

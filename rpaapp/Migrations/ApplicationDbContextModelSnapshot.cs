@@ -261,6 +261,9 @@ namespace rpaapp.Migrations
                     b.Property<string>("VATobligation")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("isDownloaded")
+                        .HasColumnType("INTEGER");
+
                     b.Property<bool>("isReviewed")
                         .HasColumnType("INTEGER");
 
