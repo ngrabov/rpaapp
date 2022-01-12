@@ -50,14 +50,14 @@ public class HomeController : Controller
         return File(bytes, "application/octet-stream", dname);
     }
 
-    public async Task<IActionResult> DownloadFiles(Guid gd, string filename) //documents
+    public async Task<IActionResult> DownloadFiles(Guid gd) //documents
     {
-        string path = Path.Combine(_environment.WebRootPath) + "/Document/" + gd + "/" + filename;
+        string path = Path.Combine(_environment.WebRootPath) + "/Document/" + gd + "/" + gd + ".pdf";
 
         byte[] bytes = System.IO.File.ReadAllBytes(path);
 
-        var ftd = await _context.Documents.Where(c => c.fguid == gd).Where(c => c.fname == filename).FirstOrDefaultAsync();
-        var fname = ftd.fname;
+        var fname = gd + ".pdf";
+        var ftd = await _context.Documents.Where(c => c.fguid == gd).Where(c => c.fname == fname).FirstOrDefaultAsync();
         /* 
         _context.pdfs.Remove(ftd);
         await _context.SaveChangesAsync();
@@ -191,13 +191,13 @@ public class HomeController : Controller
     }
 
     [Route("DmsMove")]
-    [HttpPost]
     public async Task<IActionResult> DmsMove()
     {
-        var docs = await _context.Documents.Where(c => c.Status == Status.Confirmed).ToListAsync();
+        var txts = await _context.Txts.Where(c => c.isReviewed == true).ToListAsync();
         //documents that have 'Confirmed' status + their pdf links
-        return View();
+        return Json(txts);
     }
+
     public IActionResult Privacy()
     {
         return View();
