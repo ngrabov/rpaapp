@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace rpaapp.Migrations
 {
-    public partial class mymig : Migration
+    public partial class nymig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

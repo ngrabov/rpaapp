@@ -196,7 +196,6 @@ public class HomeController : Controller
     public async Task<IActionResult> DmsMove()
     {
         var txts = await _context.Txts.Where(c => c.isReviewed == true).Where(c => c.isDownloaded == false).ToListAsync();
-        //documents that have 'Confirmed' status + their pdf links
         return Json(txts);
     }
 
