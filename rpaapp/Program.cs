@@ -30,7 +30,7 @@ using (var scope = app.Services.CreateScope())
         var config = app.Services.GetRequiredService<IConfiguration>();
 
         var testUserPw = config["NewPw"];
-        DbInitializer.InitializeAsync(context, services, testUserPw).Wait(); //promijeni
+        await DbInitializer.InitializeAsync(context, services, testUserPw);
     }
     catch (Exception ex)
     {

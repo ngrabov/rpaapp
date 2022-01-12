@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using rpaapp.Data;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using rpaapp.Models;
 
