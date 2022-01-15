@@ -11,8 +11,8 @@ using rpaapp.Data;
 namespace rpaapp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220112143854_nymig")]
-    partial class nymig
+    [Migration("20220115173905_newmig")]
+    partial class newmig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -155,6 +155,9 @@ namespace rpaapp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("RAC_number")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("Status")
                         .HasColumnType("INTEGER");
 
@@ -212,6 +215,20 @@ namespace rpaapp.Migrations
                     b.ToTable("pdfs", (string)null);
                 });
 
+            modelBuilder.Entity("rpaapp.Models.ProcessType", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Processes", (string)null);
+                });
+
             modelBuilder.Entity("rpaapp.Models.Txt", b =>
                 {
                     b.Property<int>("Id")
@@ -251,6 +268,9 @@ namespace rpaapp.Migrations
                     b.Property<double>("Neto")
                         .HasColumnType("REAL");
 
+                    b.Property<int>("ProcessTypeId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("ReferenceNumber")
                         .HasColumnType("TEXT");
 
@@ -273,6 +293,8 @@ namespace rpaapp.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProcessTypeId");
 
                     b.ToTable("Txts", (string)null);
                 });
@@ -408,6 +430,17 @@ namespace rpaapp.Migrations
                         .HasForeignKey("WriterId");
 
                     b.Navigation("Writer");
+                });
+
+            modelBuilder.Entity("rpaapp.Models.Txt", b =>
+                {
+                    b.HasOne("rpaapp.Models.ProcessType", "ProcessType")
+                        .WithMany()
+                        .HasForeignKey("ProcessTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProcessType");
                 });
 #pragma warning restore 612, 618
         }

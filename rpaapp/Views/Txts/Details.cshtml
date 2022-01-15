@@ -83,10 +83,17 @@
                     <input asp-for="ReferenceNumber" class="form-control" style="height: 25px;" required/>
                     <span asp-validation-for="ReferenceNumber" class="text-danger"></span>
                 </div>
+                <div class="form-group col-md-8">
+                    <b><label asp-for="ProcessType" class="control-label"></label></b>
+                    <select asp-for="ProcessTypeId" class="form-control" asp-items="@ViewBag.teams">
+                        <option value="">--Select process--</option>
+                    </select>
+                    <span asp-validation-for="ProcessTypeId" class="text-danger"></span>
+                </div>  
                 <div class="form-group" style="padding-top: 20px;">
                     <input type="submit" value="OK" class="btn btn-primary" style="background-color: #034791;" />
                     <a asp-controller="Home" asp-action="Dashboard" class="btn btn-primary" style="padding-left: 10px; background-color: #034791;" asp-route-id="@Model.DocId">Back</a>
-                </div>   
+                </div> 
             </form>
         </div>
         <div class="col-md-8">

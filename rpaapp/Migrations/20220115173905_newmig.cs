@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace rpaapp.Migrations
 {
-    public partial class nymig : Migration
+    public partial class newmig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -35,6 +35,7 @@ namespace rpaapp.Migrations
                     pdfname = table.Column<string>(type: "TEXT", nullable: true),
                     fsize = table.Column<long>(type: "INTEGER", nullable: false),
                     Status = table.Column<int>(type: "INTEGER", nullable: false),
+                    RAC_number = table.Column<string>(type: "TEXT", nullable: true),
                     writername = table.Column<string>(type: "TEXT", nullable: true),
                     uploaded = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
@@ -44,33 +45,16 @@ namespace rpaapp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Txts",
+                name: "Processes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    DocId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    isReviewed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    isDownloaded = table.Column<bool>(type: "INTEGER", nullable: false),
-                    pngNames = table.Column<string>(type: "TEXT", nullable: true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
-                    Group = table.Column<string>(type: "TEXT", nullable: true),
-                    State = table.Column<string>(type: "TEXT", nullable: true),
-                    VAT = table.Column<string>(type: "TEXT", nullable: true),
-                    Currency = table.Column<string>(type: "TEXT", nullable: true),
-                    BillingGroup = table.Column<string>(type: "TEXT", nullable: true),
-                    IBAN = table.Column<string>(type: "TEXT", nullable: true),
-                    VATobligation = table.Column<string>(type: "TEXT", nullable: true),
-                    InvoiceNumber = table.Column<string>(type: "TEXT", nullable: true),
-                    InvoiceDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    InvoiceDueDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Bruto = table.Column<double>(type: "REAL", nullable: false),
-                    Neto = table.Column<double>(type: "REAL", nullable: false),
-                    ReferenceNumber = table.Column<string>(type: "TEXT", nullable: true)
+                    name = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Txts", x => x.Id);
+                    table.PrimaryKey("PK_Processes", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -119,6 +103,43 @@ namespace rpaapp.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Txts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    DocId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    isReviewed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    isDownloaded = table.Column<bool>(type: "INTEGER", nullable: false),
+                    pngNames = table.Column<string>(type: "TEXT", nullable: true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Group = table.Column<string>(type: "TEXT", nullable: true),
+                    State = table.Column<string>(type: "TEXT", nullable: true),
+                    VAT = table.Column<string>(type: "TEXT", nullable: true),
+                    Currency = table.Column<string>(type: "TEXT", nullable: true),
+                    BillingGroup = table.Column<string>(type: "TEXT", nullable: true),
+                    IBAN = table.Column<string>(type: "TEXT", nullable: true),
+                    VATobligation = table.Column<string>(type: "TEXT", nullable: true),
+                    InvoiceNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    InvoiceDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    InvoiceDueDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Bruto = table.Column<double>(type: "REAL", nullable: false),
+                    Neto = table.Column<double>(type: "REAL", nullable: false),
+                    ReferenceNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    ProcessTypeId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Txts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Txts_Processes_ProcessTypeId",
+                        column: x => x.ProcessTypeId,
+                        principalTable: "Processes",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -262,6 +283,11 @@ namespace rpaapp.Migrations
                 column: "WriterId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Txts_ProcessTypeId",
+                table: "Txts",
+                column: "ProcessTypeId");
+
+            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "Writers",
                 column: "NormalizedEmail");
@@ -304,6 +330,9 @@ namespace rpaapp.Migrations
 
             migrationBuilder.DropTable(
                 name: "Writers");
+
+            migrationBuilder.DropTable(
+                name: "Processes");
         }
     }
 }

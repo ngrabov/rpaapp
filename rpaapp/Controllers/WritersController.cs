@@ -5,7 +5,7 @@ using rpaapp.Models;
 
 namespace rpaapp.Controllers
 {
-    public class WritersController : Controller
+    public class WritersController : Controller//<TContext, T> : Controller<T> where T : class where TContext: DbContext
     {
         private ApplicationDbContext _context;
 

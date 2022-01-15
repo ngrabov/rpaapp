@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using rpaapp.Data;
 using rpaapp.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace rpaapp.Controllers
 {
@@ -21,6 +22,7 @@ namespace rpaapp.Controllers
             var txt = await _context.Txts.FirstOrDefaultAsync(c => c.DocId == id);
 
             if(txt == null) return NotFound();
+            populateProcess();
 
             return View(txt);
         }
@@ -38,7 +40,7 @@ namespace rpaapp.Controllers
                 if(await TryUpdateModelAsync<Txt> (text, "", s => s.BillingGroup, s => s.Bruto,  s => s.Currency,
                 s => s.Group, s => s.IBAN, s => s.InvoiceDate, s => s.InvoiceDueDate,
                 s => s.InvoiceNumber,  s => s.Name, s => s.Neto, s => s.ReferenceNumber,
-                 s => s.State, s => s.VAT, s => s.VATobligation))
+                 s => s.State, s => s.VAT, s => s.VATobligation, s => s.ProcessTypeId))
                 { 
                     try
                     {
@@ -58,6 +60,12 @@ namespace rpaapp.Controllers
             }
             ModelState.AddModelError("", "Please select a valid image file.");
             return View(text);
+        }
+
+        private async void populateProcess(object selectedTeam = null)
+        {
+            var processes = await _context.Processes.ToArrayAsync();
+            ViewBag.teams = new SelectList(processes, "id", "name", selectedTeam);
         }
     }
 }

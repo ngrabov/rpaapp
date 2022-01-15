@@ -69,7 +69,7 @@ public class HomeController : Controller
 
     //[Authorize(Roles = "Administrator")]
     [Route("Dashboard")]
-    public async Task<IActionResult> Dashboard(string order)
+    public async Task<IActionResult> Dashboard(string order, string search)
     {
         var docs = new List<Document>();
 
@@ -81,6 +81,7 @@ public class HomeController : Controller
         {
             ViewData["SortParm"] = "";
         }
+        ViewData["CurrentFilter"] = search;
 
         if(order == "Size")
         {
@@ -117,6 +118,11 @@ public class HomeController : Controller
         {
             var doc = grouping.FirstOrDefault();
             docs.Add(doc);
+        }
+
+        if(!String.IsNullOrEmpty(search))
+        {
+            docs = docs.Where(c => c.pdfname.Contains(search)).ToList();
         }
 
         if(order == "name_desc")
@@ -199,6 +205,28 @@ public class HomeController : Controller
         return Json(txts);
     }
 
+    [Route("Archive")]
+    [HttpPost]
+    public async Task<IActionResult> ArchiveFile(Guid gd, string rac)
+    {
+        var docs = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
+        foreach(var item in docs)
+        {
+            item.Status = Status.Archived;
+            item.RAC_number = rac;
+        }
+        await _context.SaveChangesAsync();
+        return Ok();
+    }
+
+    [Route("GetRac")]
+    public async Task<IActionResult> GetRac(Guid gd)
+    {
+        var rac = await _context.Documents.Where(c => c.Status == Status.Archived).Where(c => c.fguid == gd).FirstOrDefaultAsync();
+        var nr = rac.RAC_number;
+        return Json(nr);
+    }
+
     public IActionResult Privacy()
     {
         return View();
@@ -274,6 +302,10 @@ public class HomeController : Controller
                         if(line == "VAT_number:")
                         {
                             text.VAT = sr.ReadLine();
+                        }
+                        if(line == "Process:")
+                        {
+                            text.ProcessTypeId = Int32.Parse(sr.ReadLine());
                         }
                         if(line == "Currency:")
                         {

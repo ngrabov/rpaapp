@@ -6,15 +6,23 @@ using rpaapp.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+/* var TwoString = builder.Configuration.GetConnectionString("TwoConnection");
+ */builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+/* builder.Services.AddDbContext<TwoContext>(options => 
+    options.UseSqlite(TwoString));
+ */builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentity<Writer, IdentityRole<int>>(options =>  options.Stores.MaxLengthForKeys = 128)
     .AddRoles<IdentityRole<int>>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultUI()
-    .AddDefaultTokenProviders();
+    .AddDefaultTokenProviders();/* 
+builder.Services.AddIdentity<Writer, IdentityRole<int>>(options =>  options.Stores.MaxLengthForKeys = 128)
+    .AddRoles<IdentityRole<int>>()
+    .AddEntityFrameworkStores<TwoContext>()
+    .AddDefaultUI()
+    .AddDefaultTokenProviders(); */
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -25,12 +33,14 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<ApplicationDbContext>();
+        //var twocontext = services.GetRequiredService<TwoContext>();
         context.Database.Migrate();
 
         var config = app.Services.GetRequiredService<IConfiguration>();
 
         var testUserPw = config["NewPw"];
         await DbInitializer.InitializeAsync(context, services, testUserPw);
+        //await DbInitializer.InitializeAsync(twocontext, services, testUserPw);
     }
     catch (Exception ex)
     {
