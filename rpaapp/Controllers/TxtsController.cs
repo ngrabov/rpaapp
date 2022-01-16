@@ -49,6 +49,7 @@ namespace rpaapp.Controllers
                             doc.Status = Status.Confirmed;
                         }
                         text.isReviewed = true;
+                        text.ProcessType = await _context.Processes.FirstOrDefaultAsync(c => c.id == text.ProcessTypeId);
                         await _context.SaveChangesAsync();
                         return RedirectToAction("Dashboard", "Home");
                     }
