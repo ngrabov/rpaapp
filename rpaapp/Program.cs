@@ -2,16 +2,19 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using rpaapp.Data;
 using rpaapp.Models;
+using rpaapp.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-/* var TwoString = builder.Configuration.GetConnectionString("TwoConnection");
- */builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString));
-/* builder.Services.AddDbContext<TwoContext>(options => 
-    options.UseSqlite(TwoString));
- */builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");/* 
+var TwoString = builder.Configuration.GetConnectionString("TwoConnection"); */
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlite(connectionString));/* 
+builder.Services.AddDbContext<TwoContext>(options => 
+    options.UseSqlite(TwoString)); */
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+builder.Services.AddScoped<IProcessRepository, ProcessRepository>();
 
 builder.Services.AddIdentity<Writer, IdentityRole<int>>(options =>  options.Stores.MaxLengthForKeys = 128)
     .AddRoles<IdentityRole<int>>()
@@ -32,8 +35,8 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     try
     {
-        var context = services.GetRequiredService<ApplicationDbContext>();
-        //var twocontext = services.GetRequiredService<TwoContext>();
+        var context = services.GetRequiredService<ApplicationDbContext>();/* 
+        var twocontext = services.GetRequiredService<TwoContext>(); */
         context.Database.Migrate();
 
         var config = app.Services.GetRequiredService<IConfiguration>();

@@ -26,5 +26,4 @@ public class TwoContext : IdentityDbContext<Writer, IdentityRole<int>, int>
         modelBuilder.Entity<Txt>().ToTable("Txts");
     }
         
-}
- */
+} */

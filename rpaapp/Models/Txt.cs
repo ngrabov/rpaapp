@@ -30,8 +30,9 @@ namespace rpaapp.Models
         public double Neto { get; set; }
         public string ReferenceNumber { get; set; }
         //public ProcessType ProcessType { get; set; }
-        public int ProcessTypeId { get; set; }
-        private ProcessType _ProcessType;
-        public ProcessType ProcessType { get { return _ProcessType ?? (_ProcessType = new ProcessType());} set { _ProcessType = value;}}
+        public int? ProcessTypeId { get; set; }
+        #nullable enable
+        private ProcessType? _ProcessType;
+        public ProcessType? ProcessType { get { return _ProcessType ?? (_ProcessType = new ProcessType());} set { _ProcessType = value;}}
     }
 }

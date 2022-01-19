@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace rpaapp.Migrations
 {
-    public partial class newmig : Migration
+    public partial class nymig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -130,7 +130,7 @@ namespace rpaapp.Migrations
                     Bruto = table.Column<double>(type: "REAL", nullable: false),
                     Neto = table.Column<double>(type: "REAL", nullable: false),
                     ReferenceNumber = table.Column<string>(type: "TEXT", nullable: true),
-                    ProcessTypeId = table.Column<int>(type: "INTEGER", nullable: false)
+                    ProcessTypeId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -139,8 +139,7 @@ namespace rpaapp.Migrations
                         name: "FK_Txts_Processes_ProcessTypeId",
                         column: x => x.ProcessTypeId,
                         principalTable: "Processes",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(

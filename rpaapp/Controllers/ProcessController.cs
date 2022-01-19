@@ -1,16 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
 using rpaapp.Data;
 using rpaapp.Models;
+using rpaapp.Repositories;
 
 namespace rpaapp.Controllers;
 
 public class ProcessController : Controller
 {
-    private readonly ApplicationDbContext _context;
+    //private readonly ApplicationDbContext _context;
+    private IProcessRepository repository;
 
-    public ProcessController(ApplicationDbContext context)
+    public ProcessController(/* ApplicationDbContext context */IProcessRepository repository)
     {
-        _context = context;
+        this.repository = repository;
+        //_context = context;
     }
 
     public IActionResult Create()
@@ -21,8 +24,7 @@ public class ProcessController : Controller
     [HttpPost]
     public async Task<IActionResult> Create([Bind("name")] ProcessType process)
     {
-        await _context.Processes.AddAsync(process);
-        await _context.SaveChangesAsync();
+        await repository.AddProcessAsync(process);
         return RedirectToAction("Index", "Home");
     }
 }

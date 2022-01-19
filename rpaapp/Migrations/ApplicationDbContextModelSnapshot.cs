@@ -266,7 +266,7 @@ namespace rpaapp.Migrations
                     b.Property<double>("Neto")
                         .HasColumnType("REAL");
 
-                    b.Property<int>("ProcessTypeId")
+                    b.Property<int?>("ProcessTypeId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ReferenceNumber")
@@ -434,9 +434,7 @@ namespace rpaapp.Migrations
                 {
                     b.HasOne("rpaapp.Models.ProcessType", "ProcessType")
                         .WithMany()
-                        .HasForeignKey("ProcessTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProcessTypeId");
 
                     b.Navigation("ProcessType");
                 });
