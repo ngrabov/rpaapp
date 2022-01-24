@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace rpaapp.Migrations
 {
-    public partial class nymig : Migration
+    public partial class newmig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -237,6 +237,7 @@ namespace rpaapp.Migrations
                     guid = table.Column<Guid>(type: "TEXT", nullable: false),
                     fsize = table.Column<long>(type: "INTEGER", nullable: false),
                     isDownloaded = table.Column<bool>(type: "INTEGER", nullable: false),
+                    isUploaded = table.Column<bool>(type: "INTEGER", nullable: false),
                     uploaded = table.Column<DateTime>(type: "TEXT", nullable: false),
                     WriterId = table.Column<int>(type: "INTEGER", nullable: true)
                 },

@@ -68,6 +68,7 @@ public class PdfsController : Controller
             pdf.fsize = file.Length;
             pdf.uploaded = DateTime.Now;
             pdf.isDownloaded = false;
+            pdf.isUploaded = false;
             pdf.guid = gd;
             await _context.pdfs.AddAsync(pdf);
         }

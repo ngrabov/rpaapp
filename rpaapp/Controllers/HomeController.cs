@@ -29,7 +29,7 @@ public class HomeController : Controller
     [Route("Repository")]
     public async Task<IActionResult> Repository()
     {
-        var files = await _context.pdfs.Include(c => c.Writer).Where(c => c.isDownloaded == false).ToListAsync();
+        var files = await _context.pdfs.Include(c => c.Writer).ToListAsync();
         return View(files);
     }
 
@@ -280,6 +280,7 @@ public class HomeController : Controller
             }
             
             doc.writername = pdf.Writer.FullName;
+            pdf.isUploaded = true;
             doc.fsize = sz;
             doc.fname = wbp;
             doc.pdfname = pdf.fname;

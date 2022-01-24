@@ -203,6 +203,9 @@ namespace rpaapp.Migrations
                     b.Property<bool>("isDownloaded")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("isUploaded")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("uploaded")
                         .HasColumnType("TEXT");
 

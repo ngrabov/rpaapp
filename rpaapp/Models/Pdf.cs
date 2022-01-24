@@ -8,6 +8,7 @@ public class Pdf
     public Guid guid { get; set; }
     public long fsize { get; set; }
     public bool isDownloaded { get; set; }
+    public bool isUploaded { get; set; }
     
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy. H:mm:ss}")] 

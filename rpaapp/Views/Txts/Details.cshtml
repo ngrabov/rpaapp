@@ -22,17 +22,17 @@
                     <b><label asp-for="Group" class="control-label"></label></b>
                     <input asp-for="Group" class="form-control" style="height: 25px;" required/>
                     <span asp-validation-for="Group" class="text-danger"></span>
-                </div>
+                </div>@* 
                 <div class="form-group col-md-8">
                     <b><label asp-for="State" class="control-label"></label></b>
                     <input asp-for="State" class="form-control" style="height: 25px;" />
                     <span asp-validation-for="State" class="text-danger"></span>
-                </div>
+                </div> *@
                 <div class="form-group col-md-8">
                     <b><label asp-for="VAT" class="control-label"></label></b>
                     <input asp-for="VAT" class="form-control" style="height: 25px;" required/>
                     <span asp-validation-for="VAT" class="text-danger"></span>
-                </div>
+                </div>@* 
                 <div class="form-group col-md-8">
                     <b><label asp-for="BillingGroup" class="control-label"></label></b>
                     <input asp-for="BillingGroup" class="form-control" style="height: 25px;" />
@@ -47,7 +47,7 @@
                     <b><label asp-for="VATobligation" class="control-label"></label></b>
                     <input asp-for="VATobligation" class="form-control" style="height: 25px;" />
                     <span asp-validation-for="VATobligation" class="text-danger"></span>
-                </div>
+                </div> *@
                 <div class="form-group col-md-8">
                     <b><label asp-for="InvoiceNumber" class="control-label"></label></b>
                     <input asp-for="InvoiceNumber" class="form-control" style="height: 25px;" required/>
@@ -77,15 +77,15 @@
                     <b><label asp-for="Bruto" class="control-label"></label></b>
                     <input asp-for="Bruto" class="form-control" style="height: 25px;" required/>
                     <span asp-validation-for="Bruto" class="text-danger"></span>
-                </div>
+                </div>@* 
                 <div class="form-group col-md-8">
                     <b><label asp-for="ReferenceNumber" class="control-label"></label></b>
                     <input asp-for="ReferenceNumber" class="form-control" style="height: 25px;" required/>
                     <span asp-validation-for="ReferenceNumber" class="text-danger"></span>
-                </div>
+                </div> *@
                 <div class="form-group col-md-8">
                     <b><label asp-for="ProcessType" class="control-label"></label></b>
-                    <select asp-for="ProcessTypeId" class="form-control" asp-items="@ViewBag.teams">
+                    <select asp-for="ProcessTypeId" class="form-control" asp-items="@ViewBag.teams" required>
                         <option value="">--Select process--</option>
                     </select>
                     <span asp-validation-for="ProcessTypeId" class="text-danger"></span>

@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Repository Page";
 }
-<h3>Files to resolve</h3>
+<h3>Waiting list</h3>
 <div>
     <table class="table table-hover">
         <thead>
@@ -14,7 +14,34 @@
             <th>Status</th>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.Where(c => c.isUploaded == false).Where(c => c.isDownloaded == true))
+            {
+                var mb = @item.fsize / 1000000.0;
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@Html.ActionLink(item.fname, "DownloadFile", new { gd = @item.guid})</td>
+                    <td>@Math.Round(mb, 2) MB</td>
+                    <td>@item.Writer.FirstName @item.Writer.LastName</td>
+                    <td>@item.uploaded.ToString("dd.MM.yyyy. H:mm:ss")</td>
+                    <td></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<h3 style="padding-top: 50px;">Files to download</h3>
+<div>
+    <table class="table table-hover">
+        <thead>
+            <th>Id</th>
+            <th>File path</th>
+            <th>File size</th>
+            <th>Uploaded by</th>
+            <th>Upload time</th>
+            <th>Status</th>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Where(c => c.isDownloaded == false))
             {
                 var mb = @item.fsize / 1000000.0;
                 <tr>

@@ -11,8 +11,8 @@ using rpaapp.Data;
 namespace rpaapp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220118184808_nymig")]
-    partial class nymig
+    [Migration("20220124165231_newmig")]
+    partial class newmig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -203,6 +203,9 @@ namespace rpaapp.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("isDownloaded")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("isUploaded")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("uploaded")
