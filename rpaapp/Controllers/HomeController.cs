@@ -59,7 +59,8 @@ public class HomeController : Controller
         var fname = gd + ".pdf";
         var txt = await _context.Txts.Where(c => c.DocId == gd).FirstOrDefaultAsync();
         txt.isDownloaded = true;
-        var ftd = await _context.Documents.Where(c => c.fguid == gd).Where(c => c.fname == fname).FirstOrDefaultAsync();
+        //var ftd = await _context.Documents.Where(c => c.fguid == gd).FirstOrDefaultAsync();
+        //var fname = ftd.pdfname; 
         
         //_context.pdfs.Remove(ftd);
         await _context.SaveChangesAsync();

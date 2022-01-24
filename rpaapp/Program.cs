@@ -20,8 +20,8 @@ builder.Services.AddIdentity<Writer, IdentityRole<int>>(options =>  options.Stor
     .AddRoles<IdentityRole<int>>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultUI()
-    .AddDefaultTokenProviders();/* 
-builder.Services.AddIdentity<Writer, IdentityRole<int>>(options =>  options.Stores.MaxLengthForKeys = 128)
+    .AddDefaultTokenProviders();
+/* builder.Services.AddIdentity<Writer, IdentityRole<int>>(options =>  options.Stores.MaxLengthForKeys = 128)
     .AddRoles<IdentityRole<int>>()
     .AddEntityFrameworkStores<TwoContext>()
     .AddDefaultUI()
@@ -35,8 +35,8 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     try
     {
-        var context = services.GetRequiredService<ApplicationDbContext>();/* 
-        var twocontext = services.GetRequiredService<TwoContext>(); */
+        var context = services.GetRequiredService<ApplicationDbContext>();
+        //var twocontext = services.GetRequiredService<TwoContext>();
         context.Database.Migrate();
 
         var config = app.Services.GetRequiredService<IConfiguration>();
