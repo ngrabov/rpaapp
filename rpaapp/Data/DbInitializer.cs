@@ -83,19 +83,6 @@ namespace rpaapp.Data
             await context.SaveChangesAsync();
         }
 
-        /* public static async Task InitializeAsync(TwoContext context, IServiceProvider services, string Pw)
-        {
-            await context.Database.EnsureCreatedAsync();
-
-            if(context.Writers.Any()) { return; }
-
-            var roleAdmin = services.GetRequiredService<RoleManager<IdentityRole<int>>>();
-            await EnsureRoleAsync(roleAdmin, "Administrator");
-
-            var userAdmin = services.GetRequiredService<UserManager<Writer>>();
-            await EnsureAdminAsync(userAdmin, Pw);
-        } */
-
         private static async Task EnsureRoleAsync(RoleManager<IdentityRole<int>> roleManager, string role)
         {
             var alreadyExists = await roleManager.RoleExistsAsync(role);

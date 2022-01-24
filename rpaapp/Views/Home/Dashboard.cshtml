@@ -9,7 +9,7 @@
         <p>
             <input type="text" name="search" value="@ViewData["CurrentFilter"]" />
             <input type="submit" value="Search" class="btn btn-primary" style="background-color: #034791;" />
-            <a asp-action="Dashboard" class="btn btn-primary" style="background-color: #034791;">Back to List</a>
+            <a asp-action="Dashboard" class="btn btn-primary" style="background-color: #034791;">Discard</a>
         </p>
     </div>
 </form>
@@ -19,8 +19,7 @@
 
 <div class="tab">
     <button class="tablinks" onclick="openCity(event, 'All')" id="defaultOpen">All</button>
-@*     <button class="tablinks" onclick="openCity(event, 'Waiting')">Waiting</button>
- *@    <button class="tablinks" onclick="openCity(event, 'Ready')">Ready</button>
+    <button class="tablinks" onclick="openCity(event, 'Ready')">Ready</button>
     <button class="tablinks" onclick="openCity(event, 'Confirmed')">Confirmed</button>
     <button class="tablinks" onclick="openCity(event, 'Archived')">Archived</button>
 </div>
@@ -90,8 +89,6 @@
             }
         </tbody>
     </table>
-</div>
-<div id="Waiting" class="tabcontent">
 </div>
 <div id="Confirmed" class="tabcontent">
     <table class="table table-hover" style="margin-top: 10px;">  
