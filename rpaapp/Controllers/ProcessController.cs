@@ -7,13 +7,11 @@ namespace rpaapp.Controllers;
 
 public class ProcessController : Controller
 {
-    //private readonly ApplicationDbContext _context;
     private IProcessRepository repository;
 
-    public ProcessController(/* ApplicationDbContext context */IProcessRepository repository)
+    public ProcessController(IProcessRepository repository)
     {
         this.repository = repository;
-        //_context = context;
     }
 
     public IActionResult Create()

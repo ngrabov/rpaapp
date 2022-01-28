@@ -17,6 +17,7 @@ public class ApplicationDbContext : IdentityDbContext<Writer, IdentityRole<int>,
     public DbSet<Document> Documents { get; set; }
     public DbSet<Txt> Txts { get; set; }
     public DbSet<ProcessType> Processes { get; set; }
+    public DbSet<LayoutConfig> Layouts { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -26,6 +27,7 @@ public class ApplicationDbContext : IdentityDbContext<Writer, IdentityRole<int>,
         modelBuilder.Entity<Document>().ToTable("Documents");
         modelBuilder.Entity<Txt>().ToTable("Txts");
         modelBuilder.Entity<ProcessType>().ToTable("Processes");
+        modelBuilder.Entity<LayoutConfig>().ToTable("Layouts");
     }
         
 }

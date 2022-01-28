@@ -4,7 +4,7 @@ namespace rpaapp.Models
 {
     public enum Status
     {
-        Waiting, Ready, Confirmed, Archived
+        Waiting, Ready, Confirmed, Archived, Problem
     }
     public class Document 
     {
@@ -16,6 +16,7 @@ namespace rpaapp.Models
         public Status Status { get; set; }
 
         public string RAC_number { get; set; }
+        public string Description { get; set; }
 
         public string writername { get; set; }
         

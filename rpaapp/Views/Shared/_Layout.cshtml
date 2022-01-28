@@ -11,35 +11,7 @@
 </head>
 <body style="font-family: 'Raleway';">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #034791;">
-            <div class="container-fluid">
-                <a class="navbar-brand" style="color: white;" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/tokic.png" style="height: 28px; width:128px;" alt="myimg"></img></a>
-                <button class="navbar-toggler" style="border-color: white;" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link" style="color: white;" asp-area="" asp-controller="Pdfs" asp-action="Upload">Upload pdfs</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" style="color: white;" asp-area="" asp-controller="Home" asp-action="Repository">Repository</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" style="color: white;" asp-area="" asp-controller="Home" asp-action="Upload">Upload files</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" style="color: white;" asp-area="" asp-controller="Home" asp-action="Dashboard">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" style="color: white;" asp-area="" asp-controller="Process" asp-action="Create">Create process</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
-        </nav>
+        @await Component.InvokeAsync("PL")
     </header>
     <div class="container">
         <main role="main" class="pb-3">

@@ -12,6 +12,13 @@ namespace rpaapp.Data
 
             if(context.Writers.Any()) { return; }
 
+            var lyts = new List<LayoutConfig> { new LayoutConfig{Id = 1, Color = "#034791", isVisible = true}};
+
+            foreach(var it in lyts)
+            {
+                await context.Layouts.AddAsync(it);
+            }
+
             var plist = new List<ProcessType> {
             new ProcessType{ id = 1, name = "IT"},
             new ProcessType{ id = 2, name = "HR"},

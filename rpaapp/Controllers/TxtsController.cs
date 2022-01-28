@@ -21,6 +21,16 @@ namespace rpaapp.Controllers
 
             var txt = await _context.Txts.FirstOrDefaultAsync(c => c.DocId == id);
 
+            var lyt = await _context.Layouts.FirstOrDefaultAsync(c => c.Id == 1);
+            if(lyt.isVisible == true)
+            {
+                ViewData["visible"] = "true";
+            }
+            else
+            {
+                ViewData["visible"] = "false";
+            }
+
             if(txt == null) return NotFound();
             populateProcess();
 

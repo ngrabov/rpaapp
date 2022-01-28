@@ -29,7 +29,6 @@ namespace rpaapp.Models
         public double Bruto { get; set; }
         public double Neto { get; set; }
         public string ReferenceNumber { get; set; }
-        //public ProcessType ProcessType { get; set; }
         public int? ProcessTypeId { get; set; }
         #nullable enable
         private ProcessType? _ProcessType;

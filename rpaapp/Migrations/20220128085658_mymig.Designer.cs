@@ -11,8 +11,8 @@ using rpaapp.Data;
 namespace rpaapp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220124165231_newmig")]
-    partial class newmig
+    [Migration("20220128085658_mymig")]
+    partial class mymig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -155,6 +155,9 @@ namespace rpaapp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("RAC_number")
                         .HasColumnType("TEXT");
 
@@ -182,6 +185,23 @@ namespace rpaapp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Documents", (string)null);
+                });
+
+            modelBuilder.Entity("rpaapp.Models.LayoutConfig", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Color")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("isVisible")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Layouts", (string)null);
                 });
 
             modelBuilder.Entity("rpaapp.Models.Pdf", b =>

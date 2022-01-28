@@ -153,6 +153,9 @@ namespace rpaapp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("RAC_number")
                         .HasColumnType("TEXT");
 
@@ -180,6 +183,23 @@ namespace rpaapp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Documents", (string)null);
+                });
+
+            modelBuilder.Entity("rpaapp.Models.LayoutConfig", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Color")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("isVisible")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Layouts", (string)null);
                 });
 
             modelBuilder.Entity("rpaapp.Models.Pdf", b =>

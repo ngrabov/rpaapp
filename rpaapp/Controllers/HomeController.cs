@@ -20,9 +20,9 @@ public class HomeController : Controller
         _environment = environment;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index(string order, string search)
     {
-        return View();
+        return await Dashboard(order, search);
     }
     
     //[Authorize(Roles = "Administrator")]
@@ -123,7 +123,7 @@ public class HomeController : Controller
 
         if(!String.IsNullOrEmpty(search))
         {
-            docs = docs.Where(c => c.pdfname.Contains(search)).ToList();
+            docs = docs.Where(c => c.pdfname.Contains(search) || ((c.RAC_number != null) && (c.RAC_number.Contains(search)))).ToList();
         }
 
         if(order == "name_desc")
@@ -160,16 +160,6 @@ public class HomeController : Controller
         }
 
         return View(docs);
-    }
-    
-    public async Task<IActionResult> Details(Guid? id) //izbrisi kasnije
-    {
-        if(id == null) return NotFound();
-
-        var folder = await _context.Documents.Where(c => c.fguid == id).ToListAsync();
-        if(folder == null) return NotFound();
-
-        return View(folder);
     }
 
     [Route("Upload")]

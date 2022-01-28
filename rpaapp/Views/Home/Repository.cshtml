@@ -18,7 +18,7 @@
                 var mb = @item.fsize / 1000000.0;
                 <tr>
                     <td class="hide">@item.Id</td>
-                    <td>@Html.ActionLink(item.fname, "DownloadFile", new { gd = @item.guid})</td>
+                    <td>@item.fname</td>
                     <td class="hide">@Math.Round(mb, 2) MB</td>
                     <td>@item.Writer.FirstName @item.Writer.LastName</td>
                     <td class="hide">@item.uploaded.ToString("dd.MM.yyyy. H:mm:ss")</td>
