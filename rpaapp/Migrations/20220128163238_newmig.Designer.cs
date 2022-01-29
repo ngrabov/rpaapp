@@ -11,8 +11,8 @@ using rpaapp.Data;
 namespace rpaapp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220128085658_mymig")]
-    partial class mymig
+    [Migration("20220128163238_newmig")]
+    partial class newmig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -198,6 +198,9 @@ namespace rpaapp.Migrations
 
                     b.Property<bool>("isVisible")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("pngname")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 

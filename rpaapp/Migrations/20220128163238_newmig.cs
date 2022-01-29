@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace rpaapp.Migrations
 {
-    public partial class mymig : Migration
+    public partial class newmig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -52,6 +52,7 @@ namespace rpaapp.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Color = table.Column<string>(type: "TEXT", nullable: true),
+                    pngname = table.Column<string>(type: "TEXT", nullable: true),
                     isVisible = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>

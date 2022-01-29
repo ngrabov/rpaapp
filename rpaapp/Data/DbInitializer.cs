@@ -12,7 +12,7 @@ namespace rpaapp.Data
 
             if(context.Writers.Any()) { return; }
 
-            var lyts = new List<LayoutConfig> { new LayoutConfig{Id = 1, Color = "#034791", isVisible = true}};
+            var lyts = new List<LayoutConfig> { new LayoutConfig{Id = 1, Color = "#034791", isVisible = true, pngname = "tokic.png"}};
 
             foreach(var it in lyts)
             {

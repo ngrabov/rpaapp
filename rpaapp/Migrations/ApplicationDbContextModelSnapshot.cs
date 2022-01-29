@@ -197,6 +197,9 @@ namespace rpaapp.Migrations
                     b.Property<bool>("isVisible")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("pngname")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.ToTable("Layouts", (string)null);

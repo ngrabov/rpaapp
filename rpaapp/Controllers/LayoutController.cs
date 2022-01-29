@@ -27,7 +27,7 @@ public class LayoutController : Controller
 
         if(lyt != null)
         {
-            if(await TryUpdateModelAsync<LayoutConfig> (lyt, "", s => s.isVisible, s => s.Color))
+            if(await TryUpdateModelAsync<LayoutConfig> (lyt, "", s => s.isVisible, s => s.Color, s => s.pngname))
             {
                 try
                 {

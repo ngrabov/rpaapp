@@ -11,6 +11,9 @@
         <input asp-for="isVisible" type="radio" id="hidden" value="false">
         <label asp-for="isVisible">Hidden</label>
         <div class="form-group" style="padding-top: 20px;">
+            <input type="text" asp-for="pngname" value="@Model.pngname" />
+        </div>
+        <div class="form-group" style="padding-top: 20px;">
             <input type="text" asp-for="Color" value="@Model.Color" />
         </div>
         <div class="form-group" style="padding-top: 20px;">
