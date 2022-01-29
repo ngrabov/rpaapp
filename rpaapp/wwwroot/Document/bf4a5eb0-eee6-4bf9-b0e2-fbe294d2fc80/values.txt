@@ -1,0 +1,18 @@
+﻿VAT_number:
+39135989747
+Name:
+ZUBAK GRUPA d.o.o.
+Currency:
+EUR
+Group:
+DOM
+Invoice_number:
+277/11333/4
+Invoice_date:
+11.02.2020
+Invoice_duedate:
+12.03.2020
+Neto:
+1797.30
+Bruto:
+1996.60

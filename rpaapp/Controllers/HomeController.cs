@@ -329,21 +329,45 @@ public class HomeController : Controller
                         }
                         if(line == "Invoice_date:")
                         {
-                            text.InvoiceDate = DateTime.Parse(sr.ReadLine(), CultureInfo.CreateSpecificCulture("fr-FR"));
+                            var dat = sr.ReadLine();
+                            if(DateTime.TryParse(dat, out DateTime res))
+                            {
+                                text.InvoiceDate = DateTime.Parse(dat, CultureInfo.CreateSpecificCulture("fr-FR"));
+                            }
+                            else
+                            {
+                                var ts = DateTime.Now;
+                                text.InvoiceDate = ts;
+                            }
                         }
                         if(line == "Invoice_duedate:")
                         {
-                            text.InvoiceDueDate = DateTime.Parse(sr.ReadLine(), CultureInfo.CreateSpecificCulture("fr-FR"));
+                            var dt = sr.ReadLine();
+                            if(DateTime.TryParse(dt, out DateTime res))
+                            {
+                                text.InvoiceDueDate = DateTime.Parse(dt, CultureInfo.CreateSpecificCulture("fr-FR"));
+                            }
+                            else
+                            {
+                                var tst = DateTime.Now;
+                                text.InvoiceDueDate = tst;
+                            }
                         }
                         if(line == "Neto:")
                         {
                             var cvt = sr.ReadLine().Replace(',','.');
-                            text.Neto = double.Parse(cvt);
+                            if(double.TryParse(cvt, out double res))
+                            {
+                                text.Neto = double.Parse(cvt);
+                            }
                         }
                         if(line == "Bruto:")
                         {
                             var cvt2 = sr.ReadLine().Replace(',','.');
-                            text.Bruto = double.Parse(cvt2);
+                            if(double.TryParse(cvt2, out double res2))
+                            {
+                                text.Bruto = double.Parse(cvt2);
+                            }
                         }
                         if(line == "Reference_number:")
                         {
@@ -361,4 +385,19 @@ public class HomeController : Controller
 
         await _context.SaveChangesAsync();
     }
+
+    /* public async Task<IActionResult> Delete(Guid? gd)
+    {
+        if(gd == null) return NotFound();
+        var files = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
+        if(files == null) return NotFound();
+        return View(files);
+    }
+
+    [HttpPost]
+    [ActionName("Delete")]
+    public async Task<IActionResult> DeleteConfirmed(Guid? gd)
+    {
+
+    } */
 }
