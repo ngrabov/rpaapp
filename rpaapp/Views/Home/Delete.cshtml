@@ -1,0 +1,32 @@
+@model rpaapp.Models.Document
+
+@{
+    ViewData["Title"] = "Delete files";
+}
+
+<p>Are you sure you want to delete this file?</p>
+
+<div style="padding-top: 20px;">
+    <table class="table table-hover">
+        <thead>
+            <th>Name</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.fguid</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<form asp-action="DeleteConfirmed" asp-route-gd="@Model.fguid">
+    <div class="form-actions no-color">
+        <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete these files?')" /> 
+        <a asp-controller="Txts" asp-action="Details" asp-route-id="@Model.fguid" class="btn btn-primary">Back</a>
+    </div>
+</form>
+@* 
+<div class="form-actions no-color">
+    <a class="btn btn-danger" asp-controller="Home" asp-action="DeleteConfirmed" asp-route-gd="@Model.fguid" onclick="return confirm('Are you sure you want to delete these files?')">Delete</a>
+    <a class="btn btn-primary" asp-action="Index">Back</a>
+</div> *@

@@ -210,6 +210,19 @@ public class HomeController : Controller
         return Ok();
     }
 
+    public async Task<IActionResult> ReportProblem(Guid gd, string rac, string desc)
+    {
+        var docs = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
+        foreach(var item in docs)
+        {
+            item.Status = Status.Problem;
+            item.RAC_number = rac;
+            item.Description = desc;
+        }
+        await _context.SaveChangesAsync();
+        return Ok();
+    }
+
     [Route("GetRac")]
     public async Task<IActionResult> GetRac(Guid gd)
     {
@@ -386,18 +399,23 @@ public class HomeController : Controller
         await _context.SaveChangesAsync();
     }
 
-    /* public async Task<IActionResult> Delete(Guid? gd)
+    public async Task<IActionResult> Delete(Guid? gd)
     {
         if(gd == null) return NotFound();
-        var files = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
+        var files = await _context.Documents.Where(c => c.fguid == gd).FirstOrDefaultAsync();
         if(files == null) return NotFound();
         return View(files);
     }
 
     [HttpPost]
-    [ActionName("Delete")]
-    public async Task<IActionResult> DeleteConfirmed(Guid? gd)
+    public async Task<IActionResult> DeleteConfirmed(Guid gd)
     {
-
-    } */
+        var files = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
+        foreach(var item in files)
+        {
+            _context.Documents.Remove(item);
+        }
+        await _context.SaveChangesAsync();
+        return RedirectToAction("Dashboard", "Home");
+    }
 }

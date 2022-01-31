@@ -22,6 +22,7 @@
     <button class="tablinks" onclick="openCity(event, 'Ready')">Ready</button>
     <button class="tablinks" onclick="openCity(event, 'Confirmed')">Confirmed</button>
     <button class="tablinks" onclick="openCity(event, 'Archived')">Archived</button>
+    <button class="tablinks" onclick="openCity(event, 'Problem')">Problematic</button>
 </div>
 
 <div id="All" class="tabcontent">
@@ -153,6 +154,50 @@
                     <td class="hide">@item.uploaded.ToString("dd.MM.yyyy. H:mm:ss")</td>
                     <td class="hide">@item.Status</td>
                     <td>@item.RAC_number</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div id="Problem" class="tabcontent">
+    <table class="table table-hover" style="margin-top: 10px;">  
+        <thead>
+            <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["SortParm"]" style="text-decoration: none; color: black;"><b>Name</b></a></th>
+            <th class="headerSortDown hide"><a asp-action="Dashboard" asp-route-order="@ViewData["SizeParm"]" style="text-decoration: none; color: black;">Size</a></th>
+            <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["UpldParm"]" style="text-decoration: none; color: black;">Uploaded by</a></th>
+            <th class="headerSortDown hide"><a asp-action="Dashboard" asp-route-order="@ViewData["TimeParm"]" style="text-decoration: none; color: black;">Upload time</a></th>
+            <th class="hide"><a style="text-decoration: none; color: black;">Status</a></th>
+            <th><a style="text-decoration: none; color: black;">RAC</a></th>
+            <th>Description</th>
+        </thead> 
+        <tbody>
+            @foreach (var item in Model.Where(c => c.Status == Status.Problem))
+            {
+                var mb = @item.fsize / 1000000.0;
+                <tr>
+                    <td>
+                        <a asp-action="Details" asp-controller="Txts" asp-route-id="@item.fguid" style="text-decoration: none;">@item.pdfname</a>
+                    </td>
+                    <td class="hide">@Math.Round(mb, 2) MB</td>
+                    @if(item.writername != null)
+                    {
+                        <td>@item.writername</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    <td class="hide">@item.uploaded.ToString("dd.MM.yyyy. H:mm:ss")</td>
+                    <td class="hide">@item.Status</td>
+                    <td>@item.RAC_number</td>
+                    @if(item.Description.Length > 20)
+                    {
+                        <td>@item.Description.Substring(0, 20) ...</td>
+                    }
+                    else
+                    {
+                        <td>@item.Description</td>
+                    }
                 </tr>
             }
         </tbody>
