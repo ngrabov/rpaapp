@@ -4,7 +4,7 @@ namespace rpaapp.Models
 {
     public enum Status
     {
-        Waiting, Ready, Confirmed, Archived, Problem
+        Waiting, Ready, Confirmed, Archived, Problem, Resolved
     }
     public class Document 
     {

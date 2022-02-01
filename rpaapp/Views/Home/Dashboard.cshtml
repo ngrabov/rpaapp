@@ -169,9 +169,10 @@
             <th class="hide"><a style="text-decoration: none; color: black;">Status</a></th>
             <th><a style="text-decoration: none; color: black;">RAC</a></th>
             <th>Description</th>
+            <th>Action</th>
         </thead> 
         <tbody>
-            @foreach (var item in Model.Where(c => c.Status == Status.Problem))
+            @foreach (var item in Model.Where(c => c.Status == Status.Problem || c.Status == Status.Resolved))
             {
                 var mb = @item.fsize / 1000000.0;
                 <tr>
@@ -190,13 +191,30 @@
                     <td class="hide">@item.uploaded.ToString("dd.MM.yyyy. H:mm:ss")</td>
                     <td class="hide">@item.Status</td>
                     <td>@item.RAC_number</td>
-                    @if(item.Description.Length > 20)
+                    @if(item.Description != null)
                     {
-                        <td>@item.Description.Substring(0, 20) ...</td>
+                        @if(item.Description.Length > 20)
+                        {
+                            <td>@item.Description.Substring(0, 20) ...</td>
+                        }
+                        else
+                        {
+                            <td>@item.Description</td>
+                        }
                     }
                     else
                     {
-                        <td>@item.Description</td>
+                        <td></td>
+                    }
+                    @if(item.Status == Status.Problem)
+                    {
+                    <td><a asp-controller="Home" asp-action="Resolve" asp-route-gd="@item.fguid" style="width: 18px; height: 18px;"><i class="fa fa-check-square" style="font-size:18px;color:green; padding-left: 10px;"></i></a>
+                    <a asp-controller="Home" asp-action="Cancel" asp-route-gd="@item.fguid" style="width: 100%; height: 100%;"><i class="fa fa-close" style="font-size:18px;color:red; padding-left: 10px;"></i></a></td>
+                    }
+                    else
+                    {
+                        <td><i class="fa fa-check-square" style="font-size:18px;color:grey; padding-left: 10px;"></i>
+                       <i class="fa fa-close" style="font-size:18px;color:grey; padding-left: 10px;"></i></td>
                     }
                 </tr>
             }

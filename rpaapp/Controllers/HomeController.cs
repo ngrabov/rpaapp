@@ -210,14 +210,24 @@ public class HomeController : Controller
         return Ok();
     }
 
+    [Route("ReportProblem")]
+    [HttpPost]
     public async Task<IActionResult> ReportProblem(Guid gd, string rac, string desc)
     {
         var docs = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
+        var txt = await _context.Txts.FirstOrDefaultAsync(c => c.DocId == gd); //cleanup
+        txt.isDownloaded = true;
         foreach(var item in docs)
         {
             item.Status = Status.Problem;
-            item.RAC_number = rac;
-            item.Description = desc;
+            if(!String.IsNullOrEmpty(rac))
+            {
+                item.RAC_number = rac;
+            }
+            if(!String.IsNullOrEmpty(desc))
+            {
+                item.Description = desc;
+            }
         }
         await _context.SaveChangesAsync();
         return Ok();
@@ -343,7 +353,7 @@ public class HomeController : Controller
                         if(line == "Invoice_date:")
                         {
                             var dat = sr.ReadLine();
-                            if(DateTime.TryParse(dat, out DateTime res))
+                            if(DateTime.TryParse(dat, CultureInfo.CreateSpecificCulture("fr-FR"), DateTimeStyles.None,  out DateTime res))
                             {
                                 text.InvoiceDate = DateTime.Parse(dat, CultureInfo.CreateSpecificCulture("fr-FR"));
                             }
@@ -356,7 +366,7 @@ public class HomeController : Controller
                         if(line == "Invoice_duedate:")
                         {
                             var dt = sr.ReadLine();
-                            if(DateTime.TryParse(dt, out DateTime res))
+                            if(DateTime.TryParse(dt, CultureInfo.CreateSpecificCulture("fr-FR"), DateTimeStyles.None,  out DateTime res))
                             {
                                 text.InvoiceDueDate = DateTime.Parse(dt, CultureInfo.CreateSpecificCulture("fr-FR"));
                             }
@@ -417,5 +427,37 @@ public class HomeController : Controller
         }
         await _context.SaveChangesAsync();
         return RedirectToAction("Dashboard", "Home");
+    }
+
+    public async Task<IActionResult> Cancel(Guid? gd)
+    {
+        if(gd == null) return NotFound();
+
+        var docs = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
+
+        foreach(var doc in docs)
+        {
+            doc.Status = Status.Confirmed;
+            var txt = await _context.Txts.FirstOrDefaultAsync(c => c.DocId == gd);
+            txt.isDownloaded = false;
+        }
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    public async Task<IActionResult> Resolve(Guid? gd)
+    {
+        if(gd == null) return NotFound();
+
+        var docs = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
+
+        foreach(var doc in docs)
+        {
+            doc.Status = Status.Resolved;
+        }
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Index));
     }
 }
