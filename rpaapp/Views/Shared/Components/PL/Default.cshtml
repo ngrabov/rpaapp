@@ -1,5 +1,11 @@
 @model rpaapp.Models.LayoutConfig
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Writer> SignInManager
+@inject UserManager<Writer> UserManager
 
+@{
+    var currentuser = await UserManager.GetUserAsync(User);
+}
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: @Model.Color;">
     <div class="container-fluid">
         <a class="navbar-brand" style="color: white;" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/@Model.pngname" style="height: 28px; width:128px;" alt="myimg"></img></a>
@@ -9,26 +15,30 @@
         </button>
         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
             <ul class="navbar-nav flex-grow-1">
-                <li class="nav-item">
-                    <a class="nav-link" style="color: white;" asp-area="" asp-controller="Pdfs" asp-action="Upload">Upload pdfs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" style="color: white;" asp-area="" asp-controller="Home" asp-action="Repository">Repository</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" style="color: white;" asp-area="" asp-controller="Home" asp-action="Upload">Upload files</a>
-                </li>
-                @* 
-                <li class="nav-item">
-                    <a class="nav-link" style="color: white;" asp-area="" asp-controller="Home" asp-action="Dashboard">Dashboard</a>
-                </li> *@
-                @* 
-                <li class="nav-item">
-                    <a class="nav-link" style="color: white;" asp-area="" asp-controller="Process" asp-action="Create">Create process</a>
-                </li> *@
-                <li class="nav-item">
-                    <a class="nav-link" style="color: white;" asp-area="" asp-controller="Layout" asp-action="Details">Control panel</a>
-                </li>
+                @if(SignInManager.IsSignedIn(User) && currentuser!= null  &&  ((await UserManager.IsInRoleAsync(currentuser, "Manager")) || (await UserManager.IsInRoleAsync(currentuser, "Administrator"))))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" style="color: white;" asp-area="" asp-controller="Pdfs" asp-action="Upload">Upload pdfs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" style="color: white;" asp-area="" asp-controller="Home" asp-action="Repository">Repository</a>
+                    </li>
+                }
+                @if(SignInManager.IsSignedIn(User) && currentuser!= null &&  (await UserManager.IsInRoleAsync(currentuser, "Administrator")))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" style="color: white;" asp-area="" asp-controller="Home" asp-action="Upload">Upload files</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" style="color: white;" asp-area="" asp-controller="Writers" asp-action="Index">Writers</a>
+                    </li> 
+                    <li class="nav-item">
+                        <a class="nav-link" style="color: white;" asp-area="" asp-controller="Process" asp-action="Create">Process</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" style="color: white;" asp-area="" asp-controller="Layout" asp-action="Details">Control panel</a>
+                    </li>
+                }
             </ul>
             <partial name="_LoginPartial" />
         </div>

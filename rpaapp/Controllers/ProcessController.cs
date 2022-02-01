@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using rpaapp.Data;
 using rpaapp.Models;
 using rpaapp.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace rpaapp.Controllers;
 
@@ -14,11 +14,13 @@ public class ProcessController : Controller
         this.repository = repository;
     }
 
+    [Authorize(Roles = "Administrator,Manager")]
     public IActionResult Create()
     {
         return View();
     }
 
+    [Authorize(Roles = "Administrator,Manager")]
     [HttpPost]
     public async Task<IActionResult> Create([Bind("name")] ProcessType process)
     {

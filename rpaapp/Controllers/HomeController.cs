@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using rpaapp.Models;
 using rpaapp.Data;
 using System.Globalization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace rpaapp.Controllers;
 
@@ -11,28 +13,34 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly ApplicationDbContext _context;
+    private readonly UserManager<Writer> _userManager;
+    private readonly SignInManager<Writer> _signInManager;
     private IWebHostEnvironment _environment;
 
-    public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IWebHostEnvironment environment)
+    public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IWebHostEnvironment environment, SignInManager<Writer> signInManager, UserManager<Writer> userManager)
     {
         _context = context;
         _logger = logger;
         _environment = environment;
+        _userManager = userManager;
+        _signInManager = signInManager;
     }
 
+    [Authorize(Roles = "Administrator,Manager")]
     public async Task<IActionResult> Index(string order, string search)
     {
         return await Dashboard(order, search);
     }
     
-    //[Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator,Manager")]
     [Route("Repository")]
     public async Task<IActionResult> Repository()
     {
         var files = await _context.pdfs.Include(c => c.Writer).ToListAsync();
         return View(files);
     }
-
+    
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> DownloadFile(Guid gd) //pdfs
     {
         string path = Path.Combine(_environment.WebRootPath) + "/" + gd;
@@ -49,7 +57,7 @@ public class HomeController : Controller
         System.IO.File.Delete(path);
         return File(bytes, "application/octet-stream", dname);
     }
-
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> DownloadFiles(Guid gd) //documents
     {
         string path = Path.Combine(_environment.WebRootPath) + "/Document/" + gd + "/" + gd + ".pdf";
@@ -68,7 +76,7 @@ public class HomeController : Controller
         return File(bytes, "application/octet-stream", fname);
     }
 
-    //[Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator,Manager")]
     [Route("Dashboard")]
     public async Task<IActionResult> Dashboard(string order, string search)
     {
@@ -162,14 +170,16 @@ public class HomeController : Controller
         return View(docs);
     }
 
-    [Route("Upload")]
+    [Authorize(Roles = "Administrator")]
+    [Route("Upload")] //files, get, web
     public IActionResult Upload()
     {
         return View();
     }
 
-    [Route("Upload")] //Files
+    [Route("Upload")] //Files, web
     [HttpPost]
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> Upload(List<IFormFile> files)
     {
         await Complex(files);
@@ -177,7 +187,7 @@ public class HomeController : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    //[Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator")]
     [Route("UploadFiles")] //API endpoint
     [HttpPost]
     public async Task<IActionResult> UploadFiles()
@@ -190,6 +200,7 @@ public class HomeController : Controller
     }
 
     [Route("DmsMove")]
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> DmsMove()
     {
         var txts = await _context.Txts.Where(c => c.isReviewed == true).Where(c => c.isDownloaded == false).ToListAsync();
@@ -198,6 +209,7 @@ public class HomeController : Controller
 
     [Route("Archive")]
     [HttpPost]
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> ArchiveFile(Guid gd, string rac)
     {
         var docs = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
@@ -212,6 +224,7 @@ public class HomeController : Controller
 
     [Route("ReportProblem")]
     [HttpPost]
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> ReportProblem(Guid gd, string rac, string desc)
     {
         var docs = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
@@ -234,6 +247,7 @@ public class HomeController : Controller
     }
 
     [Route("GetRac")]
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> GetRac(Guid gd)
     {
         var rac = await _context.Documents.Where(c => c.Status == Status.Archived).Where(c => c.fguid == gd).FirstOrDefaultAsync();
@@ -409,6 +423,7 @@ public class HomeController : Controller
         await _context.SaveChangesAsync();
     }
 
+    [Authorize(Roles = "Administrator,Manager")]
     public async Task<IActionResult> Delete(Guid? gd)
     {
         if(gd == null) return NotFound();
@@ -418,6 +433,7 @@ public class HomeController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "Administrator,Manager")]
     public async Task<IActionResult> DeleteConfirmed(Guid gd)
     {
         var files = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
@@ -429,6 +445,7 @@ public class HomeController : Controller
         return RedirectToAction("Dashboard", "Home");
     }
 
+    [Authorize(Roles = "Administrator,Manager")]
     public async Task<IActionResult> Cancel(Guid? gd)
     {
         if(gd == null) return NotFound();
@@ -445,7 +462,7 @@ public class HomeController : Controller
 
         return RedirectToAction(nameof(Index));
     }
-
+    [Authorize(Roles = "Administrator,Manager")]
     public async Task<IActionResult> Resolve(Guid? gd)
     {
         if(gd == null) return NotFound();

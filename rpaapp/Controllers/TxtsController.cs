@@ -3,6 +3,7 @@ using rpaapp.Data;
 using rpaapp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace rpaapp.Controllers
 {
@@ -15,6 +16,7 @@ namespace rpaapp.Controllers
             _context = context;
         }
 
+        [Authorize(Roles = "Administrator,Manager")]
         public async Task<IActionResult> Details(Guid? id)
         {
             if(id == null) return NotFound();
@@ -38,6 +40,7 @@ namespace rpaapp.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator,Manager")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Resolve(int? id)
         {

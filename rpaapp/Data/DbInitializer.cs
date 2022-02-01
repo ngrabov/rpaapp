@@ -84,6 +84,9 @@ namespace rpaapp.Data
             var roleAdmin = services.GetRequiredService<RoleManager<IdentityRole<int>>>();
             await EnsureRoleAsync(roleAdmin, "Administrator");
 
+            var manager = services.GetRequiredService<RoleManager<IdentityRole<int>>>();
+            await EnsureRoleAsync(manager, "Manager");
+
             var userAdmin = services.GetRequiredService<UserManager<Writer>>();
             await EnsureAdminAsync(userAdmin, Pw);
 

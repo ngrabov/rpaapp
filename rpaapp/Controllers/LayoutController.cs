@@ -2,18 +2,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using rpaapp.Data;
 using rpaapp.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace rpaapp.Controllers;
 
 public class LayoutController : Controller 
 {
     private ApplicationDbContext _context;
+    private readonly SignInManager<Writer> _signInManager;
+    private readonly UserManager<Writer> _userManager;
 
-    public LayoutController(ApplicationDbContext context)
+    public LayoutController(ApplicationDbContext context, SignInManager<Writer> signInManager, UserManager<Writer> userManager)
     {
         _context = context;
+        _userManager = userManager;
+        _signInManager = signInManager;
     }
 
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> Details()
     {
         var layouts = await _context.Layouts.FirstOrDefaultAsync(c => c.Id == 1);
@@ -21,6 +28,7 @@ public class LayoutController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> Edit()
     {
         var lyt = await _context.Layouts.FirstOrDefaultAsync(c => c.Id == 1);

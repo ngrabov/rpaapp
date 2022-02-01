@@ -23,10 +23,24 @@
                     <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" name="email" class="form-control" maxlength="50" minlength="6" data-val="true" data-val-required="Email is required." /> 
+                    <span asp-validation-for="Email" data-valmsg-for="email" data-valmsg-replace="true" class="text-danger field-validation-valid"></span>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>                
+                    <input type="password" asp-route-id="pw" name="pw" maxlength="50" minlength="6" class="form-control" data-val="true" data-val-required="The password is required." /> 
+                    <span class="text-danger field-validation-valid" data-valmsg-for="pw" data-valmsg-replace="true"></span>
+                </div>
+                <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" />
                 </div>   
             </form>
         </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to list</a>
     </div>
 </div>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.1.min.js"></script>

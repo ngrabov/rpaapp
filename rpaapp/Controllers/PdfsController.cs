@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using rpaapp.Models;
 using rpaapp.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace rpaapp.Controllers;
 
@@ -18,12 +19,14 @@ public class PdfsController : Controller
         _signInManager = signInManager;
     }
 
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> Index()
     {
         var pdfs = await _context.pdfs.Where(c => c.isDownloaded == false).ToListAsync();
         return Json(pdfs);
     }
 
+    [Authorize(Roles = "Administrator")]
     [HttpPost] //API endpoint za PDFove
     public async Task<IActionResult> UploadFiles()
     {
@@ -33,11 +36,13 @@ public class PdfsController : Controller
         return Ok();
     }
 
+    [Authorize(Roles = "Administrator,Manager")]
     public IActionResult Upload() 
     {
         return View();
     }
 
+    [Authorize(Roles = "Administrator,Manager")]
     [HttpPost]
     public async Task<IActionResult> Upload(List<IFormFile> files)
     {

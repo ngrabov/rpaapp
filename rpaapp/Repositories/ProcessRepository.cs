@@ -1,15 +1,20 @@
 using rpaapp.Data;
 using rpaapp.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace rpaapp.Repositories;
 
 public class ProcessRepository : IProcessRepository
 {
     private ApplicationDbContext context;
+    private readonly UserManager<Writer> userManager;
+    private readonly SignInManager<Writer> signInManager;
 
-    public ProcessRepository(ApplicationDbContext context)
+    public ProcessRepository(ApplicationDbContext context, UserManager<Writer> userManager, SignInManager<Writer> signInManager)
     {
         this.context = context;
+        this.userManager = userManager;
+        this.signInManager = signInManager;
     }
 
     public async Task AddProcessAsync(ProcessType process)
