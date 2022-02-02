@@ -36,7 +36,7 @@ namespace rpaapp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Create([Bind("FirstName,LastName,Email")]Writer writer, string pw)
+        public async Task<IActionResult> Create([Bind("FirstName,LastName,Email")]Writer writer, string pw, bool admin)
         {
             try
             {
@@ -44,6 +44,10 @@ namespace rpaapp.Controllers
                 await _context.Writers.AddAsync(writer);
                 var result = await _userManager.CreateAsync(writer, pw);
                 await _userManager.AddToRoleAsync(writer, "Manager");
+                if(admin == true)
+                {
+                    await _userManager.AddToRoleAsync(writer, "Administrator");
+                }
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

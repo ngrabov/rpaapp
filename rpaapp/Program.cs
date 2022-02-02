@@ -3,8 +3,15 @@ using Microsoft.EntityFrameworkCore;
 using rpaapp.Data;
 using rpaapp.Models;
 using rpaapp.Repositories;
+using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+if (builder.Environment.IsProduction())
+{
+    builder.Configuration.AddAzureKeyVault(
+        new Uri($"https://{builder.Configuration["KeyVaultName"]}.vault.azure.net/"),
+        new DefaultAzureCredential());
+}
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -13,7 +20,11 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddScoped<IProcessRepository, ProcessRepository>();
 
-builder.Services.AddIdentity<Writer, IdentityRole<int>>(options =>  options.Stores.MaxLengthForKeys = 128)
+builder.Services.AddIdentity<Writer, IdentityRole<int>>(options =>  
+    {
+        options.Stores.MaxLengthForKeys = 128;
+        options.Password.RequireNonAlphanumeric = false;
+    })
     .AddRoles<IdentityRole<int>>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultUI()
