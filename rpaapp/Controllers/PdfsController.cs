@@ -32,6 +32,11 @@ public class PdfsController : Controller
     {
         var files = Request.Form.Files.ToList();
 
+        if(files.Count > 20)
+        {
+            return Json("You selected more than 20 files.");
+        }
+
         await Complex(files);
         return Ok();
     }
@@ -46,8 +51,12 @@ public class PdfsController : Controller
     [HttpPost]
     public async Task<IActionResult> Upload(List<IFormFile> files)
     {
-        await Complex(files);
+        if(files.Count > 20)
+        {
+            return Json("You selected more than 20 files.");
+        }
 
+        await Complex(files);
         return RedirectToAction("Repository", "Home");
     }
 
@@ -75,7 +84,11 @@ public class PdfsController : Controller
             pdf.isDownloaded = false;
             pdf.isUploaded = false;
             pdf.guid = gd;
-            await _context.pdfs.AddAsync(pdf);
+            string tr = file.FileName.Substring(file.FileName.Length - 3, 3);
+            if(tr.ToLower() == "pdf")
+            {
+                await _context.pdfs.AddAsync(pdf);
+            }
         }
 
         await _context.SaveChangesAsync();

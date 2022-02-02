@@ -182,6 +182,10 @@ public class HomeController : Controller
     [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> Upload(List<IFormFile> files)
     {
+        if(files.Count > 20)
+        {
+            return Json("You selected more than 20 files.");
+        }
         await Complex(files);
 
         return RedirectToAction("Index", "Home");
@@ -193,6 +197,10 @@ public class HomeController : Controller
     public async Task<IActionResult> UploadFiles()
     {
         var files = Request.Form.Files.ToList();
+        if(files.Count > 20)
+        {
+            return Json("You selected more than 20 files.");
+        }
 
         await Complex(files);
 
@@ -270,6 +278,7 @@ public class HomeController : Controller
     {
         string tgd = "";
         long sz = 0;
+        int c = 0, k = 0;
         Guid fn = Guid.Empty;
         string pngs = "";
         foreach(var file in files)
@@ -279,144 +288,152 @@ public class HomeController : Controller
             {
                 tgd = Path.GetFileNameWithoutExtension(file.FileName);
                 fn = Guid.Parse(tgd);
+                c++;
             }
             if(ext == ".png") //pazi
             {
                 pngs += Path.GetFileName(file.FileName) + "|";
             }
-        }
-
-        foreach(var file in files)
-        {
-            sz = file.Length;
-            Document doc = new Document();
-            string wbp = Path.GetFileName(file.FileName);
-            string ext = Path.GetExtension(file.FileName);
-            
-            var pdf = await _context.pdfs.Include(c => c.Writer).FirstOrDefaultAsync(c => c.guid == fn);
-
-            string fold = "./wwwroot/Document/" + tgd;
-            if (!Directory.Exists(fold))
-            {
-                Directory.CreateDirectory(fold);
-            }
-
-            using(var stream = System.IO.File.Create("./wwwroot/Document/" + tgd + "/" + wbp))
-            {
-                await file.CopyToAsync(stream);
-            }
-            
-            doc.writername = pdf.Writer.FullName;
-            pdf.isUploaded = true;
-            doc.fsize = sz;
-            doc.fname = wbp;
-            doc.pdfname = pdf.fname;
-            doc.uploaded = DateTime.Now;
-            doc.fguid = Guid.Parse(tgd);
-            doc.Status = Status.Ready;
-            await _context.Documents.AddAsync(doc);
-
             if(ext == ".txt")
             {
-                Txt text = new Txt();
-                using(StreamReader sr = new StreamReader("./wwwroot/Document/" + tgd + "/" + wbp))
+                k++;
+            }
+        }
+
+        if(c != 0 && k != 0)
+        {
+            foreach(var file in files)
+            {
+                sz = file.Length;
+                Document doc = new Document();
+                string wbp = Path.GetFileName(file.FileName);
+                string ext = Path.GetExtension(file.FileName);
+                
+                var pdf = await _context.pdfs.Include(c => c.Writer).FirstOrDefaultAsync(c => c.guid == fn);
+
+                string fold = "./wwwroot/Document/" + tgd;
+                if (!Directory.Exists(fold))
                 {
-                    string line;
-                    while((line = sr.ReadLine()) != null) //parser
+                    Directory.CreateDirectory(fold);
+                }
+
+                using(var stream = System.IO.File.Create("./wwwroot/Document/" + tgd + "/" + wbp))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                
+                doc.writername = pdf.Writer.FullName;
+                pdf.isUploaded = true;
+                doc.fsize = sz;
+                doc.fname = wbp;
+                doc.pdfname = pdf.fname;
+                doc.uploaded = DateTime.Now;
+                doc.fguid = Guid.Parse(tgd);
+                doc.Status = Status.Ready;
+                await _context.Documents.AddAsync(doc);
+
+                if(ext == ".txt")
+                {
+                    Txt text = new Txt();
+                    using(StreamReader sr = new StreamReader("./wwwroot/Document/" + tgd + "/" + wbp))
                     {
-                        if(line == "Name:")
+                        string line;
+                        while((line = sr.ReadLine()) != null) //parser
                         {
-                            text.Name = sr.ReadLine();
-                        }
-                        if(line == "VAT_number:")
-                        {
-                            text.VAT = sr.ReadLine();
-                        }
-                        if(line == "Process:")
-                        {
-                            text.ProcessTypeId = Int32.Parse(sr.ReadLine());
-                        }
-                        if(line == "Currency:")
-                        {
-                            text.Currency = sr.ReadLine();
-                        }
-                        if(line == "Group:")
-                        {
-                            text.Group = sr.ReadLine();
-                        }
-                        if(line == "State:")
-                        {
-                            text.State = sr.ReadLine();
-                        }
-                        if(line == "Billing_group:")
-                        {
-                            text.BillingGroup = sr.ReadLine();
-                        }
-                        if(line == "IBAN:")
-                        {
-                            text.IBAN = sr.ReadLine();
-                        }
-                        if(line == "VAT_obligation:")
-                        {
-                            text.VATobligation = sr.ReadLine();
-                        }
-                        if(line == "Invoice_number:")
-                        {
-                            text.InvoiceNumber = sr.ReadLine();
-                        }
-                        if(line == "Invoice_date:")
-                        {
-                            var dat = sr.ReadLine();
-                            if(DateTime.TryParse(dat, CultureInfo.CreateSpecificCulture("fr-FR"), DateTimeStyles.None,  out DateTime res))
+                            if(line == "Name:")
                             {
-                                text.InvoiceDate = DateTime.Parse(dat, CultureInfo.CreateSpecificCulture("fr-FR"));
+                                text.Name = sr.ReadLine();
                             }
-                            else
+                            if(line == "VAT_number:")
                             {
-                                var ts = DateTime.Now;
-                                text.InvoiceDate = ts;
+                                text.VAT = sr.ReadLine();
                             }
-                        }
-                        if(line == "Invoice_duedate:")
-                        {
-                            var dt = sr.ReadLine();
-                            if(DateTime.TryParse(dt, CultureInfo.CreateSpecificCulture("fr-FR"), DateTimeStyles.None,  out DateTime res))
+                            if(line == "Process:")
                             {
-                                text.InvoiceDueDate = DateTime.Parse(dt, CultureInfo.CreateSpecificCulture("fr-FR"));
+                                text.ProcessTypeId = Int32.Parse(sr.ReadLine());
                             }
-                            else
+                            if(line == "Currency:")
                             {
-                                var tst = DateTime.Now;
-                                text.InvoiceDueDate = tst;
+                                text.Currency = sr.ReadLine();
                             }
-                        }
-                        if(line == "Neto:")
-                        {
-                            var cvt = sr.ReadLine().Replace(',','.');
-                            if(double.TryParse(cvt, out double res))
+                            if(line == "Group:")
                             {
-                                text.Neto = double.Parse(cvt);
+                                text.Group = sr.ReadLine();
                             }
-                        }
-                        if(line == "Bruto:")
-                        {
-                            var cvt2 = sr.ReadLine().Replace(',','.');
-                            if(double.TryParse(cvt2, out double res2))
+                            if(line == "State:")
                             {
-                                text.Bruto = double.Parse(cvt2);
+                                text.State = sr.ReadLine();
                             }
-                        }
-                        if(line == "Reference_number:")
-                        {
-                            text.ReferenceNumber = sr.ReadLine();
+                            if(line == "Billing_group:")
+                            {
+                                text.BillingGroup = sr.ReadLine();
+                            }
+                            if(line == "IBAN:")
+                            {
+                                text.IBAN = sr.ReadLine();
+                            }
+                            if(line == "VAT_obligation:")
+                            {
+                                text.VATobligation = sr.ReadLine();
+                            }
+                            if(line == "Invoice_number:")
+                            {
+                                text.InvoiceNumber = sr.ReadLine();
+                            }
+                            if(line == "Invoice_date:")
+                            {
+                                var dat = sr.ReadLine();
+                                if(DateTime.TryParse(dat, CultureInfo.CreateSpecificCulture("fr-FR"), DateTimeStyles.None,  out DateTime res))
+                                {
+                                    text.InvoiceDate = DateTime.Parse(dat, CultureInfo.CreateSpecificCulture("fr-FR"));
+                                }
+                                else
+                                {
+                                    var ts = DateTime.Now;
+                                    text.InvoiceDate = ts;
+                                }
+                            }
+                            if(line == "Invoice_duedate:")
+                            {
+                                var dt = sr.ReadLine();
+                                if(DateTime.TryParse(dt, CultureInfo.CreateSpecificCulture("fr-FR"), DateTimeStyles.None,  out DateTime res))
+                                {
+                                    text.InvoiceDueDate = DateTime.Parse(dt, CultureInfo.CreateSpecificCulture("fr-FR"));
+                                }
+                                else
+                                {
+                                    var tst = DateTime.Now;
+                                    text.InvoiceDueDate = tst;
+                                }
+                            }
+                            if(line == "Neto:")
+                            {
+                                var cvt = sr.ReadLine().Replace(',','.');
+                                if(double.TryParse(cvt, out double res))
+                                {
+                                    text.Neto = double.Parse(cvt);
+                                }
+                            }
+                            if(line == "Bruto:")
+                            {
+                                var cvt2 = sr.ReadLine().Replace(',','.');
+                                if(double.TryParse(cvt2, out double res2))
+                                {
+                                    text.Bruto = double.Parse(cvt2);
+                                }
+                            }
+                            if(line == "Reference_number:")
+                            {
+                                text.ReferenceNumber = sr.ReadLine();
+                            }
                         }
                     }
+                    text.pngNames = pngs.Remove(pngs.Length - 1);
+                    text.DocId = Guid.Parse(tgd);
+                    text.isReviewed = false;
+                    text.isDownloaded = false;
+                    await _context.Txts.AddAsync(text);
                 }
-                text.pngNames = pngs.Remove(pngs.Length - 1);
-                text.DocId = Guid.Parse(tgd);
-                text.isReviewed = false;
-                text.isDownloaded = false;
-                await _context.Txts.AddAsync(text);
             }
         }
 
