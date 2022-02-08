@@ -24,6 +24,9 @@ builder.Services.AddIdentity<Writer, IdentityRole<int>>(options =>
     {
         options.Stores.MaxLengthForKeys = 128;
         options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireDigit = false;
     })
     .AddRoles<IdentityRole<int>>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
