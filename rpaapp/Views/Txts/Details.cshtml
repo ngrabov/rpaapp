@@ -16,32 +16,67 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group col-md-8">
                     <b><label asp-for="Name"></label></b>
-                    <input asp-for="Name" class="form-control" style="height: 25px;" required/>
+                    @if(Model.isReviewed)
+                    {
+                        <input asp-for="Name" class="form-control" style="height: 25px;" disabled required/>
+                    }
+                    else
+                    {
+                        <input asp-for="Name" class="form-control" style="height: 25px;" required/>
+                    }
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-8">
                     <b><label asp-for="Group" class="control-label"></label></b>
-                    <input asp-for="Group" class="form-control" style="height: 25px;" required/>
+                    @if(Model.isReviewed)
+                    {
+                        <input asp-for="Group" class="form-control" style="height: 25px;" disabled required/>
+                    }
+                    else
+                    {
+                        <input asp-for="Group" class="form-control" style="height: 25px;" required/>
+                    }
                     <span asp-validation-for="Group" class="text-danger"></span>
                 </div>
                 @if(vis == "true")
                 {
                     <div class="form-group col-md-8">
                         <b><label asp-for="State" class="control-label"></label></b>
+                        @if(Model.isReviewed)
+                        {
+                            <input asp-for="State" class="form-control" style="height: 25px;" disabled />
+                        }
+                        else 
+                        {
                         <input asp-for="State" class="form-control" style="height: 25px;" />
+                        }
                         <span asp-validation-for="State" class="text-danger"></span>
                     </div>
                 }
                 <div class="form-group col-md-8">
                     <b><label asp-for="VAT" class="control-label"></label></b>
-                    <input asp-for="VAT" class="form-control" style="height: 25px;" required/>
+                        @if(Model.isReviewed)
+                        {
+                            <input asp-for="VAT" class="form-control" style="height: 25px;" disabled required/>
+                        }
+                        else
+                        {
+                            <input asp-for="VAT" class="form-control" style="height: 25px;" required/>
+                        }
                     <span asp-validation-for="VAT" class="text-danger"></span>
                 </div>
                 @if(vis == "true")
                 {
                     <div class="form-group col-md-8">
                         <b><label asp-for="BillingGroup" class="control-label"></label></b>
-                        <input asp-for="BillingGroup" class="form-control" style="height: 25px;" />
+                        @if(Model.isReviewed)
+                        {
+                            <input asp-for="BillingGroup" class="form-control" style="height: 25px;" disabled />
+                        }
+                        else 
+                        {
+                            <input asp-for="BillingGroup" class="form-control" style="height: 25px;" />
+                        }
                         <span asp-validation-for="BillingGroup" class="text-danger"></span>
                     </div>
                 }
@@ -49,7 +84,14 @@
                 {
                 <div class="form-group col-md-8">
                     <b><label asp-for="IBAN" class="control-label"></label></b>
-                    <input asp-for="IBAN" class="form-control" style="height: 25px;" />
+                    @if(Model.isReviewed)
+                    {
+                        <input asp-for="IBAN" class="form-control" style="height: 25px;" disabled />
+                    }
+                    else 
+                    {
+                        <input asp-for="IBAN" class="form-control" style="height: 25px;" />
+                    }
                     <span asp-validation-for="IBAN" class="text-danger"></span>
                 </div>
                 }
@@ -57,53 +99,118 @@
                 {
                 <div class="form-group col-md-8">
                     <b><label asp-for="VATobligation" class="control-label"></label></b>
-                    <input asp-for="VATobligation" class="form-control" style="height: 25px;" />
+                    @if(Model.isReviewed)
+                    {
+                        <input asp-for="VATobligation" class="form-control" style="height: 25px;" disabled />
+                    }
+                    else 
+                    {
+                        <input asp-for="VATobligation" class="form-control" style="height: 25px;" />
+                    }
                     <span asp-validation-for="VATobligation" class="text-danger"></span>
                 </div>
                 }
                 <div class="form-group col-md-8">
                     <b><label asp-for="InvoiceNumber" class="control-label"></label></b>
-                    <input asp-for="InvoiceNumber" class="form-control" style="height: 25px;" required/>
+                    @if(Model.isReviewed)
+                    {
+                        <input asp-for="InvoiceNumber" class="form-control" style="height: 25px;" disabled required/>
+                    }
+                    else 
+                    {
+                        <input asp-for="InvoiceNumber" class="form-control" style="height: 25px;" required/>
+                    }
                     <span asp-validation-for="InvoiceNumber" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-8">
                     <b><label asp-for="InvoiceDate" class="control-label"></label></b>
-                    <input asp-for="InvoiceDate" class="form-control" style="height: 25px;" required/>
+                    @if(Model.isReviewed)
+                    {
+                        <input asp-for="InvoiceDate" class="form-control" style="height: 25px;" disabled required/>
+                    }
+                    else 
+                    {
+                        <input asp-for="InvoiceDate" class="form-control" style="height: 25px;" required/>
+                    }
                     <span asp-validation-for="InvoiceDate" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-8">
                     <b><label asp-for="InvoiceDueDate" class="control-label"></label></b>
-                    <input asp-for="InvoiceDueDate" class="form-control" style="height: 25px;" required/>
+                    @if(Model.isReviewed)
+                    {
+                        <input asp-for="InvoiceDueDate" class="form-control" style="height: 25px;" disabled required/>
+                    }
+                    else 
+                    {
+                        <input asp-for="InvoiceDueDate" class="form-control" style="height: 25px;" required/>
+                    }
                     <span asp-validation-for="InvoiceDueDate" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-8">
                     <b><label asp-for="Neto" class="control-label"></label></b>
-                    <input asp-for="Neto" class="form-control" style="height: 25px;" required/>
+                    @if(Model.isReviewed)
+                    {
+                        <input asp-for="Neto" class="form-control" style="height: 25px;" disabled required/>
+                    }
+                    else 
+                    {
+                        <input asp-for="Neto" class="form-control" style="height: 25px;" required/>
+                    }
                     <span asp-validation-for="Neto" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-8">
                     <b><label asp-for="Currency" class="control-label"></label></b>
-                    <input asp-for="Currency" class="form-control" style="height: 25px;" required/>
+                    @if(Model.isReviewed)
+                    {
+                        <input asp-for="Currency" class="form-control" style="height: 25px;" disabled required/>
+                    }
+                    else 
+                    {
+                        <input asp-for="Currency" class="form-control" style="height: 25px;" required/>
+                    }
                     <span asp-validation-for="Currency" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-8">
                     <b><label asp-for="Bruto" class="control-label"></label></b>
-                    <input asp-for="Bruto" class="form-control" style="height: 25px;" required/>
+                    @if(Model.isReviewed)
+                    {
+                        <input asp-for="Bruto" class="form-control" style="height: 25px;" disabled required/>
+                    }
+                    else 
+                    {
+                        <input asp-for="Bruto" class="form-control" style="height: 25px;" required/>
+                    }
                     <span asp-validation-for="Bruto" class="text-danger"></span>
                 </div>
                 @if(vis == "true")
                 {
                 <div class="form-group col-md-8">
                     <b><label asp-for="ReferenceNumber" class="control-label"></label></b>
-                    <input asp-for="ReferenceNumber" class="form-control" style="height: 25px;" required/>
+                    @if(Model.isReviewed)
+                    {
+                        <input asp-for="ReferenceNumber" class="form-control" style="height: 25px;" disabled required/>
+                    }
+                    else 
+                    {
+                        <input asp-for="ReferenceNumber" class="form-control" style="height: 25px;" required/>
+                    }
                     <span asp-validation-for="ReferenceNumber" class="text-danger"></span>
                 </div>
                 }
                 <div class="form-group col-md-8">
                     <b><label asp-for="ProcessType" class="control-label"></label></b>
-                    <select asp-for="ProcessTypeId" class="form-control" asp-items="@ViewBag.teams" required>
-                        <option value="">--Select process--</option>
-                    </select>
+                    @if(Model.isReviewed)
+                    {
+                        <select asp-for="ProcessTypeId" class="form-control" asp-items="@ViewBag.teams" disabled required>
+                            <option value="">--Select process--</option>
+                        </select>
+                    }
+                    else 
+                    {
+                        <select asp-for="ProcessTypeId" class="form-control" asp-items="@ViewBag.teams" required>
+                            <option value="">--Select process--</option>
+                        </select>
+                    }
                     <span asp-validation-for="ProcessTypeId" class="text-danger"></span>
                 </div>  
                 <div class="form-group" style="padding-top: 20px;">
@@ -115,16 +222,19 @@
         <div class="col-md-8">
             <div class="row">
                 @{int c = 1;}
-                @foreach (var item in Model.pngNames.Split('|'))
+                @if(Model.pngNames != null)
                 {
-                    <img id="myImg" class="mimg" style="width: 100%; height: auto;" src="~/Document/@temp/@item">
+                    @foreach (var item in Model.pngNames.Split('|'))
+                    {
+                        <img id="myImg" class="mimg" style="width: 100%; height: auto;" src="~/Document/@temp/@item">
 
-                    <div id="myModal" class="modal">
-                        <span class="close">&times;</span>
-                        <img class="modal-content" id="img01">
-                        <div id="caption"></div>
-                    </div>
-                    c++;
+                        <div id="myModal" class="modal">
+                            <span class="close">&times;</span>
+                            <img class="modal-content" id="img01">
+                            <div id="caption"></div>
+                        </div>
+                        c++;
+                    }
                 }
             </div>
         </div>

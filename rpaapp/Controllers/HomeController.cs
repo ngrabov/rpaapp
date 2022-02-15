@@ -71,7 +71,6 @@ public class HomeController : Controller
         txt.isDownloaded = true;
         
         await _context.SaveChangesAsync();
-        //System.IO.File.Delete(path);
         return File(bytes, "application/octet-stream", dname);
     }
 
@@ -441,13 +440,16 @@ public class HomeController : Controller
                                     text.Bruto = double.Parse(cvt2);
                                 }
                             }
-                            if(line == "Reference_number:")
+                            if(line == "Payment_number:")
                             {
                                 text.ReferenceNumber = sr.ReadLine();
                             }
                         }
                     }
-                    text.pngNames = pngs.Remove(pngs.Length - 1);
+                    if(pngs != "")
+                    {
+                        text.pngNames = pngs.Remove(pngs.Length - 1);
+                    }
                     text.DocId = Guid.Parse(tgd);
                     text.isReviewed = false;
                     text.isDownloaded = false;

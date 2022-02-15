@@ -4,9 +4,10 @@ using rpaapp.Data;
 using rpaapp.Models;
 using rpaapp.Repositories;
 using Azure.Identity;
+using rpaapp.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
-if (builder.Environment.IsProduction())
+if (builder.Environment.IsProduction()) //azure key vault
 {
     builder.Configuration.AddAzureKeyVault(
         new Uri($"https://{builder.Configuration["KeyVaultName"]}.vault.azure.net/"),
@@ -33,10 +34,11 @@ builder.Services.AddIdentity<Writer, IdentityRole<int>>(options =>
     .AddDefaultUI()
     .AddDefaultTokenProviders();
 builder.Services.AddControllersWithViews();
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
+using (var scope = app.Services.CreateScope()) //initialize async
 {
     var services = scope.ServiceProvider;
     try
@@ -78,5 +80,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+app.MapHub<SDHub>("/SDHub");
 
 app.Run();

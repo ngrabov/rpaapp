@@ -4,6 +4,8 @@ using rpaapp.Models;
 using rpaapp.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
+using rpaapp.Hubs;
 
 namespace rpaapp.Controllers;
 
@@ -12,11 +14,13 @@ public class PdfsController : Controller
     private ApplicationDbContext _context;
     private SignInManager<Writer> _signInManager;
     private UserManager<Writer> _userManager;
-    public PdfsController(ApplicationDbContext context, SignInManager<Writer> signInManager, UserManager<Writer> userManager)
+    private IHubContext<SDHub, IHubClient> _informHub;
+    public PdfsController(IHubContext<SDHub, IHubClient> informHub, ApplicationDbContext context, SignInManager<Writer> signInManager, UserManager<Writer> userManager)
     {
         _context = context;
         _userManager = userManager;
         _signInManager = signInManager;
+        _informHub = informHub;
     }
 
     //[Authorize(Roles = "Administrator")]
@@ -36,6 +40,8 @@ public class PdfsController : Controller
         {
             return Json("You selected more than 20 files.");
         }
+        
+        await _informHub.Clients.All.InformClient("ReceiveMessage");
 
         await Complex(files);
         return Ok();
@@ -55,6 +61,8 @@ public class PdfsController : Controller
         {
             return Json("You selected more than 20 files.");
         }
+
+        await _informHub.Clients.All.InformClient("ReceiveMessage");
 
         await Complex(files);
         return RedirectToAction("Repository", "Home");
