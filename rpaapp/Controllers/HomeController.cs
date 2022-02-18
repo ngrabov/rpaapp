@@ -39,6 +39,19 @@ public class HomeController : Controller
         var files = await _context.pdfs.Include(c => c.Writer).ToListAsync();
         return View(files);
     }
+
+    //[Authorize(Roles = "Administrator")]
+    public async Task<IActionResult> Clear()
+    {
+        var pdfs = await _context.pdfs.ToListAsync();
+        _context.pdfs.RemoveRange(pdfs);
+        var txts = await _context.Txts.ToListAsync();
+        _context.Txts.RemoveRange(txts);
+        var docs = await _context.Documents.ToListAsync();
+        _context.Documents.RemoveRange(docs);
+        await _context.SaveChangesAsync();
+        return RedirectToAction("Index", "Home");
+    }
     
     //[Authorize(Roles = "Administrator")]
     public async Task<IActionResult> DownloadFile(Guid gd) //pdfs
@@ -483,6 +496,21 @@ public class HomeController : Controller
         }
         await _context.SaveChangesAsync();
         return RedirectToAction("Dashboard", "Home");
+    }
+
+    [HttpPost]
+    //[Authorize(Roles = "Administrator")]
+    public async Task<IActionResult> DeleteDuplicate(Guid gd)
+    {
+        var files = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
+        var txt = await _context.Txts.FirstOrDefaultAsync(c => c.DocId == gd);
+        _context.Txts.Remove(txt);
+        foreach(var item in files)
+        {
+            _context.Documents.Remove(item);
+        }
+        await _context.SaveChangesAsync();
+        return Ok();
     }
 
     //[Authorize(Roles = "Administrator,Manager")]
