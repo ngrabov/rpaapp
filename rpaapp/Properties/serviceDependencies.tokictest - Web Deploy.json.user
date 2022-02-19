@@ -1,0 +1,45 @@
+{
+  "dependencies": {
+    "secrets1": {
+      "restored": true,
+      "restoreTime": "2022-02-18T08:32:52.9200982Z"
+    }
+  },
+  "parameters": {
+    "tokictest.resourceGroupLocation": {
+      "Name": "tokictest.resourceGroupLocation",
+      "Type": null,
+      "Value": "westeurope"
+    },
+    "secrets1.resourceGroupName": {
+      "Name": "secrets1.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "bartogrg"
+    },
+    "tokictest.resourceName": {
+      "Name": "tokictest.resourceName",
+      "Type": null,
+      "Value": "tokictest"
+    },
+    "subscriptionId": {
+      "Name": "subscriptionId",
+      "Type": "subscription",
+      "Value": "3d705111-b2ec-4e6f-9d27-e93676dafda3"
+    },
+    "tokictest.subscriptionId": {
+      "Name": "tokictest.subscriptionId",
+      "Type": "subscription",
+      "Value": "3d705111-b2ec-4e6f-9d27-e93676dafda3"
+    },
+    "tokictest.resourceGroupName": {
+      "Name": "tokictest.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "testrg"
+    },
+    "secrets1.subscriptionId": {
+      "Name": "secrets1.subscriptionId",
+      "Type": "subscription",
+      "Value": "3d705111-b2ec-4e6f-9d27-e93676dafda3"
+    }
+  }
+}

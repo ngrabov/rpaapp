@@ -136,6 +136,7 @@ namespace rpaapp.Migrations
                     Group = table.Column<string>(type: "TEXT", nullable: true),
                     State = table.Column<string>(type: "TEXT", nullable: true),
                     VAT = table.Column<string>(type: "TEXT", nullable: true),
+                    InvoiceType = table.Column<int>(type: "INTEGER", nullable: false),
                     Currency = table.Column<string>(type: "TEXT", nullable: true),
                     BillingGroup = table.Column<string>(type: "TEXT", nullable: true),
                     IBAN = table.Column<string>(type: "TEXT", nullable: true),
@@ -146,6 +147,7 @@ namespace rpaapp.Migrations
                     Bruto = table.Column<double>(type: "REAL", nullable: false),
                     Neto = table.Column<double>(type: "REAL", nullable: false),
                     ReferenceNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    PaymentReference = table.Column<string>(type: "TEXT", nullable: true),
                     ProcessTypeId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>

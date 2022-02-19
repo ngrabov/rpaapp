@@ -457,6 +457,10 @@ public class HomeController : Controller
                             {
                                 text.ReferenceNumber = sr.ReadLine();
                             }
+                            if(line == "Payment_reference:")
+                            {
+                                text.PaymentReference = sr.ReadLine();
+                            }
                         }
                     }
                     if(pngs != "")

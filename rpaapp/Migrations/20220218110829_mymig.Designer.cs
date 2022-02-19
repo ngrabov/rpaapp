@@ -11,7 +11,7 @@ using rpaapp.Data;
 namespace rpaapp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220208093202_mymig")]
+    [Migration("20220218110829_mymig")]
     partial class mymig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -288,11 +288,17 @@ namespace rpaapp.Migrations
                     b.Property<string>("InvoiceNumber")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("InvoiceType")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
                     b.Property<double>("Neto")
                         .HasColumnType("REAL");
+
+                    b.Property<string>("PaymentReference")
+                        .HasColumnType("TEXT");
 
                     b.Property<int?>("ProcessTypeId")
                         .HasColumnType("INTEGER");

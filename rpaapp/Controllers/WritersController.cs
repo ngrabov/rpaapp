@@ -38,6 +38,11 @@ namespace rpaapp.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create([Bind("FirstName,LastName,Email")]Writer writer, string pw, bool admin)
         {
+            var wrtr = await _context.Writers.FirstOrDefaultAsync(c => c.Email == writer.Email);
+            if(await _context.Writers.ContainsAsync(wrtr))
+            {
+                return Json("There is already a writer with the same email. Try again.");
+            }
             try
             {
                 writer.UserName = writer.Email;
