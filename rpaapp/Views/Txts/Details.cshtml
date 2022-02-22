@@ -40,6 +40,25 @@
                 </div>
                 @if(vis == "true")
                 {
+                    var slist = new SelectList(System.Enum.GetValues(typeof(InvoiceType)));
+                    <div class="form-group col-md-8">
+                    <b><label asp-for="InvoiceType" class="control-label"></label></b>
+                        @if(Model.isReviewed)
+                        {
+                            <select asp-for="InvoiceType" style="padding: 0px 10px;" class="form-control" asp-items="@slist" disabled required>
+                                <option selected value="">--Select invoice type--</option>
+                            </select>
+                        }
+                        else 
+                        {
+                            <select asp-for="InvoiceType" style="padding: 0px 10px;" class="form-control" asp-items="@slist" required>
+                                <option selected value="">--Select invoice type--</option>
+                            </select>
+                        }
+                    </div>
+                }
+                @if(vis == "true")
+                {
                     <div class="form-group col-md-8">
                         <b><label asp-for="State" class="control-label"></label></b>
                         @if(Model.isReviewed)
@@ -122,25 +141,6 @@
                     }
                     <span asp-validation-for="InvoiceNumber" class="text-danger"></span>
                 </div>
-                @if(vis == "true")
-                {
-                    var slist = new SelectList(System.Enum.GetValues(typeof(InvoiceType)));
-                    <div class="form-group col-md-8">
-                    <b><label asp-for="InvoiceType" class="control-label"></label></b>
-                        @if(Model.isReviewed)
-                        {
-                            <select asp-for="InvoiceType" class="form-control" asp-items="@slist" disabled required>
-                                <option selected value="">--Select invoice type--</option>
-                            </select>
-                        }
-                        else 
-                        {
-                            <select asp-for="InvoiceType" class="form-control" asp-items="@slist" required>
-                                <option selected value="">--Select invoice type--</option>
-                            </select>
-                        }
-                    </div>
-                }
                 <div class="form-group col-md-8">
                     <b><label asp-for="InvoiceDate" class="control-label"></label></b>
                     @if(Model.isReviewed)
