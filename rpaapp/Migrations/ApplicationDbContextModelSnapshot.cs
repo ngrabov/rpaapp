@@ -239,6 +239,23 @@ namespace rpaapp.Migrations
                     b.ToTable("pdfs", (string)null);
                 });
 
+            modelBuilder.Entity("rpaapp.Models.PersonInCharge", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("id");
+
+                    b.ToTable("People", (string)null);
+                });
+
             modelBuilder.Entity("rpaapp.Models.ProcessType", b =>
                 {
                     b.Property<int>("id")
@@ -297,6 +314,9 @@ namespace rpaapp.Migrations
 
                     b.Property<string>("PaymentReference")
                         .HasColumnType("TEXT");
+
+                    b.Property<int?>("PersonInChargeId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("ProcessTypeId")
                         .HasColumnType("INTEGER");

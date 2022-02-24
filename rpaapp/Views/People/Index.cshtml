@@ -1,0 +1,30 @@
+@model IEnumerable<rpaapp.Models.PersonInCharge>
+
+@{
+    ViewData["Title"] = "People index";
+}
+
+<h3>People in charge</h3>
+
+
+<div style="margin: 20px;">
+    <a asp-controller="People" asp-action="Create">Create new</a>
+</div>
+
+<div>
+    <table class="table table-hover">
+        <thead>
+            <th>Id</th>
+            <th>Name</th>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.id</td>
+                    <td>@item.fullname</td>
+                </tr>                
+            }
+        </tbody>
+    </table>
+</div>

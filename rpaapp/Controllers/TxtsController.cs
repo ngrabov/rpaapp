@@ -35,6 +35,7 @@ namespace rpaapp.Controllers
 
             if(txt == null) return NotFound();
             populateProcess();
+            populatePeople();
 
             return View(txt);
         }
@@ -53,7 +54,7 @@ namespace rpaapp.Controllers
                 if(await TryUpdateModelAsync<Txt> (text, "", s => s.BillingGroup, s => s.Bruto,  s => s.Currency,
                 s => s.Group, s => s.IBAN, s => s.InvoiceDate, s => s.InvoiceDueDate,
                 s => s.InvoiceNumber,  s => s.Name, s => s.Neto, s => s.ReferenceNumber,
-                 s => s.State, s => s.VAT, s => s.VATobligation, s => s.ProcessTypeId))
+                 s => s.State, s => s.VAT, s => s.VATobligation, s => s.ProcessTypeId, s => s.PersonInChargeId))
                 { 
                     try
                     {
@@ -80,6 +81,12 @@ namespace rpaapp.Controllers
         {
             var processes = await _context.Processes.ToArrayAsync();
             ViewBag.teams = new SelectList(processes, "id", "name", selectedTeam);
+        }
+
+        private async void populatePeople(object selectedPerson = null)
+        {
+            var people = await _context.People.ToArrayAsync();
+            ViewBag.people = new SelectList(people, "id", "fullname", selectedPerson);
         }
     }
 }

@@ -37,6 +37,8 @@ namespace rpaapp.Models
         public string ReferenceNumber { get; set; }
         public string PaymentReference { get; set; }
         public int? ProcessTypeId { get; set; }
+        [Display(Name = "Person in charge")]
+        public int? PersonInChargeId { get; set; }
         #nullable enable
         private ProcessType? _ProcessType;
         public ProcessType? ProcessType { get { return _ProcessType ?? (_ProcessType = new ProcessType());} set { _ProcessType = value;}}

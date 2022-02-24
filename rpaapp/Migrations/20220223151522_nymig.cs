@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace rpaapp.Migrations
 {
-    public partial class mymig : Migration
+    public partial class nymig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -58,6 +58,20 @@ namespace rpaapp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Layouts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "People",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    FirstName = table.Column<string>(type: "TEXT", nullable: true),
+                    LastName = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_People", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -148,7 +162,8 @@ namespace rpaapp.Migrations
                     Neto = table.Column<double>(type: "REAL", nullable: false),
                     ReferenceNumber = table.Column<string>(type: "TEXT", nullable: true),
                     PaymentReference = table.Column<string>(type: "TEXT", nullable: true),
-                    ProcessTypeId = table.Column<int>(type: "INTEGER", nullable: true)
+                    ProcessTypeId = table.Column<int>(type: "INTEGER", nullable: true),
+                    PersonInChargeId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -342,6 +357,9 @@ namespace rpaapp.Migrations
 
             migrationBuilder.DropTable(
                 name: "pdfs");
+
+            migrationBuilder.DropTable(
+                name: "People");
 
             migrationBuilder.DropTable(
                 name: "Txts");
