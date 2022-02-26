@@ -2,6 +2,8 @@
 39135989747
 Name:
 ZUBAK GRUPA d.o.o.
+Client_code:
+771
 Currency:
 EUR
 Group:

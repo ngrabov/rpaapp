@@ -14,6 +14,7 @@ namespace rpaapp.Models
         public bool isDownloaded { get; set;}
         public string pngNames { get; set; }
         public string Name { get; set; }
+        public string ClientCode { get; set; }
         public string Group { get; set;}
         public string State { get; set; }
         public string VAT { get; set; }

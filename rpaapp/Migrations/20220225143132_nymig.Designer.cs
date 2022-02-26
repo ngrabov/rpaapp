@@ -11,7 +11,7 @@ using rpaapp.Data;
 namespace rpaapp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220223151522_nymig")]
+    [Migration("20220225143132_nymig")]
     partial class nymig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -253,6 +253,9 @@ namespace rpaapp.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("mfilesid")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("id");
 
                     b.ToTable("People", (string)null);
@@ -283,6 +286,9 @@ namespace rpaapp.Migrations
 
                     b.Property<double>("Bruto")
                         .HasColumnType("REAL");
+
+                    b.Property<string>("ClientCode")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Currency")
                         .HasColumnType("TEXT");

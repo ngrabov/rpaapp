@@ -251,6 +251,9 @@ namespace rpaapp.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("mfilesid")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("id");
 
                     b.ToTable("People", (string)null);
@@ -281,6 +284,9 @@ namespace rpaapp.Migrations
 
                     b.Property<double>("Bruto")
                         .HasColumnType("REAL");
+
+                    b.Property<string>("ClientCode")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Currency")
                         .HasColumnType("TEXT");

@@ -67,7 +67,8 @@ namespace rpaapp.Migrations
                     id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     FirstName = table.Column<string>(type: "TEXT", nullable: true),
-                    LastName = table.Column<string>(type: "TEXT", nullable: true)
+                    LastName = table.Column<string>(type: "TEXT", nullable: true),
+                    mfilesid = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -147,6 +148,7 @@ namespace rpaapp.Migrations
                     isDownloaded = table.Column<bool>(type: "INTEGER", nullable: false),
                     pngNames = table.Column<string>(type: "TEXT", nullable: true),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
+                    ClientCode = table.Column<string>(type: "TEXT", nullable: true),
                     Group = table.Column<string>(type: "TEXT", nullable: true),
                     State = table.Column<string>(type: "TEXT", nullable: true),
                     VAT = table.Column<string>(type: "TEXT", nullable: true),

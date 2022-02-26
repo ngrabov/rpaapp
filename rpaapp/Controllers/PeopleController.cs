@@ -32,7 +32,7 @@ public class PeopleController : Controller
     //[Authorize(Roles = "Administrator")]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<IActionResult> Create([Bind("FirstName,LastName")]PersonInCharge person)
+    public async Task<IActionResult> Create([Bind("FirstName,LastName,mfilesid")]PersonInCharge person)
     {
         try
         {
