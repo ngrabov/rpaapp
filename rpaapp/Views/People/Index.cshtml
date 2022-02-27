@@ -16,6 +16,7 @@
         <thead>
             <th>Id</th>
             <th>Name</th>
+            <th>MFilesID</th>
         </thead>
         <tbody>
             @foreach (var item in Model)
@@ -23,6 +24,7 @@
                 <tr>
                     <td>@item.id</td>
                     <td>@item.fullname</td>
+                    <td>@item.mfilesid</td>
                 </tr>                
             }
         </tbody>

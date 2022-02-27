@@ -26,6 +26,21 @@
                     }
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
+                @if(vis == "true")
+                {
+                    <div class="form-group col-md-8">
+                        <b><label asp-for="ClientCode" class="control-label"></label></b>
+                        @if(Model.isReviewed)
+                        {
+                            <input asp-for="ClientCode" class="form-control" style="height: 25px;" disabled />
+                        }
+                        else 
+                        {
+                            <input asp-for="ClientCode" class="form-control" style="height: 25px;" />
+                        }
+                        <span asp-validation-for="ClientCode" class="text-danger"></span>
+                    </div>
+                }
                 <div class="form-group col-md-8">
                     <b><label asp-for="Group" class="control-label"></label></b>
                     @if(Model.isReviewed)
@@ -39,20 +54,20 @@
                     <span asp-validation-for="Group" class="text-danger"></span>
                 </div>
                 @if(vis == "true")
-                {
-                    var slist = new SelectList(System.Enum.GetValues(typeof(InvoiceType)));
+                {@* 
+                    var slist = new SelectList(System.Enum.GetValues(typeof(InvoiceType)), ""); *@
                     <div class="form-group col-md-8">
                     <b><label asp-for="InvoiceType" class="control-label"></label></b>
                         @if(Model.isReviewed)
                         {
-                            <select asp-for="InvoiceType" style="padding: 0px 10px;" class="form-control" asp-items="@slist" disabled required>
-                                <option selected value="">--Select invoice type--</option>
+                            <select asp-for="InvoiceType" style="padding: 0px 10px;" class="form-control" asp-items="ViewBag.invoices" disabled required>
+                                <option value="">--Select invoice type--</option>
                             </select>
                         }
                         else 
                         {
-                            <select asp-for="InvoiceType" style="padding: 0px 10px;" class="form-control" asp-items="@slist" required>
-                                <option selected value="">--Select invoice type--</option>
+                            <select asp-for="InvoiceType" style="padding: 0px 10px;" class="form-control" asp-items="ViewBag.invoices" required>
+                                <option value="">--Select invoice type--</option>
                             </select>
                         }
                     </div>
@@ -67,7 +82,7 @@
                         }
                         else 
                         {
-                        <input asp-for="State" class="form-control" style="height: 25px;" />
+                            <input asp-for="State" class="form-control" style="height: 25px;" />
                         }
                         <span asp-validation-for="State" class="text-danger"></span>
                     </div>
@@ -240,12 +255,14 @@
                         <select asp-for="PersonInChargeId" style="padding: 0px 10px;" class="form-control" asp-items="@ViewBag.people" disabled required>
                             <option value="">--Select person--</option>
                         </select>
+                        <span asp-validation-for="PersonInChargeId" class="text-danger"></span>
                     }
                     else
                     {
                         <select asp-for="PersonInChargeId" style="padding: 0px 10px;" class="form-control" asp-items="@ViewBag.people" required>
                             <option value="">--Select person--</option>
                         </select>
+                        <span asp-validation-for="PersonInChargeId" class="text-danger"></span>
                     }
                     </div>
                 }

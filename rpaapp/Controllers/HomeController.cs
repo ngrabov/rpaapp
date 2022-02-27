@@ -70,6 +70,7 @@ public class HomeController : Controller
         return File(bytes, "application/octet-stream", dname);
     }
 
+    //[Authorize(Roles = "Administrator")]
     public async Task<IActionResult> Download(Guid gd) // txts
     {
         string path = Path.Combine(_environment.WebRootPath) + "/Document/" + gd + "/" + gd + ".pdf";
@@ -374,6 +375,10 @@ public class HomeController : Controller
                             if(line == "Name:")
                             {
                                 text.Name = sr.ReadLine();
+                            }
+                            if(line == "Client_code:")
+                            {
+                                text.ClientCode = sr.ReadLine();
                             }
                             if(line == "VAT_number:")
                             {
