@@ -32,18 +32,24 @@
                     <li class="nav-item">
                         <a class="nav-link" style="color: white;" asp-area="" asp-controller="Writers" asp-action="Index">Writers</a>
                     </li> 
-                    <li class="nav-item">
-                        <a class="nav-link" style="color: white;" asp-area="" asp-controller="People" asp-action="Index">People</a>
-                    </li> 
-                    <li class="nav-item">
-                        <a class="nav-link" style="color: white;" asp-area="" asp-controller="Process" asp-action="Create">Process</a>
-                    </li>
+                    @if(Model.isVisible == true)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: white;" asp-area="" asp-controller="People" asp-action="Index">People</a>
+                        </li> 
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: white;" asp-area="" asp-controller="Process" asp-action="Create">Process</a>
+                        </li>
+                    }
                     <li class="nav-item">
                         <a class="nav-link" style="color: white;" asp-area="" asp-controller="Layout" asp-action="Details">Control panel</a>
-                    </li>
+                    </li>@* 
                     <li class="nav-item">
                         <a class="nav-link" style="color: white;" asp-area="" asp-controller="Home" asp-action="Clear">Clear DB</a>
-                    </li>
+                    </li> *@
                 }
             </ul>
             <partial name="_LoginPartial" />

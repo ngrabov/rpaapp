@@ -46,13 +46,13 @@ public class PdfsController : Controller
         return Ok();
     }
 
-    //[Authorize(Roles = "Administrator,Manager")]
+    [Authorize(Roles = "Administrator,Manager")]
     public IActionResult Upload() 
     {
         return View();
     }
 
-    //[Authorize(Roles = "Administrator,Manager")]
+    [Authorize(Roles = "Administrator,Manager")]
     [HttpPost]
     public async Task<IActionResult> Upload(List<IFormFile> files)
     {

@@ -2,10 +2,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace rpaapp.Models
 {
-    public enum InvoiceType
-    {
-        StroskovniDomaci, BlagovniTujiEU, Ostali, BlagovniTuji3Drzave, BlagovniDomaci, StroskovniTujiEU, StroskovniTuji3Drzave
-    }
     public class Txt
     {
         public int Id { get; set; }
@@ -18,11 +14,8 @@ namespace rpaapp.Models
         public string Group { get; set;}
         public string State { get; set; }
         public string VAT { get; set; }
-        public InvoiceType InvoiceType { get; set; }
+        public int? InvoiceTypeId { get; set; }
         public string Currency { get; set; }
-        public string BillingGroup { get; set; }
-        public string IBAN { get; set; }
-        public string VATobligation { get; set; }
         public string InvoiceNumber { get; set; }
         
         [DataType(DataType.Date)]
@@ -40,8 +33,5 @@ namespace rpaapp.Models
         public int? ProcessTypeId { get; set; }
         [Display(Name = "Person in charge")]
         public int? PersonInChargeId { get; set; }
-        #nullable enable
-        private ProcessType? _ProcessType;
-        public ProcessType? ProcessType { get { return _ProcessType ?? (_ProcessType = new ProcessType());} set { _ProcessType = value;}}
     }
 }

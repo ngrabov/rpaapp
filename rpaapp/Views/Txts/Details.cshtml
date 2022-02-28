@@ -54,22 +54,22 @@
                     <span asp-validation-for="Group" class="text-danger"></span>
                 </div>
                 @if(vis == "true")
-                {@* 
-                    var slist = new SelectList(System.Enum.GetValues(typeof(InvoiceType)), ""); *@
+                {
                     <div class="form-group col-md-8">
-                    <b><label asp-for="InvoiceType" class="control-label"></label></b>
+                    <b><label asp-for="InvoiceTypeId" class="control-label"></label></b>
                         @if(Model.isReviewed)
                         {
-                            <select asp-for="InvoiceType" style="padding: 0px 10px;" class="form-control" asp-items="ViewBag.invoices" disabled required>
+                            <select asp-for="InvoiceTypeId" style="padding: 0px 10px;" class="form-control" asp-items="ViewBag.invoices" disabled required>
                                 <option value="">--Select invoice type--</option>
                             </select>
                         }
                         else 
                         {
-                            <select asp-for="InvoiceType" style="padding: 0px 10px;" class="form-control" asp-items="ViewBag.invoices" required>
+                            <select asp-for="InvoiceTypeId" style="padding: 0px 10px;" class="form-control" asp-items="ViewBag.invoices" required>
                                 <option value="">--Select invoice type--</option>
                             </select>
                         }
+                        <span asp-validation-for="InvoiceTypeId" class="text-danger"></span>
                     </div>
                 }
                 @if(vis == "true")
@@ -99,51 +99,6 @@
                         }
                     <span asp-validation-for="VAT" class="text-danger"></span>
                 </div>
-                @if(vis == "true")
-                {
-                    <div class="form-group col-md-8">
-                        <b><label asp-for="BillingGroup" class="control-label"></label></b>
-                        @if(Model.isReviewed)
-                        {
-                            <input asp-for="BillingGroup" class="form-control" style="height: 25px;" disabled />
-                        }
-                        else 
-                        {
-                            <input asp-for="BillingGroup" class="form-control" style="height: 25px;" />
-                        }
-                        <span asp-validation-for="BillingGroup" class="text-danger"></span>
-                    </div>
-                }
-                @* @if(vis == "true")
-                {
-                <div class="form-group col-md-8">
-                    <b><label asp-for="IBAN" class="control-label"></label></b>
-                    @if(Model.isReviewed)
-                    {
-                        <input asp-for="IBAN" class="form-control" style="height: 25px;" disabled />
-                    }
-                    else 
-                    {
-                        <input asp-for="IBAN" class="form-control" style="height: 25px;" />
-                    }
-                    <span asp-validation-for="IBAN" class="text-danger"></span>
-                </div>
-                } *@
-                @* @if(vis == "true")
-                {
-                <div class="form-group col-md-8">
-                    <b><label asp-for="VATobligation" class="control-label"></label></b>
-                    @if(Model.isReviewed)
-                    {
-                        <input asp-for="VATobligation" class="form-control" style="height: 25px;" disabled />
-                    }
-                    else 
-                    {
-                        <input asp-for="VATobligation" class="form-control" style="height: 25px;" />
-                    }
-                    <span asp-validation-for="VATobligation" class="text-danger"></span>
-                </div>
-                } *@
                 <div class="form-group col-md-8">
                     <b><label asp-for="InvoiceNumber" class="control-label"></label></b>
                     @if(Model.isReviewed)
@@ -269,7 +224,7 @@
                 else
                 {
                 <div class="form-group col-md-8">
-                    <b><label asp-for="ProcessType" class="control-label"></label></b>
+                    <b><label asp-for="ProcessTypeId" class="control-label"></label></b>
                     @if(Model.isReviewed)
                     {
                         <select asp-for="ProcessTypeId" class="form-control" asp-items="@ViewBag.teams" disabled required>

@@ -16,20 +16,20 @@ public class PeopleController : Controller
         this.context = context;
     }
 
-    //[Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> Index()
     {
         var people = await context.People.ToListAsync();
         return View(people);
     }
 
-    //[Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator")]
     public IActionResult Create()
     {
         return View();
     }
 
-    //[Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator")]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<IActionResult> Create([Bind("FirstName,LastName,mfilesid")]PersonInCharge person)

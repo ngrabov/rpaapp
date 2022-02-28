@@ -26,13 +26,13 @@ public class HomeController : Controller
         _signInManager = signInManager;
     }
 
-    //[Authorize(Roles = "Administrator,Manager")]
+    [Authorize(Roles = "Administrator,Manager")]
     public async Task<IActionResult> Index(string order, string search)
     {
         return await Dashboard(order, search);
     }
     
-    //[Authorize(Roles = "Administrator,Manager")]
+    [Authorize(Roles = "Administrator,Manager")]
     [Route("Repository")]
     public async Task<IActionResult> Repository()
     {
@@ -40,16 +40,18 @@ public class HomeController : Controller
         return View(files);
     }
 
-    //[Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> Clear()
     {
+        var wrt = await _context.Writers.Where(c => c.Id > 2).ToListAsync();
+        /* _context.Writers.RemoveRange(wrt);
         var pdfs = await _context.pdfs.ToListAsync();
         _context.pdfs.RemoveRange(pdfs);
         var txts = await _context.Txts.ToListAsync();
         _context.Txts.RemoveRange(txts);
         var docs = await _context.Documents.ToListAsync();
         _context.Documents.RemoveRange(docs);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(); */
         return RedirectToAction("Index", "Home");
     }
     
@@ -103,7 +105,7 @@ public class HomeController : Controller
         return File(bytes, "application/octet-stream", fname);
     }
 
-    //[Authorize(Roles = "Administrator,Manager")]
+    [Authorize(Roles = "Administrator,Manager")]
     [Route("Dashboard")]
     public async Task<IActionResult> Dashboard(string order, string search)
     {
@@ -197,7 +199,7 @@ public class HomeController : Controller
         return View(docs);
     }
 
-    //[Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator")]
     [Route("Upload")] //files, get, web
     public IActionResult Upload()
     {
@@ -206,7 +208,7 @@ public class HomeController : Controller
 
     [Route("Upload")] //Files, web
     [HttpPost]
-    //[Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> Upload(List<IFormFile> files)
     {
         if(files.Count > 20)
@@ -400,18 +402,6 @@ public class HomeController : Controller
                             {
                                 text.State = sr.ReadLine();
                             }
-                            if(line == "Billing_group:")
-                            {
-                                text.BillingGroup = sr.ReadLine();
-                            }
-                            if(line == "IBAN:")
-                            {
-                                text.IBAN = sr.ReadLine();
-                            }
-                            if(line == "VAT_obligation:")
-                            {
-                                text.VATobligation = sr.ReadLine();
-                            }
                             if(line == "Invoice_number:")
                             {
                                 text.InvoiceNumber = sr.ReadLine();
@@ -483,7 +473,7 @@ public class HomeController : Controller
         await _context.SaveChangesAsync();
     }
 
-    //[Authorize(Roles = "Administrator,Manager")]
+    [Authorize(Roles = "Administrator,Manager")]
     public async Task<IActionResult> Delete(Guid? gd)
     {
         if(gd == null) return NotFound();
@@ -493,7 +483,7 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    //[Authorize(Roles = "Administrator,Manager")]
+    [Authorize(Roles = "Administrator,Manager")]
     public async Task<IActionResult> DeleteConfirmed(Guid gd)
     {
         var files = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();

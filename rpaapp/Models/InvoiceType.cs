@@ -1,0 +1,7 @@
+namespace rpaapp.Models;
+public class InvoiceType
+{
+    public int id {get; set; }
+    public string name {get; set; }
+    public int customid { get; set; }
+}

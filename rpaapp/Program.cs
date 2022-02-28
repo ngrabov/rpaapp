@@ -35,6 +35,7 @@ builder.Services.AddIdentity<Writer, IdentityRole<int>>(options =>
     .AddDefaultTokenProviders();
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
+//builder.Services.AddIdentityServer();
 
 var app = builder.Build();
 
@@ -73,6 +74,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+//app.UseIdentityServer();
 app.UseAuthentication();
 app.UseAuthorization();
 

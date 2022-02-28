@@ -185,6 +185,23 @@ namespace rpaapp.Migrations
                     b.ToTable("Documents", (string)null);
                 });
 
+            modelBuilder.Entity("rpaapp.Models.InvoiceType", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("customid")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Invoices", (string)null);
+                });
+
             modelBuilder.Entity("rpaapp.Models.LayoutConfig", b =>
                 {
                     b.Property<int>("Id")
@@ -268,6 +285,9 @@ namespace rpaapp.Migrations
                     b.Property<string>("name")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("ptid")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("id");
 
                     b.ToTable("Processes", (string)null);
@@ -278,9 +298,6 @@ namespace rpaapp.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("BillingGroup")
-                        .HasColumnType("TEXT");
 
                     b.Property<double>("Bruto")
                         .HasColumnType("REAL");
@@ -297,9 +314,6 @@ namespace rpaapp.Migrations
                     b.Property<string>("Group")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("IBAN")
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("InvoiceDate")
                         .HasColumnType("TEXT");
 
@@ -309,7 +323,7 @@ namespace rpaapp.Migrations
                     b.Property<string>("InvoiceNumber")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("InvoiceType")
+                    b.Property<int?>("InvoiceTypeId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
@@ -336,9 +350,6 @@ namespace rpaapp.Migrations
                     b.Property<string>("VAT")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("VATobligation")
-                        .HasColumnType("TEXT");
-
                     b.Property<bool>("isDownloaded")
                         .HasColumnType("INTEGER");
 
@@ -349,8 +360,6 @@ namespace rpaapp.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProcessTypeId");
 
                     b.ToTable("Txts", (string)null);
                 });
@@ -486,15 +495,6 @@ namespace rpaapp.Migrations
                         .HasForeignKey("WriterId");
 
                     b.Navigation("Writer");
-                });
-
-            modelBuilder.Entity("rpaapp.Models.Txt", b =>
-                {
-                    b.HasOne("rpaapp.Models.ProcessType", "ProcessType")
-                        .WithMany()
-                        .HasForeignKey("ProcessTypeId");
-
-                    b.Navigation("ProcessType");
                 });
 #pragma warning restore 612, 618
         }

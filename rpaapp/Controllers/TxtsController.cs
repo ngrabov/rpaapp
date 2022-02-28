@@ -16,7 +16,7 @@ namespace rpaapp.Controllers
             _context = context;
         }
 
-        //[Authorize(Roles = "Administrator,Manager")]
+        [Authorize(Roles = "Administrator,Manager")]
         public async Task<IActionResult> Details(Guid? id)
         {
             if(id == null) return NotFound();
@@ -42,7 +42,7 @@ namespace rpaapp.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "Administrator,Manager")]
+        [Authorize(Roles = "Administrator,Manager")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Resolve(int? id)
         {
@@ -52,10 +52,10 @@ namespace rpaapp.Controllers
 
             if(text != null)
             {
-                if(await TryUpdateModelAsync<Txt> (text, "", s => s.BillingGroup, s => s.Bruto,  s => s.Currency,
-                s => s.Group, s => s.IBAN, s => s.InvoiceDate, s => s.InvoiceDueDate,
+                if(await TryUpdateModelAsync<Txt> (text, "", s => s.Bruto,  s => s.Currency,
+                s => s.Group,  s => s.InvoiceDate, s => s.InvoiceDueDate,
                 s => s.InvoiceNumber,  s => s.Name, s => s.Neto, s => s.ReferenceNumber, s => s.ClientCode,
-                s => s.State, s => s.VAT, s => s.VATobligation, s => s.ProcessTypeId, s => s.PersonInChargeId))
+                s => s.State, s => s.VAT, s => s.InvoiceTypeId, s => s.ProcessTypeId, s => s.PersonInChargeId))
                 { 
                     try
                     {
@@ -64,7 +64,7 @@ namespace rpaapp.Controllers
                             doc.Status = Status.Confirmed;
                         }
                         text.isReviewed = true;
-                        text.ProcessType = await _context.Processes.FirstOrDefaultAsync(c => c.id == text.ProcessTypeId);
+                        //text.ProcessType = await _context.Processes.FirstOrDefaultAsync(c => c.id == text.ProcessTypeId);
                         await _context.SaveChangesAsync();
                         return RedirectToAction("Dashboard", "Home");
                     }
@@ -81,7 +81,7 @@ namespace rpaapp.Controllers
         private async void populateProcess(object selectedTeam = null)
         {
             var processes = await _context.Processes.ToArrayAsync();
-            ViewBag.teams = new SelectList(processes, "id", "name", selectedTeam);
+            ViewBag.teams = new SelectList(processes, "ptid", "name", selectedTeam);
         }
 
         private async void populatePeople(object selectedPerson = null)
@@ -90,10 +90,10 @@ namespace rpaapp.Controllers
             ViewBag.people = new SelectList(people, "mfilesid", "fullname", selectedPerson);
         }
 
-        private void populateInvoices(object selectedInvoice = null)
+        private async void populateInvoices(object selectedInvoice = null)
         {
-            var invoices = System.Enum.GetValues(typeof(InvoiceType));
-            ViewBag.invoices = new SelectList(invoices, selectedInvoice);
+            var invoices = await _context.Invoices.ToListAsync();
+            ViewBag.invoices = new SelectList(invoices, "customid", "name", selectedInvoice);
         }
     }
 }
