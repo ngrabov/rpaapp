@@ -4,16 +4,26 @@ using rpaapp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace rpaapp.Controllers
 {
     public class TxtsController : Controller
     {
         private ApplicationDbContext _context;
+        private SignInManager<Writer> _signInManager;
+        private UserManager<Writer> _userManager;
 
-        public TxtsController(ApplicationDbContext context)
+        public TxtsController(ApplicationDbContext context, SignInManager<Writer> signInManager, UserManager<Writer> userManager)
         {
             _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
+
+        public IActionResult Index()
+        {
+            return RedirectToAction("Repository", "Home");
         }
 
         [Authorize(Roles = "Administrator,Manager")]
@@ -43,12 +53,13 @@ namespace rpaapp.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Administrator,Manager")]
+        //[ActionName("Details")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Resolve(int? id)
+        public async Task<IActionResult> Resolve(Guid? id)
         {
             if(id == null) return NotFound();
 
-            var text = await _context.Txts.FirstOrDefaultAsync(c => c.Id == id);
+            var text = await _context.Txts.FirstOrDefaultAsync(c => c.DocId == id);
 
             if(text != null)
             {
@@ -64,8 +75,14 @@ namespace rpaapp.Controllers
                             doc.Status = Status.Confirmed;
                         }
                         text.isReviewed = true;
-                        //text.ProcessType = await _context.Processes.FirstOrDefaultAsync(c => c.id == text.ProcessTypeId);
                         await _context.SaveChangesAsync();
+
+                        var currentUser = await _userManager.GetUserAsync(User);
+                        var dct = await _context.Documents.Where(c => c.Status == Status.Ready && c.writername == currentUser.FullName).FirstOrDefaultAsync();
+                        if(await _context.Documents.Where(c => c.Status == Status.Ready && c.writername == currentUser.FullName).CountAsync() != 0)
+                        {
+                            return RedirectToAction("Details", "Txts", new{ id = dct.fguid});
+                        } 
                         return RedirectToAction("Dashboard", "Home");
                     }
                     catch(DbUpdateException)
