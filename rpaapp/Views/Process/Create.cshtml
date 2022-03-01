@@ -8,16 +8,17 @@
     <h1>Create a process</h1>
 
     <hr />
+    <p>Eg. 058, Inozemna nabava 2</p>
     <div class="row">
         <div class="col-md-6">
             <form asp-action="Create" id="frm" name="frm" enctype="multipart/form-data"> 
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group col-md-8">
-                    <b><label asp-for="name" class="control-label"></label></b>
+                    <b><label class="control-label">Name</label></b>
                     <input asp-for="name" class="form-control" required/>
-                    <span asp-validation-for="name" class="text-danger"></span>
+                    <span asp-validation-for="name" style="padding-top: 15px;" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="padding-top: 10px;">
                     <input type="submit" value="Create" class="btn btn-primary" />
                 </div>   
             </form>

@@ -8,11 +8,14 @@
     <h1>PDF uploader</h1>
     <hr class="col-md-4" />
     <div class="row" style="display: flex; flex-direction: row;"> 
-        <div class="col-md-4">
+        <div class="col-md-12">
             <form asp-controller="Pdfs" asp-action="Upload" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group" style="padding-top: 20px;">
-                    <input type="file" name="files" id="userInput" accept="application/pdf" value="Drag and drop a pdf file." multiple>
+                    <div style="width: 100%; border: 3px dotted grey; border-radius: 10px; background-color: lightblue; text-align: center;">
+                        <input type="file" style="width: 99%; height: 200px; padding: 25px; margin: auto;" name="files" id="userInput" accept="application/pdf" multiple>
+                        <p style="width: 90%; margin: auto;">... or simply drag and drop!</p>
+                    </div>
                 </div>
                 <div class="form-group" style="padding-top: 20px;">
                     <input type="submit" value="Upload" id="sendButton" class="btn btn-primary" style="width: 80px; background-color: #034791;" >

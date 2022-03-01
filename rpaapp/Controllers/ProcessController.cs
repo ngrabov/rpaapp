@@ -14,6 +14,13 @@ public class ProcessController : Controller
         this.repository = repository;
     }
 
+    [Authorize(Roles="Administrator")]
+    public async Task<IActionResult> Index()
+    {
+        var processes = await repository.GetProcessesAsync();
+        return View(processes);
+    }
+
     [Authorize(Roles = "Administrator,Manager")]
     public IActionResult Create()
     {

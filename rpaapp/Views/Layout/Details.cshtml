@@ -6,15 +6,21 @@
 
 <div>
     <form asp-controller="Layout" asp-action="Edit" enctype="multipart/form-data">
-        <input asp-for="isVisible" type="radio" id="visible" value="true">
-        <label asp-for="isVisible">Visible</label>
-        <input asp-for="isVisible" type="radio" id="hidden" value="false">
-        <label asp-for="isVisible">Hidden</label>
-        <div class="form-group" style="padding-top: 20px;">
-            <input type="text" asp-for="pngname" value="@Model.pngname" />
+        <div>
+            <p>Fieldset:</p>
         </div>
-        <div class="form-group" style="padding-top: 20px;">
-            <input type="text" asp-for="Color" value="@Model.Color" />
+        <input asp-for="isVisible" type="radio" id="visible" value="true">
+        <label asp-for="isVisible">Bartog</label>
+        <input asp-for="isVisible" type="radio" id="hidden" value="false">
+        <label asp-for="isVisible">Tokić</label>
+
+        <div class="form-group" style="padding-top: 20px; display: flex; flex-direction: column;">
+            <label>Logo image name (with extension): </label>
+            <input type="text" asp-for="pngname" style="width: 100px;" value="@Model.pngname" />
+        </div>
+        <div class="form-group" style="padding-top: 20px; display: flex; flex-direction: column;">
+            <label>Coloring: </label>
+            <input type="text" asp-for="Color" style="width: 100px;" value="@Model.Color" />
         </div>
         <div class="form-group" style="padding-top: 20px;">
             <input type="submit" value="Save" class="btn btn-primary" style="background-color: #034791;" />

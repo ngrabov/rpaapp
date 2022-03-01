@@ -43,16 +43,20 @@ public class HomeController : Controller
     [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> Clear()
     {
-        var wrt = await _context.Writers.Where(c => c.Id > 2).ToListAsync();
-        /* _context.Writers.RemoveRange(wrt);
-        var pdfs = await _context.pdfs.ToListAsync();
-        _context.pdfs.RemoveRange(pdfs);
-        var txts = await _context.Txts.ToListAsync();
-        _context.Txts.RemoveRange(txts);
-        var docs = await _context.Documents.ToListAsync();
-        _context.Documents.RemoveRange(docs);
-        await _context.SaveChangesAsync(); */
-        return RedirectToAction("Index", "Home");
+        if((await _context.Writers.CountAsync()) < 4)
+        {/* 
+            var wrt = await _context.Writers.Where(c => c.Id > 3).ToListAsync(); //pazi na broj korisnika
+            _context.Writers.RemoveRange(wrt); */
+            var pdfs = await _context.pdfs.ToListAsync();
+            _context.pdfs.RemoveRange(pdfs);
+            var txts = await _context.Txts.ToListAsync();
+            _context.Txts.RemoveRange(txts);
+            var docs = await _context.Documents.ToListAsync();
+            _context.Documents.RemoveRange(docs);
+            await _context.SaveChangesAsync();
+            return Json("Database records deleted successfully.");
+        }
+        return Json("Could not delete db records.");
     }
     
     //[Authorize(Roles = "Administrator")]
@@ -160,7 +164,7 @@ public class HomeController : Controller
 
         if(!String.IsNullOrEmpty(search))
         {
-            docs = docs.Where(c => c.pdfname.Contains(search) || ((c.RAC_number != null) && (c.RAC_number.Contains(search)))).ToList();
+            docs = docs.Where(c => c.pdfname.Contains(search) || (c.RAC_number != null) && (c.RAC_number.Contains(search)) || (c.writername.ToUpper().Contains(search.ToUpper()))).ToList();
         }
 
         if(order == "name_desc")

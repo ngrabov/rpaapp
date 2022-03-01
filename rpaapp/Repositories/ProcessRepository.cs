@@ -1,6 +1,7 @@
 using rpaapp.Data;
 using rpaapp.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace rpaapp.Repositories;
 
@@ -15,6 +16,11 @@ public class ProcessRepository : IProcessRepository
         this.context = context;
         this.userManager = userManager;
         this.signInManager = signInManager;
+    }
+
+    public async Task<List<ProcessType>> GetProcessesAsync()
+    {
+        return await context.Processes.ToListAsync();
     }
 
     public async Task AddProcessAsync(ProcessType process)
