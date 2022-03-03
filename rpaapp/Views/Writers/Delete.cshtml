@@ -1,0 +1,28 @@
+@model rpaapp.Models.Writer
+@{
+    ViewData["Title"] = "Delete a writer";
+}
+
+<h3>Delete a writer</h3>
+
+<div>
+    <p>Are you sure you want to delete this writer?</p>
+    <table class="table table-hover">
+        <thead>
+            <th>Id</th>
+            <th>Name</th>
+        </thead>
+        <tbody>
+            <td>@Model.Id</td>
+            <td>@Model.FullName</td>
+        </tbody>
+    </table>
+</div>
+
+
+<form asp-action="DeleteConfirmed" asp-route-id="@Model.Id">
+    <div class="form-actions no-color">
+        <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete these files?')" /> 
+        <a asp-controller="Writers" asp-action="Index" class="btn btn-primary">Back</a>
+    </div>
+</form>

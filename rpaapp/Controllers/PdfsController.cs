@@ -79,6 +79,11 @@ public class PdfsController : Controller
             {
                 pdf.Writer = currentuser;
             }
+            else
+            {
+                var writer = await _context.Writers.FirstOrDefaultAsync(c => c.Id == 1);
+                pdf.Writer = writer;
+            }
 
             using(var stream = System.IO.File.Create("./wwwroot/" + gd))
             {

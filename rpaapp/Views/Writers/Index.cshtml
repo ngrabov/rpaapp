@@ -21,6 +21,7 @@
             <th>Name</th>
             <th>email</th>
             <th>Admin</th>
+            <th>Actions</th>
             <th>Editor</th>
         </thead>
         <tbody>
@@ -33,10 +34,12 @@
                     @if(await UserManager.IsInRoleAsync(item, "Administrator"))
                     {
                         <td>Yes</td>
+                        <td></td>
                     }
                     else
                     {
                         <td>No</td>
+                        <td><a asp-action="Delete" asp-controller="Writers" asp-route-id="@item.Id" style="padding: 0 0.75rem;" class="btn btn-danger">Delete</a></td>
                     }
                     @if(await UserManager.IsInRoleAsync(item, "Manager"))
                     {

@@ -62,5 +62,57 @@ namespace rpaapp.Controllers
             }
             return View(writer);
         }
+
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> ChangeWriter()
+        {
+            var cnt = await _context.pdfs.Where(c => c.Writer.FirstName == null).CountAsync();
+            if(cnt != 0)
+            {
+                var pdfs = await _context.pdfs.Where(c => c.Writer.FirstName == null).ToListAsync();
+                var superman = await _context.Writers.FirstOrDefaultAsync(c => c.Id == 1);
+                foreach(var item in pdfs)
+                {
+                    item.Writer = superman;
+                }
+                await _context.SaveChangesAsync();
+                return Json("Successfully changed writer.");
+            }
+            return Json("Nothing to change.");
+        }
+
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> DeleteWriters()
+        {
+            var writers = await _context.Writers.Where(c => c.FirstName == null).ToListAsync();
+            _context.Writers.RemoveRange(writers);
+            await _context.SaveChangesAsync();
+            return Json("200");
+        }
+    
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if(id == null) return NotFound();
+            var writer = await _context.Writers.FirstOrDefaultAsync(c => c.Id == id);
+            return View(writer);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> DeleteConfirmed(int? id)
+        {
+            if(id == null) return NotFound();
+
+            var pdfs = await _context.pdfs.Where(c => c.Writer.Id == id).CountAsync();
+            if(pdfs == 0)
+            {
+                var writer = await _context.Writers.FirstOrDefaultAsync(c => c.Id == id);
+                _context.Writers.Remove(writer);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", "Writers");
+            }
+            return Json("Selected writer has some data associated with them and cannot be deleted.");
+        }
     }
 }
