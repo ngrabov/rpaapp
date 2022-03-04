@@ -4,15 +4,16 @@
 }
 
 <div style="width: 100%; float: right;">
-<form asp-action="Dashboard" method="get">
-    <div class="form-actions no-color" style="float: right;">
-        <p>
-            <input type="text" name="search" value="@ViewData["CurrentFilter"]" />
-            <input type="submit" value="Search" class="btn btn-primary" style="background-color: #034791;" />
-            <a asp-action="Dashboard" class="btn btn-primary" style="background-color: #034791;">Discard</a>
-        </p>
-    </div>
-</form>
+    <form asp-action="Dashboard" id="mform" method="get">
+        <div class="form-actions no-color" style="float: right;">
+            <p>
+                <input type="date" id="date" name="date" style="margin: 0 10px 0 0; width: 150px;" value="@ViewData["CurrentTime"]">
+                <input type="text" name="search" value="@ViewData["CurrentFilter"]" />
+                <input type="submit" value="Search" class="btn btn-primary" style="background-color: #034791; padding: 3px 15px;" />
+                <a asp-action="Dashboard" class="btn btn-primary" style="background-color: #034791; padding: 3px 15px;">Discard</a>
+            </p>
+        </div>
+    </form>
 </div>
 
 <hr>
@@ -26,12 +27,15 @@
 </div>
 
 <div id="All" class="tabcontent">
+    <div style="padding-top: 5px;">
+        <p>Showing @Model.Count() results</p>
+    </div>
     <table class="table table-hover" style="margin-top: 10px;">  
         <thead>
-            <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["SortParm"]" style="text-decoration: none; color: black;"><b>Name</b></a></th>
-            <th class="headerSortDown hide"><a asp-action="Dashboard" asp-route-order="@ViewData["SizeParm"]" style="text-decoration: none; color: black;">Size</a></th>
-            <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["UpldParm"]" style="text-decoration: none; color: black;">Added by</a></th>
-            <th class="headerSortDown hide"><a asp-action="Dashboard" asp-route-order="@ViewData["TimeParm"]" style="text-decoration: none; color: black;">Upload time</a></th>
+            <th class="headerSortDown"><b>Name</b></th>
+            <th class="headerSortDown hide">Size</th>
+            <th class="headerSortDown">Added by</th>
+            <th class="headerSortDown hide">Upload time</th>
             <th class="hide"><a style="text-decoration: none; color: black;">Status</a></th>
         </thead> 
         <tbody>
@@ -59,6 +63,9 @@
     </table>
 </div>
 <div id="Ready" class="tabcontent">
+    <div style="padding-top: 5px;">
+        <p>Showing @Model.Where(c => c.Status == Status.Ready).Count() results</p>
+    </div>
     <table class="table table-hover" style="margin-top: 10px;">  
         <thead>
             <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["SortParm"]" style="text-decoration: none; color: black;"><b>Name</b></a></th>
@@ -92,6 +99,9 @@
     </table>
 </div>
 <div id="Confirmed" class="tabcontent">
+    <div style="padding-top: 5px;">
+        <p>Showing @Model.Where(c => c.Status == Status.Confirmed).Count() results</p>
+    </div>
     <table class="table table-hover" style="margin-top: 10px;">  
         <thead>
             <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["SortParm"]" style="text-decoration: none; color: black;"><b>Name</b></a></th>
@@ -125,6 +135,9 @@
     </table>
 </div>
 <div id="Archived" class="tabcontent">
+    <div style="padding-top: 5px;">
+        <p>Showing @Model.Where(c => c.Status == Status.Archived).Count() results</p>
+    </div>
     <table class="table table-hover" style="margin-top: 10px;">  
         <thead>
             <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["SortParm"]" style="text-decoration: none; color: black;"><b>Name</b></a></th>
@@ -160,6 +173,9 @@
     </table>
 </div>
 <div id="Problem" class="tabcontent">
+    <div style="padding-top: 5px;">
+        <p>Showing @Model.Where(c => c.Status == Status.Problem || c.Status == Status.Resolved).Count() results</p>
+    </div>
     <table class="table table-hover" style="margin-top: 10px;">  
         <thead>
             <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["SortParm"]" style="text-decoration: none; color: black;"><b>Name</b></a></th>
@@ -251,6 +267,12 @@ function openCity(evt, cityName) {
 
 document.getElementById("defaultOpen").click();
 
+$(function () {
+    $('#date').change(function() {
+        $('#mform').submit();
+    });
+});
+
 </script>
 
 <style>
@@ -292,20 +314,12 @@ table th {
   border: 1px solid silver;
 }
 
-.headerSortDown:after,
+@* .headerSortDown:after,
 .headerSortUp:after {
   content: ' ';
   position: relative;
   left: 2px;
   border: 8px solid transparent;
-}
-
-.tooltip{
-    visibility: hidden;
-}
-
-.tooltip:hover{
-    visibility: visible;
 }
 
 .headerSortDown:after {
@@ -321,7 +335,7 @@ table th {
 .headerSortDown,
 .headerSortUp {
   padding-right: 10px;
-}
+} *@
 
 * {box-sizing: border-box}
 

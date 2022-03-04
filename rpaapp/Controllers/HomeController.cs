@@ -27,9 +27,9 @@ public class HomeController : Controller
     }
 
     [Authorize(Roles = "Administrator,Manager")]
-    public async Task<IActionResult> Index(string order, string search)
+    public async Task<IActionResult> Index(string order, string search, DateTime? date)
     {
-        return await Dashboard(order, search);
+        return await Dashboard(order, search, date);
     }
     
     [Authorize(Roles = "Administrator,Manager")]
@@ -111,45 +111,19 @@ public class HomeController : Controller
 
     [Authorize(Roles = "Administrator,Manager")]
     [Route("Dashboard")]
-    public async Task<IActionResult> Dashboard(string order, string search)
+    public async Task<IActionResult> Dashboard(string order, string search, DateTime? date)
     {
         var docs = new List<Document>();
-
-        if(String.IsNullOrEmpty(order))
-        {
-            ViewData["SortParm"] = "name_desc";
-        }
-        else
-        {
-            ViewData["SortParm"] = "";
-        }
         ViewData["CurrentFilter"] = search;
 
-        if(order == "Size")
-        {
-            ViewData["SizeParm"] = "size_desc";
+        if(date == null)
+        { 
+            ViewData["CurrentTime"] = DateTime.Now.Date.ToString("yyyy-MM-dd");
+            date = DateTime.Now.Date;
         }
         else
         {
-            ViewData["SizeParm"] = "Size";
-        }
-
-        if(order == "Upld")
-        {
-            ViewData["UpldParm"] = "upld_desc";
-        }
-        else
-        {
-            ViewData["UpldParm"] = "Upld";
-        }
-
-        if(order == "Time")
-        {
-            ViewData["TimeParm"] = "time_desc";
-        }
-        else
-        {
-            ViewData["TimeParm"] = "Time";
+            ViewData["CurrentTime"] = date.Value.ToString("yyyy-MM-dd");
         }
 
         var group = from doc in await _context.Documents.AsQueryable().ToListAsync() 
@@ -166,39 +140,8 @@ public class HomeController : Controller
         {
             docs = docs.Where(c => c.pdfname.Contains(search) || (c.RAC_number != null) && (c.RAC_number.Contains(search)) || (c.writername.ToUpper().Contains(search.ToUpper()))).ToList();
         }
-
-        if(order == "name_desc")
-        {
-            docs = docs.OrderByDescending(c => c.pdfname).ToList();
-        }
-        else if (order == "time_desc")
-        {
-            docs = docs.OrderByDescending(c => c.uploaded).ToList();
-        }
-        else if (order == "upld_desc")
-        {
-            docs = docs.OrderByDescending(c => c.writername).ToList();
-        }
-        else if (order == "size_desc")
-        {
-            docs = docs.OrderByDescending(c => c.fsize).ToList();
-        }
-        else if (order == "Time")
-        {
-            docs = docs.OrderBy(c => c.uploaded).ToList();
-        }
-        else if (order == "Upld")
-        {
-            docs = docs.OrderBy(c => c.writername).ToList();
-        }
-        else if (order == "Size")
-        {
-            docs = docs.OrderBy(c => c.fsize).ToList();
-        }
-        else
-        {
-            docs = docs.OrderBy(c => c.pdfname).ToList();
-        }
+        docs = docs.Where(c => c.uploaded.Date == date).ToList();
+        docs = docs.OrderByDescending(c => c.uploaded).ToList();
 
         return View(docs);
     }
