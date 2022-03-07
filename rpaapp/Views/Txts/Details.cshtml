@@ -245,7 +245,14 @@
                 </div>  
                 }
                 <div class="form-group" style="padding-top: 20px;">
-                    <input type="submit" value="OK" class="btn btn-primary" style="background-color: #034791;" />
+                    @if(Model.isReviewed)
+                    {
+                        <input type="submit" value="OK" class="btn btn-primary" style="background-color: #034791;" disabled />
+                    }
+                    else
+                    {
+                        <input type="submit" value="OK" class="btn btn-primary" style="background-color: #034791;" />
+                    }
                     <a asp-controller="Home" asp-action="Dashboard" class="btn btn-primary" style="padding-left: 10px; background-color: #034791;" asp-route-id="@Model.DocId">Back</a>
                 </div> 
             </form>

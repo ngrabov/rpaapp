@@ -53,7 +53,6 @@ namespace rpaapp.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Administrator,Manager")]
-        //[ActionName("Details")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Resolve(Guid? id)
         {

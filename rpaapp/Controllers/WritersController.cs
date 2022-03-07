@@ -64,6 +64,49 @@ namespace rpaapp.Controllers
         }
 
         [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var writer = await _context.Writers.FirstOrDefaultAsync(c => c.Id == id);
+            if(writer == null) return NotFound();
+
+            return View(writer);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Edit")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> EditPost(int? id)
+        {
+            if(id == null) return NotFound();
+
+            var writer = await _context.Writers.FirstOrDefaultAsync(c => c.Id == id);
+
+            if(writer != null)
+            {
+                if(await TryUpdateModelAsync<Writer> (writer, "", s => s.FirstName,  s => s.LastName))
+                { 
+                    try
+                    {
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction("Index", "Writers");
+                    }
+                    catch(DbUpdateException)
+                    {
+                        ModelState.AddModelError("", "Could not save changes. Try again, and if the problem persists, contact your system administrator.");
+                    }
+                } 
+            }
+            ModelState.AddModelError("", "Error updating the writer.");
+            return View(writer);
+        }
+        
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> ChangeWriter()
         {
             var cnt = await _context.pdfs.Where(c => c.Writer.FirstName == null).CountAsync();
@@ -95,6 +138,7 @@ namespace rpaapp.Controllers
         {
             if(id == null) return NotFound();
             var writer = await _context.Writers.FirstOrDefaultAsync(c => c.Id == id);
+            if(writer == null) return NotFound();
             return View(writer);
         }
 
