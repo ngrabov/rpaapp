@@ -74,6 +74,7 @@ namespace rpaapp.Controllers
                             doc.Status = Status.Confirmed;
                         }
                         text.isReviewed = true;
+                        text.isDownloaded = false;
                         await _context.SaveChangesAsync();
 
                         var currentUser = await _userManager.GetUserAsync(User);

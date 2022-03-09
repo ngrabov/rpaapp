@@ -136,6 +136,17 @@ public class HomeController : Controller
             docs.Add(doc);
         }
 
+        var prblms = from prblm in await _context.Documents.Where(c => c.Status == Status.Problem).AsQueryable().ToListAsync()
+                    group prblm by prblm.uploaded.Date into divprb
+                    select divprb;
+
+        var ready = from rdy in await _context.Documents.Where(c => c.Status == Status.Ready).AsQueryable().ToListAsync()
+                    group rdy by rdy.uploaded.Date into divrdy
+                    select divrdy;
+
+        ViewData["Ready"] = ready;
+        ViewData["Problem"] = prblms;
+
         if(!String.IsNullOrEmpty(search))
         {
             docs = docs.Where(c => c.pdfname.Contains(search) || (c.RAC_number != null) && (c.RAC_number.Contains(search)) || (c.writername.ToUpper().Contains(search.ToUpper()))).ToList();

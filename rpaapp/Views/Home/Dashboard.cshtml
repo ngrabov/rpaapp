@@ -1,6 +1,10 @@
 @model IEnumerable<rpaapp.Models.Document>
 @{
     ViewData["Title"] = "Dashboard";
+    var ready = (IEnumerable<IGrouping<DateTime,Document>>)ViewData["Ready"];
+    var prblm = (IEnumerable<IGrouping<DateTime,Document>>)ViewData["Problem"];
+    var cnt = prblm.Count();
+    var cn2 = ready.Count();
 }
 
 <div style="width: 100%; float: right;">
@@ -238,10 +242,48 @@
     </table>
 </div>
 
-<div style="width: 150px; margin: auto; padding-top: 25px;">
+<div style="width: 150px; margin: auto; padding-top: 15px;">
     <a asp-controller="Pdfs" asp-action="Upload" style="margin-top: 25px;"><button class="btn btn-primary" style="background-color: #034791; color: white; width: 150px;">Upload pdfs</button></a>
 </div>
 
+<div style="display: flex; width: 50%; margin: 30px auto; border: solid 1px lightgrey; border-radius: 5px; color: grey; text-align: center;">
+    @if(cnt == 0)
+    {
+        <div class="col-md-6" style="background-color: #ccffee;">
+            <p>No problematic invoices. Have a nice day! :)</p>
+        </div>
+    }
+    else
+    {
+        <div class="col-md-6" style="background-color: lavenderblush;">
+            <p>There are problematic invoices. Please resolve them.</p>
+            @foreach (var item in prblm)
+            {
+                var doc = item.FirstOrDefault();
+                <p><a asp-action="Dashboard" style="text-decoration: none;" asp-route-date="@doc.uploaded.Date">@doc.uploaded.Date.ToString("dd.MM.yyyy.")</a></p>
+            }
+        </div>
+    }
+
+    @if(cn2 == 0)
+    {
+        <div class="col-md-6" style="background-color: #ccffee;">
+            <p>No invoices to review. Have a nice day! :)</p>
+        </div>
+    }
+    else
+    {
+        <div class="col-md-6" style="background-color: lavenderblush;">
+            <p>There are invoices to review. Please review them.</p>
+            @foreach (var itm in ready)
+            {
+                var dcm = itm.FirstOrDefault();
+                <p><a asp-action="Dashboard" style="text-decoration: none;" asp-route-date="@dcm.uploaded.Date">@dcm.uploaded.Date.ToString("dd.MM.yyyy.")</a></p>
+            }
+        </div>
+    }
+</div>
+    
 <script>
 
 function openCity(evt, cityName) {
@@ -314,39 +356,14 @@ table th {
   border: 1px solid silver;
 }
 
-@* .headerSortDown:after,
-.headerSortUp:after {
-  content: ' ';
-  position: relative;
-  left: 2px;
-  border: 8px solid transparent;
-}
-
-.headerSortDown:after {
-  top: 10px;
-  border-top-color: silver;
-}
-
-.headerSortUp:after {
-  bottom: 15px;
-  border-bottom-color: silver;
-}
-
-.headerSortDown,
-.headerSortUp {
-  padding-right: 10px;
-} *@
-
 * {box-sizing: border-box}
 
-/* Style the tab */
 .tab {
   float: left;
   background-color: #f1f1f1;
   height: 120px;
 }
 
-/* Style the buttons that are used to open the tab content */
 .tab button {
   display: block;
   background-color: inherit;
@@ -360,17 +377,14 @@ table th {
   transition: 0.3s;
 }
 
-/* Change background color of buttons on hover */
 .tab button:hover {
   background-color: #ddd;
 }
 
-/* Create an active/current "tab button" class */
 .tab button.active {
   background-color: #ccc;
 }
 
-/* Style the tab content */
 .tabcontent {
   float: left;
   padding: 0px 12px;
