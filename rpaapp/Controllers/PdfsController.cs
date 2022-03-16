@@ -14,10 +14,12 @@ public class PdfsController : Controller
     private ApplicationDbContext _context;
     private SignInManager<Writer> _signInManager;
     private UserManager<Writer> _userManager;
+    private IWebHostEnvironment _environment;
     private IHubContext<SDHub, IHubClient> _informHub;
-    public PdfsController(IHubContext<SDHub, IHubClient> informHub, ApplicationDbContext context, SignInManager<Writer> signInManager, UserManager<Writer> userManager)
+    public PdfsController(IHubContext<SDHub, IHubClient> informHub, ApplicationDbContext context, SignInManager<Writer> signInManager, UserManager<Writer> userManager, IWebHostEnvironment environment)
     {
         _context = context;
+        _environment = environment;
         _userManager = userManager;
         _signInManager = signInManager;
         _informHub = informHub;
@@ -66,9 +68,46 @@ public class PdfsController : Controller
         return RedirectToAction("Repository", "Home");
     }
 
+    [Authorize(Roles = "Administrator")]
+    public async Task<IActionResult> CleanFiles(int? day)
+    {
+        if(day == null) return NotFound();
+        var docs = await _context.Documents.Where(c => c.Status == Status.Archived && c.uploaded.Day == day).ToListAsync();
+        if(docs.Count == 0) return Json("No files for the selected day");
+        foreach(var doc in docs)
+        {   
+            string path = Path.Combine(_environment.WebRootPath) + "/Document/" + doc.fguid;
+            if(Directory.Exists(path))
+            {
+                DirectoryInfo di = new DirectoryInfo(path);
+                foreach(var f in di.GetFiles())
+                {
+                    f.Delete();
+                }
+                System.IO.Directory.Delete(path);
+            }
+        }
+        return Json("Files cleaned successfully.");
+    }
     public async Task Complex(List<IFormFile> files)
     {
         var currentuser = await _userManager.GetUserAsync(User);
+
+        /* var docs = await _context.Documents.Where(c => c.Status == Status.Archived && c.uploaded.Date != DateTime.Now.Date).ToListAsync();
+        foreach(var doc in docs)
+        {   
+            string path = Path.Combine(_environment.WebRootPath) + "/Document/" + doc.fguid;
+            if(Directory.Exists(path))
+            {
+                DirectoryInfo di = new DirectoryInfo(path);
+                foreach(var f in di.GetFiles())
+                {
+                    f.Delete();
+                }
+                System.IO.Directory.Delete(path);
+            }
+        } */
+
         foreach(var file in files)
         {
             Pdf pdf = new Pdf();

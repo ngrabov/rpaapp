@@ -502,4 +502,11 @@ public class HomeController : Controller
 
         return RedirectToAction(nameof(Index));
     }
+
+    /* [Authorize(Roles = "Administrator, Manager")]
+    public async Task<IActionResult> MassDelete()
+    {
+        var docs = await _context.Documents.Where(c => c.uploaded.Date == DateTime.Now.Date).ToListAsync();
+        return View(docs);
+    } */
 }

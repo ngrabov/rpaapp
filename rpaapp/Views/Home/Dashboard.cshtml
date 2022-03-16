@@ -72,10 +72,10 @@
     </div>
     <table class="table table-hover" style="margin-top: 10px;">  
         <thead>
-            <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["SortParm"]" style="text-decoration: none; color: black;"><b>Name</b></a></th>
-            <th class="headerSortDown hide"><a asp-action="Dashboard" asp-route-order="@ViewData["SizeParm"]" style="text-decoration: none; color: black;">Size</a></th>
-            <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["UpldParm"]" style="text-decoration: none; color: black;">Uploaded by</a></th>
-            <th class="headerSortDown hide"><a asp-action="Dashboard" asp-route-order="@ViewData["TimeParm"]" style="text-decoration: none; color: black;">Upload time</a></th>
+            <th class="headerSortDown"><b>Name</b></th>
+            <th class="headerSortDown hide">Size</th>
+            <th class="headerSortDown">Uploaded by</th>
+            <th class="headerSortDown hide">Upload time</th>
             <th class="hide"><a style="text-decoration: none; color: black;">Status</a></th>
         </thead> 
         <tbody>
@@ -108,10 +108,10 @@
     </div>
     <table class="table table-hover" style="margin-top: 10px;">  
         <thead>
-            <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["SortParm"]" style="text-decoration: none; color: black;"><b>Name</b></a></th>
-            <th class="headerSortDown hide"><a asp-action="Dashboard" asp-route-order="@ViewData["SizeParm"]" style="text-decoration: none; color: black;">Size</a></th>
-            <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["UpldParm"]" style="text-decoration: none; color: black;">Uploaded by</a></th>
-            <th class="headerSortDown hide"><a asp-action="Dashboard" asp-route-order="@ViewData["TimeParm"]" style="text-decoration: none; color: black;">Upload time</a></th>
+            <th class="headerSortDown"><b>Name</b></th>
+            <th class="headerSortDown hide">Size</th>
+            <th class="headerSortDown">Uploaded by</th>
+            <th class="headerSortDown hide">Upload time</th>
             <th class="hide"><a style="text-decoration: none; color: black;">Status</a></th>
         </thead> 
         <tbody>
@@ -144,10 +144,10 @@
     </div>
     <table class="table table-hover" style="margin-top: 10px;">  
         <thead>
-            <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["SortParm"]" style="text-decoration: none; color: black;"><b>Name</b></a></th>
-            <th class="headerSortDown hide"><a asp-action="Dashboard" asp-route-order="@ViewData["SizeParm"]" style="text-decoration: none; color: black;">Size</a></th>
-            <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["UpldParm"]" style="text-decoration: none; color: black;">Uploaded by</a></th>
-            <th class="headerSortDown hide"><a asp-action="Dashboard" asp-route-order="@ViewData["TimeParm"]" style="text-decoration: none; color: black;">Upload time</a></th>
+            <th class="headerSortDown"><b>Name</b></th>
+            <th class="headerSortDown hide">Size</th>
+            <th class="headerSortDown">Uploaded by</th>
+            <th class="headerSortDown hide">Upload time</th>
             <th class="hide"><a style="text-decoration: none; color: black;">Status</a></th>
             <th><a style="text-decoration: none; color: black;">RAC</a></th>
         </thead> 
@@ -157,7 +157,7 @@
                 var mb = @item.fsize / 1000000.0;
                 <tr>
                     <td>
-                        <a asp-action="Details" asp-controller="Txts" asp-route-id="@item.fguid" style="text-decoration: none;">@item.pdfname</a>
+                        @item.pdfname
                     </td>
                     <td class="hide">@Math.Round(mb, 2) MB</td>
                     @if(item.writername != null)
@@ -182,10 +182,11 @@
     </div>
     <table class="table table-hover" style="margin-top: 10px;">  
         <thead>
-            <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["SortParm"]" style="text-decoration: none; color: black;"><b>Name</b></a></th>
-            <th class="headerSortDown hide"><a asp-action="Dashboard" asp-route-order="@ViewData["SizeParm"]" style="text-decoration: none; color: black;">Size</a></th>
-            <th class="headerSortDown"><a asp-action="Dashboard" asp-route-order="@ViewData["UpldParm"]" style="text-decoration: none; color: black;">Uploaded by</a></th>
-            <th class="headerSortDown hide"><a asp-action="Dashboard" asp-route-order="@ViewData["TimeParm"]" style="text-decoration: none; color: black;">Upload time</a></th>
+            <th></th>
+            <th class="headerSortDown"><b>Name</b></th>
+            <th class="headerSortDown hide">Size</th>
+            <th class="headerSortDown">Uploaded by</th>
+            <th class="headerSortDown hide">Upload time</th>
             <th class="hide"><a style="text-decoration: none; color: black;">Status</a></th>
             <th><a style="text-decoration: none; color: black;">RAC</a></th>
             <th>Description</th>
@@ -196,6 +197,14 @@
             {
                 var mb = @item.fsize / 1000000.0;
                 <tr>
+                    @if(item.Status == Status.Problem)
+                    {
+                        <td><input style="width: 16px; height: 16px;" type="checkbox" id="Del" name="Del" value="@item.fguid"></td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
                     <td>
                         <a asp-action="Details" asp-controller="Txts" asp-route-id="@item.fguid" style="text-decoration: none;">@item.pdfname</a>
                     </td>
@@ -228,8 +237,8 @@
                     }
                     @if(item.Status == Status.Problem)
                     {
-                    <td><a asp-controller="Home" asp-action="Resolve" asp-route-gd="@item.fguid" style="width: 18px; height: 18px;"><i class="fa fa-check-square" style="font-size:18px;color:green; padding-left: 10px;"></i></a>
-                    <a asp-controller="Home" asp-action="Cancel" asp-route-gd="@item.fguid" style="width: 100%; height: 100%;"><i class="fa fa-close" style="font-size:18px;color:red; padding-left: 10px;"></i></a></td>
+                        <td><a asp-controller="Home" asp-action="Resolve" asp-route-gd="@item.fguid" style="width: 18px; height: 18px;"><i class="fa fa-check-square" style="font-size:18px;color:green; padding-left: 10px;"></i></a>
+                        <a asp-controller="Home" asp-action="Cancel" asp-route-gd="@item.fguid" style="width: 100%; height: 100%;"><i class="fa fa-close" style="font-size:18px;color:red; padding-left: 10px;"></i></a></td>
                     }
                     else
                     {
@@ -241,6 +250,10 @@
         </tbody>
     </table>
 </div>
+
+@* <div style="width: 150px; margin: auto; padding-top: 15px;">
+    <a asp-action="MassDelete"><button class="btn btn-danger">Mass delete</button></a>
+</div> *@
 
 <div style="width: 150px; margin: auto; padding-top: 15px;">
     <a asp-controller="Pdfs" asp-action="Upload" style="margin-top: 25px;"><button class="btn btn-primary" style="background-color: #034791; color: white; width: 150px;">Upload pdfs</button></a>
