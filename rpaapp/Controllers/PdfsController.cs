@@ -73,14 +73,14 @@ public class PdfsController : Controller
     {
         if(day == null) return NotFound();
         var docs = await _context.Documents.Where(c => c.Status == Status.Archived && c.uploaded.Day == day).ToListAsync();
-        if(docs.Count == 0) return Json("No files for the selected day");
+        if(docs.Count == 0) return Json("No files for the selected day.");
         foreach(var doc in docs)
         {   
             string path = Path.Combine(_environment.WebRootPath) + "/Document/" + doc.fguid;
             if(Directory.Exists(path))
             {
                 DirectoryInfo di = new DirectoryInfo(path);
-                foreach(var f in di.GetFiles())
+                foreach(var f in di.EnumerateFiles())
                 {
                     f.Delete();
                 }
@@ -93,7 +93,7 @@ public class PdfsController : Controller
     {
         var currentuser = await _userManager.GetUserAsync(User);
 
-        /* var docs = await _context.Documents.Where(c => c.Status == Status.Archived && c.uploaded.Date != DateTime.Now.Date).ToListAsync();
+        /* var docs = await _context.Documents.Where(c => c.Status == Status.Archived && c.uploaded.Date != DateTime.Now.Date).Take(10).ToListAsync();
         foreach(var doc in docs)
         {   
             string path = Path.Combine(_environment.WebRootPath) + "/Document/" + doc.fguid;

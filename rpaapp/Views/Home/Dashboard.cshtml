@@ -22,13 +22,15 @@
 
 <hr>
 
+
 <div class="tab">
-    <button class="tablinks" onclick="openCity(event, 'All')" id="defaultOpen">All</button>
-    <button class="tablinks" onclick="openCity(event, 'Ready')">Ready</button>
+    <button class="tablinks" onclick="openCity(event, 'All')">All</button>
+    <button class="tablinks" onclick="openCity(event, 'Ready')" id="defaultOpen">Ready</button>
     <button class="tablinks" onclick="openCity(event, 'Confirmed')">Confirmed</button>
     <button class="tablinks" onclick="openCity(event, 'Archived')">Archived</button>
     <button class="tablinks" onclick="openCity(event, 'Problem')">Problem</button>
 </div>
+
 
 <div id="All" class="tabcontent">
     <div style="padding-top: 5px;">
@@ -176,87 +178,88 @@
         </tbody>
     </table>
 </div>
-<div id="Problem" class="tabcontent">
-    <div style="padding-top: 5px;">
-        <p>Showing @Model.Where(c => c.Status == Status.Problem || c.Status == Status.Resolved).Count() results</p>
-    </div>
-    <table class="table table-hover" style="margin-top: 10px;">  
-        <thead>
-            <th></th>
-            <th class="headerSortDown"><b>Name</b></th>
-            <th class="headerSortDown hide">Size</th>
-            <th class="headerSortDown">Uploaded by</th>
-            <th class="headerSortDown hide">Upload time</th>
-            <th class="hide"><a style="text-decoration: none; color: black;">Status</a></th>
-            <th><a style="text-decoration: none; color: black;">RAC</a></th>
-            <th>Description</th>
-            <th>Action</th>
-        </thead> 
-        <tbody>
-            @foreach (var item in Model.Where(c => c.Status == Status.Problem || c.Status == Status.Resolved))
-            {
-                var mb = @item.fsize / 1000000.0;
-                <tr>
-                    @if(item.Status == Status.Problem)
-                    {
-                        <td><input style="width: 16px; height: 16px;" type="checkbox" id="Del" name="Del" value="@item.fguid"></td>
-                    }
-                    else
-                    {
-                        <td></td>
-                    }
-                    <td>
-                        <a asp-action="Details" asp-controller="Txts" asp-route-id="@item.fguid" style="text-decoration: none;">@item.pdfname</a>
-                    </td>
-                    <td class="hide">@Math.Round(mb, 2) MB</td>
-                    @if(item.writername != null)
-                    {
-                        <td>@item.writername</td>
-                    }
-                    else
-                    {
-                        <td></td>
-                    }
-                    <td class="hide">@item.uploaded.ToString("dd.MM.yyyy. H:mm:ss")</td>
-                    <td class="hide">@item.Status</td>
-                    <td>@item.RAC_number</td>
-                    @if(item.Description != null)
-                    {
-                        @if(item.Description.Length > 20)
+<form asp-action="MassDelete">
+    <div id="Problem" class="tabcontent">
+        <div style="padding-top: 5px;">
+            <p>Showing @Model.Where(c => c.Status == Status.Problem || c.Status == Status.Resolved).Count() results</p>
+        </div>
+        <table class="table table-hover" style="margin-top: 10px;">  
+            <thead>
+                <th></th>
+                <th class="headerSortDown"><b>Name</b></th>
+                <th class="headerSortDown hide">Size</th>
+                <th class="headerSortDown">Uploaded by</th>
+                <th class="headerSortDown hide">Upload time</th>
+                <th class="hide"><a style="text-decoration: none; color: black;">Status</a></th>
+                <th><a style="text-decoration: none; color: black;">RAC</a></th>
+                <th>Description</th>
+                <th>Action</th>
+            </thead> 
+            <tbody>
+                @foreach (var item in Model.Where(c => c.Status == Status.Problem || c.Status == Status.Resolved))
+                {
+                    var mb = @item.fsize / 1000000.0;
+                    <tr>
+                        @if(item.Status == Status.Problem)
                         {
-                            <td>@item.Description.Substring(0, 20) ...</td>
+                            <td><input style="width: 16px; height: 16px;" type="checkbox" name="Del" value="@item.fguid"></td>
                         }
                         else
                         {
-                            <td>@item.Description</td>
+                            <td></td>
                         }
-                    }
-                    else
-                    {
-                        <td></td>
-                    }
-                    @if(item.Status == Status.Problem)
-                    {
-                        <td><a asp-controller="Home" asp-action="Resolve" asp-route-gd="@item.fguid" style="width: 18px; height: 18px;"><i class="fa fa-check-square" style="font-size:18px;color:green; padding-left: 10px;"></i></a>
-                        <a asp-controller="Home" asp-action="Cancel" asp-route-gd="@item.fguid" style="width: 100%; height: 100%;"><i class="fa fa-close" style="font-size:18px;color:red; padding-left: 10px;"></i></a></td>
-                    }
-                    else
-                    {
-                        <td><i class="fa fa-check-square" style="font-size:18px;color:grey; padding-left: 10px;"></i>
-                       <i class="fa fa-close" style="font-size:18px;color:grey; padding-left: 10px;"></i></td>
-                    }
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
-@* <div style="width: 150px; margin: auto; padding-top: 15px;">
-    <a asp-action="MassDelete"><button class="btn btn-danger">Mass delete</button></a>
-</div> *@
+                        <td>
+                            <a asp-action="Details" asp-controller="Txts" asp-route-id="@item.fguid" style="text-decoration: none;">@item.pdfname</a>
+                        </td>
+                        <td class="hide">@Math.Round(mb, 2) MB</td>
+                        @if(item.writername != null)
+                        {
+                            <td>@item.writername</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        <td class="hide">@item.uploaded.ToString("dd.MM.yyyy. H:mm:ss")</td>
+                        <td class="hide">@item.Status</td>
+                        <td>@item.RAC_number</td>
+                        @if(item.Description != null)
+                        {
+                            @if(item.Description.Length > 20)
+                            {
+                                <td>@item.Description.Substring(0, 20) ...</td>
+                            }
+                            else
+                            {
+                                <td>@item.Description</td>
+                            }
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        @if(item.Status == Status.Problem)
+                        {
+                            <td><a asp-controller="Home" asp-action="Resolve" asp-route-gd="@item.fguid" style="width: 18px; height: 18px;"><i class="fa fa-check-square" style="font-size:18px;color:green; padding-left: 10px;"></i></a>
+                            <a asp-controller="Home" asp-action="Cancel" asp-route-gd="@item.fguid" style="width: 100%; height: 100%;"><i class="fa fa-close" style="font-size:18px;color:red; padding-left: 10px;"></i></a></td>
+                        }
+                        else
+                        {
+                            <td><i class="fa fa-check-square" style="font-size:18px;color:grey; padding-left: 10px;"></i>
+                        <i class="fa fa-close" style="font-size:18px;color:grey; padding-left: 10px;"></i></td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div style="width: 150px; margin: auto; padding-top: 15px;" id="delbtn">
+        <input type="submit" value="Mass Delete" class="btn btn-danger" style="width: 150px;" />
+    </div>
+</form>
 
 <div style="width: 150px; margin: auto; padding-top: 15px;">
-    <a asp-controller="Pdfs" asp-action="Upload" style="margin-top: 25px;"><button class="btn btn-primary" style="background-color: #034791; color: white; width: 150px;">Upload pdfs</button></a>
+    <a asp-controller="Pdfs" asp-action="Upload" style="margin-top: 25px;"><button class="btn btn-primary" style="background-color: #034791; color: white; width: 150px;">Upload PDFs</button></a>
 </div>
 
 <div style="display: flex; width: 50%; margin: 30px auto; border: solid 1px lightgrey; border-radius: 5px; color: grey; text-align: center;">

@@ -451,6 +451,16 @@ public class HomeController : Controller
         {
             _context.Documents.Remove(item);
         }
+        string path = Path.Combine(_environment.WebRootPath) + "/Document/" + gd;
+        if(Directory.Exists(path))
+        {
+            DirectoryInfo di = new DirectoryInfo(path);
+            foreach(var f in di.EnumerateFiles())
+            {
+                f.Delete();
+            }
+            System.IO.Directory.Delete(path);
+        }
         await _context.SaveChangesAsync();
         return RedirectToAction("Dashboard", "Home");
     }
@@ -503,10 +513,31 @@ public class HomeController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    /* [Authorize(Roles = "Administrator, Manager")]
-    public async Task<IActionResult> MassDelete()
+    [Authorize(Roles = "Administrator, Manager")]
+    public async Task<IActionResult> MassDelete(List<Guid> Del)
     {
-        var docs = await _context.Documents.Where(c => c.uploaded.Date == DateTime.Now.Date).ToListAsync();
-        return View(docs);
-    } */
+        if(Del == null || Del.Count() == 0)
+        {
+            return Json("Nothing to delete.");
+        }
+        foreach(var item in Del)
+        {
+            var doc = await _context.Documents.Where(c => c.fguid == item).ToListAsync();
+            _context.Documents.RemoveRange(doc);
+            var txt = await _context.Txts.FirstOrDefaultAsync(c => c.DocId == item);
+            _context.Txts.Remove(txt);
+            string path = Path.Combine(_environment.WebRootPath) + "/Document/" + item;
+            if(Directory.Exists(path))
+            {
+                DirectoryInfo di = new DirectoryInfo(path);
+                foreach(var f in di.EnumerateFiles())
+                {
+                    f.Delete();
+                }
+                System.IO.Directory.Delete(path);
+            }
+        }
+        await _context.SaveChangesAsync();
+        return RedirectToAction("Index", "Home");
+    }
 }
