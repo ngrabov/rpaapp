@@ -71,42 +71,39 @@ public class PdfsController : Controller
     [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> CleanFiles(int? day)
     {
-        if(day == null) return NotFound();
-        var docs = await _context.Documents.Where(c => c.Status == Status.Archived && c.uploaded.Day == day).ToListAsync();
-        if(docs.Count == 0) return Json("No files for the selected day.");
-        foreach(var doc in docs)
-        {   
-            string path = Path.Combine(_environment.WebRootPath) + "/Document/" + doc.fguid;
-            if(Directory.Exists(path))
-            {
-                DirectoryInfo di = new DirectoryInfo(path);
-                foreach(var f in di.EnumerateFiles())
+        try
+        {
+            if(day == null) return NotFound();
+            var docs = await _context.Documents.Where(c => c.Status == Status.Archived && c.uploaded.Day == day).ToListAsync();
+            if(docs.Count == 0) return Json("No files for the selected day.");
+            foreach(var doc in docs)
+            {   
+                string path = Path.Combine(_environment.WebRootPath) + "/Document/" + doc.fguid;
+                if(Directory.Exists(path))
                 {
-                    f.Delete();
+                    DirectoryInfo di = new DirectoryInfo(path);
+                    foreach(var f in di.EnumerateFiles())
+                    {
+                        f.Delete();
+                    }
+                    System.IO.Directory.Delete(path);
                 }
-                System.IO.Directory.Delete(path);
             }
+            return Json("Files cleaned successfully.");
         }
-        return Json("Files cleaned successfully.");
+        catch(Exception e)
+        {
+            var currentuser = await _userManager.GetUserAsync(User);
+            if(currentuser.Id == 1)
+            {
+                return Json(e.Message.ToString());
+            }
+            else return Json("An error occurred. Please contact administrator.");
+        }
     }
     public async Task Complex(List<IFormFile> files)
     {
         var currentuser = await _userManager.GetUserAsync(User);
-
-        /* var docs = await _context.Documents.Where(c => c.Status == Status.Archived && c.uploaded.Date != DateTime.Now.Date).Take(10).ToListAsync();
-        foreach(var doc in docs)
-        {   
-            string path = Path.Combine(_environment.WebRootPath) + "/Document/" + doc.fguid;
-            if(Directory.Exists(path))
-            {
-                DirectoryInfo di = new DirectoryInfo(path);
-                foreach(var f in di.GetFiles())
-                {
-                    f.Delete();
-                }
-                System.IO.Directory.Delete(path);
-            }
-        } */
 
         foreach(var file in files)
         {

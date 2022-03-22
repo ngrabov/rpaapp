@@ -113,48 +113,61 @@ public class HomeController : Controller
     [Route("Dashboard")]
     public async Task<IActionResult> Dashboard(string order, string search, DateTime? date)
     {
-        var docs = new List<Document>();
-        ViewData["CurrentFilter"] = search;
-
-        if(date == null)
-        { 
-            ViewData["CurrentTime"] = DateTime.Now.Date.ToString("yyyy-MM-dd");
-            date = DateTime.Now.Date;
-        }
-        else
+        try
         {
-            ViewData["CurrentTime"] = date.Value.ToString("yyyy-MM-dd");
+            var docs = new List<Document>();
+            ViewData["CurrentFilter"] = search;
+
+            if(date == null)
+            { 
+                ViewData["CurrentTime"] = DateTime.Now.Date.ToString("yyyy-MM-dd");
+                date = DateTime.Now.Date;
+            }
+            else
+            {
+                ViewData["CurrentTime"] = date.Value.ToString("yyyy-MM-dd");
+            }
+
+            var group = from doc in await _context.Documents.AsQueryable().ToListAsync() 
+                        group doc by doc.fguid into divdoc
+                        select divdoc;
+
+            foreach(var grouping in group)
+            {
+                var doc = grouping.FirstOrDefault();
+                docs.Add(doc);
+            }
+
+            var prblms = from prblm in await _context.Documents.Where(c => c.Status == Status.Problem).AsQueryable().ToListAsync()
+                        group prblm by prblm.uploaded.Date into divprb
+                        select divprb;
+
+            var ready = from rdy in await _context.Documents.Where(c => c.Status == Status.Ready).AsQueryable().ToListAsync()
+                        group rdy by rdy.uploaded.Date into divrdy
+                        select divrdy;
+
+            ViewData["Ready"] = ready;
+            ViewData["Problem"] = prblms;
+
+            if(!String.IsNullOrEmpty(search))
+            {
+                docs = docs.Where(c => c.pdfname.Contains(search) || (c.RAC_number != null) && (c.RAC_number.Contains(search)) || (c.writername.ToUpper().Contains(search.ToUpper()))).ToList();
+            }
+            docs = docs.Where(c => c.uploaded.Date == date).ToList();
+            docs = docs.OrderByDescending(c => c.uploaded).ToList();
+            
+            return View(docs);
         }
-
-        var group = from doc in await _context.Documents.AsQueryable().ToListAsync() 
-                    group doc by doc.fguid into divdoc
-                    select divdoc;
-
-        foreach(var grouping in group)
+        catch(Exception e)
         {
-            var doc = grouping.FirstOrDefault();
-            docs.Add(doc);
+            var currentuser = await _userManager.GetUserAsync(User);
+            if(currentuser.Id == 1)
+            {
+                return Json(e.Message.ToString());
+            }
+            else return Json("An error occurred. Please contact administrator.");
         }
 
-        var prblms = from prblm in await _context.Documents.Where(c => c.Status == Status.Problem).AsQueryable().ToListAsync()
-                    group prblm by prblm.uploaded.Date into divprb
-                    select divprb;
-
-        var ready = from rdy in await _context.Documents.Where(c => c.Status == Status.Ready).AsQueryable().ToListAsync()
-                    group rdy by rdy.uploaded.Date into divrdy
-                    select divrdy;
-
-        ViewData["Ready"] = ready;
-        ViewData["Problem"] = prblms;
-
-        if(!String.IsNullOrEmpty(search))
-        {
-            docs = docs.Where(c => c.pdfname.Contains(search) || (c.RAC_number != null) && (c.RAC_number.Contains(search)) || (c.writername.ToUpper().Contains(search.ToUpper()))).ToList();
-        }
-        docs = docs.Where(c => c.uploaded.Date == date).ToList();
-        docs = docs.OrderByDescending(c => c.uploaded).ToList();
-
-        return View(docs);
     }
 
     [Authorize(Roles = "Administrator")]
@@ -217,6 +230,17 @@ public class HomeController : Controller
             item.RAC_number = rac;
         }
         await _context.SaveChangesAsync();
+
+        string path = Path.Combine(_environment.WebRootPath) + "/Document/" + txt.DocId;
+        if(Directory.Exists(path))
+        {
+            DirectoryInfo di = new DirectoryInfo(path);
+            foreach(var f in di.EnumerateFiles())
+            {
+                f.Delete();
+            }
+            System.IO.Directory.Delete(path);
+        }
         return Ok();
     }
 
@@ -516,10 +540,6 @@ public class HomeController : Controller
     [Authorize(Roles = "Administrator, Manager")]
     public async Task<IActionResult> MassDelete(List<Guid> Del)
     {
-        if(Del == null || Del.Count() == 0)
-        {
-            return Json("Nothing to delete.");
-        }
         foreach(var item in Del)
         {
             var doc = await _context.Documents.Where(c => c.fguid == item).ToListAsync();
