@@ -11,6 +11,7 @@
             <th class="hide">File size</th>
             <th>Uploaded by</th>
             <th class="hide">Upload time</th>
+            <th class="hide">Guid</th>
         </thead>
         <tbody>
             @foreach (var item in Model.Where(c => c.isUploaded == false).Where(c => c.isDownloaded == true))
@@ -22,6 +23,7 @@
                     <td class="hide">@Math.Round(mb, 2) MB</td>
                     <td>@item.Writer.FirstName @item.Writer.LastName</td>
                     <td class="hide">@item.uploaded.ToString("dd.MM.yyyy. H:mm:ss")</td>
+                    <td class="hide">@item.guid</td>
                 </tr>
             }
         </tbody>

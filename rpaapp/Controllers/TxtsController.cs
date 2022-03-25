@@ -29,26 +29,34 @@ namespace rpaapp.Controllers
         [Authorize(Roles = "Administrator,Manager")]
         public async Task<IActionResult> Details(Guid? id)
         {
-            if(id == null) return NotFound();
-
-            var txt = await _context.Txts.FirstOrDefaultAsync(c => c.DocId == id);
-
-            var lyt = await _context.Layouts.FirstOrDefaultAsync(c => c.Id == 1);
-            if(lyt.isVisible == true)
+            try
             {
-                ViewData["visible"] = "true";
+                if(id == null) return NotFound();
+
+                var txt = await _context.Txts.FirstOrDefaultAsync(c => c.DocId == id);
+
+                var lyt = await _context.Layouts.FirstOrDefaultAsync(c => c.Id == 1);
+                if(lyt.isVisible == true)
+                {
+                    ViewData["visible"] = "true";
+                }
+                else
+                {
+                    ViewData["visible"] = "false";
+                }
+
+                if(txt == null) return NotFound();
+                
+                populateProcess();
+                populatePeople();
+                populateInvoices();
+
+                return View(txt);
             }
-            else
+            catch(Exception e)
             {
-                ViewData["visible"] = "false";
+                return Json(e.Message.ToString());
             }
-
-            if(txt == null) return NotFound();
-            populateProcess();
-            populatePeople();
-            populateInvoices();
-
-            return View(txt);
         }
 
         [HttpPost]
@@ -63,12 +71,20 @@ namespace rpaapp.Controllers
             if(text != null)
             {
                 if(await TryUpdateModelAsync<Txt> (text, "", s => s.Bruto,  s => s.Currency,
-                s => s.Group,  s => s.InvoiceDate, s => s.InvoiceDueDate,
+                s => s.Group,  s => s.InvoiceDate, s => s.InvoiceDueDate, s => s.PaymentReference,
                 s => s.InvoiceNumber,  s => s.Name, s => s.Neto, s => s.ReferenceNumber, s => s.ClientCode,
                 s => s.State, s => s.VAT, s => s.InvoiceTypeId, s => s.ProcessTypeId, s => s.PersonInChargeId))
                 { 
                     try
                     {
+                        if(text.InvoiceDate > text.InvoiceDueDate)
+                        {
+                            return Json("Invoice date is greater than invoice due date. Please review the invoice again.");
+                        }
+                        if(text.InvoiceDate > DateTime.Now.Date)
+                        {
+                            return Json("Invoice date is greater than today. SimplyDoc does not allow saving future invoices.");
+                        }
                         foreach(var doc in _context.Documents.Where(c => c.fguid == text.DocId))
                         {
                             doc.Status = Status.Confirmed;

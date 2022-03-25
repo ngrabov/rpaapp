@@ -62,8 +62,15 @@ public class PdfsController : Controller
         {
             return Json("You selected more than 20 files.");
         }
-
-        await Complex(files);
+        
+        try
+        {
+            await Complex(files);
+        }
+        catch(Exception e)
+        {
+            return Json(e.Message.ToString());
+        }
         await _informHub.Clients.All.InformClient("ReceiveMessage");
         return RedirectToAction("Repository", "Home");
     }

@@ -62,18 +62,29 @@ public class HomeController : Controller
     //[Authorize(Roles = "Administrator")]
     public async Task<IActionResult> DownloadFile(Guid gd) //pdfs
     {
-        string path = Path.Combine(_environment.WebRootPath) + "/" + gd;
+        try
+        {
+            string path = Path.Combine(_environment.WebRootPath) + "/" + gd;
 
-        byte[] bytes = System.IO.File.ReadAllBytes(path);
+            byte[] bytes = System.IO.File.ReadAllBytes(path);
 
-        var ftd = await _context.pdfs.FirstOrDefaultAsync(c => c.guid == gd);
-        var fname = ftd.fname;
-        var dname = gd.ToString() + ".pdf";
-        
-        ftd.isDownloaded = true;
-        await _context.SaveChangesAsync();
-        System.IO.File.Delete(path);
-        return File(bytes, "application/octet-stream", dname);
+            var ftd = await _context.pdfs.FirstOrDefaultAsync(c => c.guid == gd);
+            if(ftd == null)
+            {
+                return NotFound();
+            }
+            var fname = ftd.fname;
+            var dname = gd.ToString() + ".pdf";
+            
+            ftd.isDownloaded = true;
+            await _context.SaveChangesAsync();
+            //System.IO.File.Delete(path);
+            return File(bytes, "application/octet-stream", dname);
+        }
+        catch(Exception e)
+        {
+            return Json(e.Message.ToString());
+        }
     }
 
     //[Authorize(Roles = "Administrator")]
@@ -186,7 +197,14 @@ public class HomeController : Controller
         {
             return Json("You selected more than 20 files.");
         }
-        await Complex(files);
+        try
+        {
+            await Complex(files);
+        }
+        catch(Exception e)
+        {
+            return Json(e.Message.ToString());
+        }
 
         return RedirectToAction("Index", "Home");
     }
@@ -202,7 +220,14 @@ public class HomeController : Controller
             return Json("You selected more than 20 files.");
         }
 
-        await Complex(files);
+        try
+        {
+            await Complex(files);
+        }
+        catch(Exception e)
+        {
+            return Json(e.Message.ToString());
+        }
 
         return Ok();
     }
@@ -223,6 +248,10 @@ public class HomeController : Controller
         var docs = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
 
         var txt = await _context.Txts.FirstOrDefaultAsync(c => c.DocId == gd);
+        if(txt == null)
+        {
+            return NotFound();
+        }
         txt.isReviewed = false;
         foreach(var item in docs)
         {
@@ -306,7 +335,7 @@ public class HomeController : Controller
                 fn = Guid.Parse(tgd);
                 c++;
             }
-            if(ext == ".png") //pazi
+            if(ext == ".png")
             {
                 pngs += Path.GetFileName(file.FileName) + "|";
             }
@@ -430,7 +459,7 @@ public class HomeController : Controller
                                     text.Bruto = double.Parse(cvt2);
                                 }
                             }
-                            if(line == "Payment_number:")
+                            if(line == "Order_number:")
                             {
                                 text.ReferenceNumber = sr.ReadLine();
                             }
@@ -450,6 +479,16 @@ public class HomeController : Controller
                     await _context.Txts.AddAsync(text);
                 }
             }
+        }
+        else
+        {
+            throw new Exception("Txt or pdf file not provided.");
+        }
+
+        if(fn != Guid.Empty)
+        {
+            string path = Path.Combine(_environment.WebRootPath) + "/" + fn;
+            System.IO.File.Delete(path);
         }
 
         await _context.SaveChangesAsync();

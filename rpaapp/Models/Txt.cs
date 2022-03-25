@@ -27,7 +27,7 @@ namespace rpaapp.Models
         public DateTime InvoiceDueDate { get; set; }
         public double Bruto { get; set; }
         public double Neto { get; set; }
-        [Display(Name = "Payment number")]
+        [Display(Name = "Order number")]
         public string ReferenceNumber { get; set; }
         public string PaymentReference { get; set; }
         public int? ProcessTypeId { get; set; }
