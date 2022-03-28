@@ -1,6 +1,10 @@
 ﻿@model IEnumerable<rpaapp.Models.Pdf>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Writer> SignInManager
+@inject UserManager<Writer> UserManager
 @{
     ViewData["Title"] = "Repository Page";
+    var currentuser = await UserManager.GetUserAsync(User);
 }
 <h3>Waiting list</h3>
 <div>
@@ -12,6 +16,10 @@
             <th>Uploaded by</th>
             <th class="hide">Upload time</th>
             <th class="hide">Guid</th>
+            @if(await UserManager.IsInRoleAsync(currentuser, "Administrator"))
+            {
+                <th class="hide"></th>
+            }
         </thead>
         <tbody>
             @foreach (var item in Model.Where(c => c.isUploaded == false).Where(c => c.isDownloaded == true))
@@ -24,6 +32,10 @@
                     <td>@item.Writer.FirstName @item.Writer.LastName</td>
                     <td class="hide">@item.uploaded.ToString("dd.MM.yyyy. H:mm:ss")</td>
                     <td class="hide">@item.guid</td>
+                    @if(await UserManager.IsInRoleAsync(currentuser, "Administrator"))
+                    {
+                        <td class="hide"><a asp-controller="Home" asp-action="Retry" asp-route-id="@item.Id" style="padding: 0 0.75rem;" class="btn btn-primary">Retry</a></td>
+                    }
                 </tr>
             }
         </tbody>

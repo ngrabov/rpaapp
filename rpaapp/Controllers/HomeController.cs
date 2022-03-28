@@ -87,6 +87,33 @@ public class HomeController : Controller
         }
     }
 
+    [Authorize(Roles = "Administrator")]
+    public async Task<IActionResult> Retry(int? id)
+    {
+        if(id == null) return NotFound();
+
+        var pdf = await _context.pdfs.FirstOrDefaultAsync(c => c.Id == id);
+        if(pdf == null) return NotFound();
+
+        pdf.isDownloaded = false;
+        pdf.isUploaded = false;
+        await _context.SaveChangesAsync();
+        return RedirectToAction("Index", "Home");
+    }
+
+    [Authorize(Roles = "Administrator")]
+    public async Task<IActionResult> Push(int? id)
+    {
+        if(id == null) return NotFound();
+        var pdf = await _context.pdfs.FirstOrDefaultAsync(c => c.Id == id);
+        if(pdf == null) return NotFound();
+
+        pdf.isDownloaded = true;
+        pdf.isUploaded = true;
+        await _context.SaveChangesAsync();
+        return RedirectToAction("Index", "Home");
+    }
+
     //[Authorize(Roles = "Administrator")]
     public async Task<IActionResult> Download(Guid gd) // txts
     {
@@ -323,8 +350,9 @@ public class HomeController : Controller
     {
         string tgd = "";
         long sz = 0;
-        int c = 0, k = 0;
+        int c = 0, k = 0, n = 0;
         Guid fn = Guid.Empty;
+        Txt text = new Txt();
         string pngs = "";
         foreach(var file in files)
         {
@@ -379,7 +407,6 @@ public class HomeController : Controller
 
                 if(ext == ".txt")
                 {
-                    Txt text = new Txt();
                     using(StreamReader sr = new StreamReader("./wwwroot/Document/" + tgd + "/" + wbp))
                     {
                         string line;
@@ -400,6 +427,7 @@ public class HomeController : Controller
                             if(line == "Process:")
                             {
                                 text.ProcessTypeId = Int32.Parse(sr.ReadLine());
+                                n = 1;
                             }
                             if(line == "Currency:")
                             {
@@ -485,12 +513,29 @@ public class HomeController : Controller
             throw new Exception("Txt or pdf file not provided.");
         }
 
+        await _context.SaveChangesAsync(); 
+
         if(fn != Guid.Empty)
         {
             string path = Path.Combine(_environment.WebRootPath) + "/" + fn;
             System.IO.File.Delete(path);
+            if(n == 1)
+            {
+                await DirectResolveAsync(fn);
+            }
+        }  
+    }
+
+    public async Task DirectResolveAsync(Guid? gd)
+    {
+        var dcmnts = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
+        foreach(var f in dcmnts)
+        {
+            f.Status = Status.Confirmed;
         }
 
+        var text = await _context.Txts.FirstOrDefaultAsync(c => c.DocId == gd);
+        text.isReviewed = true;
         await _context.SaveChangesAsync();
     }
 

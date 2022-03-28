@@ -95,7 +95,7 @@ namespace rpaapp.Controllers
 
                         var currentUser = await _userManager.GetUserAsync(User);
                         var dct = await _context.Documents.Where(c => c.Status == Status.Ready && c.writername == currentUser.FullName).FirstOrDefaultAsync();
-                        if(await _context.Documents.Where(c => c.Status == Status.Ready && c.writername == currentUser.FullName).CountAsync() != 0)
+                        if(await _context.Documents.Where(c => c.Status == Status.Ready && (c.writername == currentUser.FullName || c.writername == "E-Račun ")).CountAsync() != 0) //hardcode!!
                         {
                             return RedirectToAction("Details", "Txts", new{ id = dct.fguid});
                         } 
