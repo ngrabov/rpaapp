@@ -7,7 +7,7 @@ public class MinDate : ValidationAttribute
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
         var txt = (Txt)validationContext.ObjectInstance;
-        return (txt.InvoiceDate < DateTime.Now.Date) ? ValidationResult.Success
-         : new ValidationResult("Invoice date should be earlier or equal to today.");
+        return (txt.InvoiceDate <= txt.InvoiceDueDate) ? ValidationResult.Success
+         : new ValidationResult("Invoice date should be earlier or equal to invoice due date.");
     }
 }

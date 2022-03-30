@@ -60,6 +60,7 @@ namespace rpaapp.Controllers
         }
 
         [HttpPost]
+        [ActionName("Details")]
         [Authorize(Roles = "Administrator,Manager")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Resolve(Guid? id)
@@ -77,14 +78,6 @@ namespace rpaapp.Controllers
                 { 
                     try
                     {
-                        if(text.InvoiceDate > text.InvoiceDueDate)
-                        {
-                            return Json("Invoice date is greater than invoice due date. Please review the invoice again.");
-                        }
-                        if(text.InvoiceDate > DateTime.Now.Date)
-                        {
-                            return Json("Invoice date is greater than today. SimplyDoc does not allow saving future invoices.");
-                        }
                         foreach(var doc in _context.Documents.Where(c => c.fguid == text.DocId))
                         {
                             doc.Status = Status.Confirmed;
@@ -107,7 +100,6 @@ namespace rpaapp.Controllers
                     }
                 } 
             }
-            ModelState.AddModelError("", "Please select a valid image file.");
             return View(text);
         }
 

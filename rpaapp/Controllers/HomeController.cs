@@ -624,24 +624,35 @@ public class HomeController : Controller
     [Authorize(Roles = "Administrator, Manager")]
     public async Task<IActionResult> MassDelete(List<Guid> Del)
     {
-        foreach(var item in Del)
+        var tmp = HttpContext.Request.Form["ccl"];
+        if(!String.IsNullOrEmpty(HttpContext.Request.Form["ccl"].ToString()))
         {
-            var doc = await _context.Documents.Where(c => c.fguid == item).ToListAsync();
-            _context.Documents.RemoveRange(doc);
-            var txt = await _context.Txts.FirstOrDefaultAsync(c => c.DocId == item);
-            _context.Txts.Remove(txt);
-            string path = Path.Combine(_environment.WebRootPath) + "/Document/" + item;
-            if(Directory.Exists(path))
+            foreach(var item in Del)
             {
-                DirectoryInfo di = new DirectoryInfo(path);
-                foreach(var f in di.EnumerateFiles())
-                {
-                    f.Delete();
-                }
-                System.IO.Directory.Delete(path);
+                await Cancel(item);
             }
         }
-        await _context.SaveChangesAsync();
+        else
+        {
+            foreach(var item in Del)
+            {
+                var doc = await _context.Documents.Where(c => c.fguid == item).ToListAsync();
+                _context.Documents.RemoveRange(doc);
+                var txt = await _context.Txts.FirstOrDefaultAsync(c => c.DocId == item);
+                _context.Txts.Remove(txt);
+                string path = Path.Combine(_environment.WebRootPath) + "/Document/" + item;
+                if(Directory.Exists(path))
+                {
+                    DirectoryInfo di = new DirectoryInfo(path);
+                    foreach(var f in di.EnumerateFiles())
+                    {
+                        f.Delete();
+                    }
+                    System.IO.Directory.Delete(path);
+                }
+            }
+            await _context.SaveChangesAsync();
+        }
         return RedirectToAction("Index", "Home");
     }
 }

@@ -19,9 +19,9 @@ namespace rpaapp.Models
         public string InvoiceNumber { get; set; }
         
         [DataType(DataType.Date)]
-        //[CustomInvoiceDate(ErrorMessage ="Invoice date should be earlier or equal to today's date.")]
+        [CustomInvoiceDate(ErrorMessage ="Invoice date should be earlier or equal to today's date.")]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}")] 
-        //[MinDate]
+        [MinDate]
         public DateTime InvoiceDate { get; set; }
         
         [DataType(DataType.Date)]
