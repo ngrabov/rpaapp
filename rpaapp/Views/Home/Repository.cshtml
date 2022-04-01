@@ -19,6 +19,7 @@
             @if(await UserManager.IsInRoleAsync(currentuser, "Administrator"))
             {
                 <th class="hide"></th>
+                <th class="hide"></th>
             }
         </thead>
         <tbody>
@@ -35,6 +36,7 @@
                     @if(await UserManager.IsInRoleAsync(currentuser, "Administrator"))
                     {
                         <td class="hide"><a asp-controller="Home" asp-action="Retry" asp-route-id="@item.Id" style="padding: 0 0.75rem;" class="btn btn-primary">Retry</a></td>
+                        <td class="hide"><a asp-controller="Home" asp-action="Push" asp-route-id="@item.Id" style="padding: 0 0.75rem; background-color: green; border-color: green;" class="btn btn-primary">Clean</a></td>
                     }
                 </tr>
             }

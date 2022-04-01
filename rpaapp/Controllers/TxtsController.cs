@@ -65,19 +65,19 @@ namespace rpaapp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Resolve(Guid? id)
         {
-            if(id == null) return NotFound();
-
-            var text = await _context.Txts.FirstOrDefaultAsync(c => c.DocId == id);
-
-            if(text != null)
+            try
             {
-                if(await TryUpdateModelAsync<Txt> (text, "", s => s.Bruto,  s => s.Currency,
-                s => s.Group,  s => s.InvoiceDate, s => s.InvoiceDueDate, s => s.PaymentReference,
-                s => s.InvoiceNumber,  s => s.Name, s => s.Neto, s => s.ReferenceNumber, s => s.ClientCode,
-                s => s.State, s => s.VAT, s => s.InvoiceTypeId, s => s.ProcessTypeId, s => s.PersonInChargeId))
-                { 
-                    try
-                    {
+                if(id == null) return NotFound();
+
+                var text = await _context.Txts.FirstOrDefaultAsync(c => c.DocId == id);
+
+                if(text != null)
+                {
+                    if(await TryUpdateModelAsync<Txt> (text, "", s => s.Bruto,  s => s.Currency,
+                    s => s.Group,  s => s.InvoiceDate, s => s.InvoiceDueDate, s => s.PaymentReference,
+                    s => s.InvoiceNumber,  s => s.Name, s => s.Neto, s => s.ReferenceNumber, s => s.ClientCode,
+                    s => s.State, s => s.VAT, s => s.InvoiceTypeId, s => s.ProcessTypeId, s => s.PersonInChargeId))
+                    { 
                         foreach(var doc in _context.Documents.Where(c => c.fguid == text.DocId))
                         {
                             doc.Status = Status.Confirmed;
@@ -93,14 +93,18 @@ namespace rpaapp.Controllers
                             return RedirectToAction("Details", "Txts", new{ id = dct.fguid});
                         } 
                         return RedirectToAction("Dashboard", "Home");
-                    }
-                    catch(DbUpdateException)
-                    {
-                        ModelState.AddModelError("", "Could not save changes. Try again, and if the problem persists, contact your system administrator.");
-                    }
+                    } 
+                    return View(text);
+                }
+                else
+                {
+                    return NotFound();
                 } 
             }
-            return View(text);
+            catch(Exception e)
+            {
+                return Json(e.Message.ToString());
+            }
         }
 
         private async void populateProcess(object selectedTeam = null)

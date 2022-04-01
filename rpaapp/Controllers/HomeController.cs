@@ -78,7 +78,6 @@ public class HomeController : Controller
             
             ftd.isDownloaded = true;
             await _context.SaveChangesAsync();
-            //System.IO.File.Delete(path);
             return File(bytes, "application/octet-stream", dname);
         }
         catch(Exception e)
@@ -90,28 +89,42 @@ public class HomeController : Controller
     [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> Retry(int? id)
     {
-        if(id == null) return NotFound();
+        try
+        {
+            if(id == null) return NotFound();
 
-        var pdf = await _context.pdfs.FirstOrDefaultAsync(c => c.Id == id);
-        if(pdf == null) return NotFound();
+            var pdf = await _context.pdfs.FirstOrDefaultAsync(c => c.Id == id);
+            if(pdf == null) return NotFound();
 
-        pdf.isDownloaded = false;
-        pdf.isUploaded = false;
-        await _context.SaveChangesAsync();
-        return RedirectToAction("Index", "Home");
+            pdf.isDownloaded = false;
+            pdf.isUploaded = false;
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "Home");
+        }
+        catch(Exception e)
+        {
+            return Json(e.Message.ToString());
+        }
     }
 
     [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> Push(int? id)
     {
-        if(id == null) return NotFound();
-        var pdf = await _context.pdfs.FirstOrDefaultAsync(c => c.Id == id);
-        if(pdf == null) return NotFound();
+        try
+        {
+            if(id == null) return NotFound();
+            var pdf = await _context.pdfs.FirstOrDefaultAsync(c => c.Id == id);
+            if(pdf == null) return NotFound();
 
-        pdf.isDownloaded = true;
-        pdf.isUploaded = true;
-        await _context.SaveChangesAsync();
-        return RedirectToAction("Index", "Home");
+            pdf.isDownloaded = true;
+            pdf.isUploaded = true;
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "Home");
+        }
+        catch(Exception e)
+        {
+            return Json(e.Message.ToString());
+        }
     }
 
     //[Authorize(Roles = "Administrator")]
@@ -552,106 +565,141 @@ public class HomeController : Controller
     [Authorize(Roles = "Administrator,Manager")]
     public async Task<IActionResult> DeleteConfirmed(Guid gd)
     {
-        var files = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
-        var txt = await _context.Txts.FirstOrDefaultAsync(c => c.DocId == gd);
-        _context.Txts.Remove(txt);
-        foreach(var item in files)
+        try
         {
-            _context.Documents.Remove(item);
-        }
-        string path = Path.Combine(_environment.WebRootPath) + "/Document/" + gd;
-        if(Directory.Exists(path))
-        {
-            DirectoryInfo di = new DirectoryInfo(path);
-            foreach(var f in di.EnumerateFiles())
+            var files = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
+            var txt = await _context.Txts.FirstOrDefaultAsync(c => c.DocId == gd);
+            _context.Txts.Remove(txt);
+            foreach(var item in files)
             {
-                f.Delete();
+                _context.Documents.Remove(item);
             }
-            System.IO.Directory.Delete(path);
+            string path = Path.Combine(_environment.WebRootPath) + "/Document/" + gd;
+            if(Directory.Exists(path))
+            {
+                DirectoryInfo di = new DirectoryInfo(path);
+                foreach(var f in di.EnumerateFiles())
+                {
+                    f.Delete();
+                }
+                System.IO.Directory.Delete(path);
+            }
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Dashboard", "Home");
         }
-        await _context.SaveChangesAsync();
-        return RedirectToAction("Dashboard", "Home");
+        catch(Exception e)
+        {
+            return Json(e.Message.ToString());
+        }
     }
 
     [HttpPost]
     //[Authorize(Roles = "Administrator")]
     public async Task<IActionResult> DeleteDuplicate(Guid gd)
     {
-        var files = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
-        var txt = await _context.Txts.FirstOrDefaultAsync(c => c.DocId == gd);
-        _context.Txts.Remove(txt);
-        foreach(var item in files)
+        try
         {
-            _context.Documents.Remove(item);
+            var files = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
+            var txt = await _context.Txts.FirstOrDefaultAsync(c => c.DocId == gd);
+            _context.Txts.Remove(txt);
+            foreach(var item in files)
+            {
+                _context.Documents.Remove(item);
+            }
+            await _context.SaveChangesAsync();
+            return Ok();
         }
-        await _context.SaveChangesAsync();
-        return Ok();
+        catch(Exception e)
+        {
+            return Json(e.Message.ToString());
+        }
     }
 
     //[Authorize(Roles = "Administrator,Manager")]
     public async Task<IActionResult> Cancel(Guid? gd)
     {
-        if(gd == null) return NotFound();
-
-        var docs = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
-
-        foreach(var doc in docs)
+        try
         {
-            doc.Status = Status.Confirmed;
-            var txt = await _context.Txts.FirstOrDefaultAsync(c => c.DocId == gd);
-            txt.isDownloaded = false;
-        }
-        await _context.SaveChangesAsync();
+            if(gd == null) return NotFound();
 
-        return RedirectToAction(nameof(Index));
+            var docs = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
+
+            foreach(var doc in docs)
+            {
+                doc.Status = Status.Confirmed;
+                var txt = await _context.Txts.FirstOrDefaultAsync(c => c.DocId == gd);
+                txt.isDownloaded = false;
+            }
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+        catch(Exception e)
+        {
+            return Json(e.Message.ToString());
+        }
     }
     //[Authorize(Roles = "Administrator,Manager")]
     public async Task<IActionResult> Resolve(Guid? gd)
     {
-        if(gd == null) return NotFound();
-
-        var docs = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
-
-        foreach(var doc in docs)
+        try
         {
-            doc.Status = Status.Resolved;
-        }
-        await _context.SaveChangesAsync();
+            if(gd == null) return NotFound();
 
-        return RedirectToAction(nameof(Index));
+            var docs = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
+
+            foreach(var doc in docs)
+            {
+                doc.Status = Status.Resolved;
+            }
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+        catch(Exception e)
+        {
+            return Json(e.Message.ToString());
+        }
     }
 
     [Authorize(Roles = "Administrator, Manager")]
     public async Task<IActionResult> MassDelete(List<Guid> Del)
     {
-        var tmp = HttpContext.Request.Form["ccl"];
-        if(!String.IsNullOrEmpty(HttpContext.Request.Form["ccl"].ToString()))
+        try
         {
-            foreach(var item in Del)
+            var tmp = HttpContext.Request.Form["ccl"];
+            if(!String.IsNullOrEmpty(HttpContext.Request.Form["ccl"].ToString()))
             {
-                await Cancel(item);
-            }
-        }
-        else
-        {
-            foreach(var item in Del)
-            {
-                var doc = await _context.Documents.Where(c => c.fguid == item).ToListAsync();
-                _context.Documents.RemoveRange(doc);
-                var txt = await _context.Txts.FirstOrDefaultAsync(c => c.DocId == item);
-                _context.Txts.Remove(txt);
-                string path = Path.Combine(_environment.WebRootPath) + "/Document/" + item;
-                if(Directory.Exists(path))
+                foreach(var item in Del)
                 {
-                    DirectoryInfo di = new DirectoryInfo(path);
-                    foreach(var f in di.EnumerateFiles())
-                    {
-                        f.Delete();
-                    }
-                    System.IO.Directory.Delete(path);
+                    await Cancel(item);
                 }
             }
-            await _context.SaveChangesAsync();
+            else
+            {
+                foreach(var item in Del)
+                {
+                    var doc = await _context.Documents.Where(c => c.fguid == item).ToListAsync();
+                    _context.Documents.RemoveRange(doc);
+                    var txt = await _context.Txts.FirstOrDefaultAsync(c => c.DocId == item);
+                    _context.Txts.Remove(txt);
+                    string path = Path.Combine(_environment.WebRootPath) + "/Document/" + item;
+                    if(Directory.Exists(path))
+                    {
+                        DirectoryInfo di = new DirectoryInfo(path);
+                        foreach(var f in di.EnumerateFiles())
+                        {
+                            f.Delete();
+                        }
+                        System.IO.Directory.Delete(path);
+                    }
+                }
+                await _context.SaveChangesAsync();
+            }
+        }
+        catch(Exception e)
+        {
+            return Json(e.Message.ToString());
         }
         return RedirectToAction("Index", "Home");
     }

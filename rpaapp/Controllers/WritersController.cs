@@ -127,10 +127,17 @@ namespace rpaapp.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteWriters()
         {
+            try
+            {
             var writers = await _context.Writers.Where(c => c.FirstName == null).ToListAsync();
             _context.Writers.RemoveRange(writers);
             await _context.SaveChangesAsync();
             return Json("200");
+            }
+            catch(Exception e)
+            {
+                return Json(e.Message.ToString());
+            }
         }
     
         [Authorize(Roles = "Administrator")]
