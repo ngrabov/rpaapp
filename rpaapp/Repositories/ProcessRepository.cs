@@ -28,4 +28,16 @@ public class ProcessRepository : IProcessRepository
         await context.Processes.AddAsync(process);
         await context.SaveChangesAsync();
     }
+
+    public async Task<ProcessType> GetProcessTypeAsync(int? id)
+    {
+        var process = await context.Processes.FirstOrDefaultAsync(c => c.id == id);
+        return process;
+    }
+
+    public async Task RemoveProcessAsync(ProcessType process)
+    {
+        context.Processes.Remove(process);
+        await context.SaveChangesAsync();
+    }
 }

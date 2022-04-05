@@ -11,6 +11,7 @@
             <th>Id</th>
             <th>Name</th>
             <th>Process Type ID (PTID)</th>
+            <th>Action</th>
         </thead>
         <tbody>
             @foreach (var item in Model)
@@ -19,6 +20,7 @@
                     <td>@item.id</td>
                     <td>@item.name</td>
                     <td>@item.ptid</td>
+                    <td><a asp-action="Delete" asp-route-id="@item.id" class="btn btn-danger">Delete</a></td>
                 </tr>
             }
         </tbody>

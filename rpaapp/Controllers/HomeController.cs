@@ -43,7 +43,7 @@ public class HomeController : Controller
     [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> Clear()
     {
-        if((await _context.Writers.CountAsync()) < 4)
+        if((await _context.Writers.CountAsync()) < 5)
         {/* 
             var wrt = await _context.Writers.Where(c => c.Id > 3).ToListAsync(); //pazi na broj korisnika
             _context.Writers.RemoveRange(wrt); */
@@ -99,7 +99,7 @@ public class HomeController : Controller
             pdf.isDownloaded = false;
             pdf.isUploaded = false;
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(Repository));
         }
         catch(Exception e)
         {
@@ -119,7 +119,7 @@ public class HomeController : Controller
             pdf.isDownloaded = true;
             pdf.isUploaded = true;
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(Repository));
         }
         catch(Exception e)
         {

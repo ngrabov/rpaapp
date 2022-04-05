@@ -47,9 +47,9 @@ namespace rpaapp.Controllers
 
                 if(txt == null) return NotFound();
                 
-                populateProcess();
-                populatePeople();
-                populateInvoices();
+                await populateProcess();
+                await populatePeople();
+                await populateInvoices();
 
                 return View(txt);
             }
@@ -87,8 +87,8 @@ namespace rpaapp.Controllers
                         await _context.SaveChangesAsync();
 
                         var currentUser = await _userManager.GetUserAsync(User);
-                        var dct = await _context.Documents.Where(c => c.Status == Status.Ready && c.writername == currentUser.FullName).FirstOrDefaultAsync();
-                        if(await _context.Documents.Where(c => c.Status == Status.Ready && (c.writername == currentUser.FullName || c.writername == "E-Račun ")).CountAsync() != 0) //hardcode!!
+                        var dct = await _context.Documents.Where(c => c.Status == Status.Ready && (c.writername == currentUser.FullName || c.writername == "E-Račun ")).FirstOrDefaultAsync();
+                        if(await _context.Documents.Where(c => c.Status == Status.Ready && (c.writername == currentUser.FullName || c.writername == "E-Račun ")).CountAsync() != 0)
                         {
                             return RedirectToAction("Details", "Txts", new{ id = dct.fguid});
                         } 
@@ -107,19 +107,19 @@ namespace rpaapp.Controllers
             }
         }
 
-        private async void populateProcess(object selectedTeam = null)
+        private async Task populateProcess(object selectedTeam = null)
         {
             var processes = await _context.Processes.ToArrayAsync();
             ViewBag.teams = new SelectList(processes, "ptid", "name", selectedTeam);
         }
 
-        private async void populatePeople(object selectedPerson = null)
+        private async Task populatePeople(object selectedPerson = null)
         {
             var people = await _context.People.ToArrayAsync();
             ViewBag.people = new SelectList(people, "mfilesid", "fullname", selectedPerson);
         }
 
-        private async void populateInvoices(object selectedInvoice = null)
+        private async Task populateInvoices(object selectedInvoice = null)
         {
             var invoices = await _context.Invoices.ToListAsync();
             ViewBag.invoices = new SelectList(invoices, "customid", "name", selectedInvoice);

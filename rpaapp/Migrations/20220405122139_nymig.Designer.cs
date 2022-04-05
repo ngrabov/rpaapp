@@ -11,7 +11,7 @@ using rpaapp.Data;
 namespace rpaapp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220323185410_nymig")]
+    [Migration("20220405122139_nymig")]
     partial class nymig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
