@@ -359,6 +359,13 @@ public class HomeController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
+    [Authorize(Roles = "Administrator")]
+    public async Task<IActionResult> GoFindMe(string rac)
+    {
+        var docs = await _context.Documents.Where(c => c.RAC_number.Contains(rac)).ToListAsync();
+        return View(docs);
+    }
+
     public async Task Complex(List<IFormFile> files)
     {
         string tgd = "";

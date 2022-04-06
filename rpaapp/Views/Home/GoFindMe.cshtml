@@ -1,0 +1,31 @@
+@model IEnumerable<rpaapp.Models.Document>
+@{
+    ViewData["Title"] = "GoFindMe";
+}
+
+<div>
+    <form asp-action="GoFindMe">
+        <input type="text" name="rac" value="@ViewData["CurrentFilter"]" />
+        <input type="submit" value="Search" class="btn btn-primary" />
+    </form>
+</div>
+
+<div>
+    <table class="table table-hover">
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td><a asp-controller="Txts" asp-action="Details" asp-route-id="@item.fguid">@item.pdfname</a></td>
+                    <td>@item.fguid</td>
+                    <td>@item.Status</td>
+                    <td>@item.RAC_number</td>
+                    <td>@item.writername</td>
+                    <td>@item.uploaded</td>
+                    <td>@item.fsize</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
