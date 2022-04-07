@@ -362,7 +362,11 @@ public class HomeController : Controller
     [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> GoFindMe(string rac)
     {
-        var docs = await _context.Documents.Where(c => c.RAC_number.Contains(rac)).ToListAsync();
+        var docs = await _context.Documents.Where(c => c.RAC_number == rac).ToListAsync();
+        if(String.IsNullOrEmpty(rac))
+        {
+            docs.Clear();
+        }
         return View(docs);
     }
 
