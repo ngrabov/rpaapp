@@ -29,7 +29,7 @@ public class ProcessController : Controller
 
     [Authorize(Roles = "Administrator,Manager")]
     [HttpPost]
-    public async Task<IActionResult> Create([Bind("name")] ProcessType process)
+    public async Task<IActionResult> Create([Bind("name,ptid")] ProcessType process)
     {
         await repository.AddProcessAsync(process);
         return RedirectToAction("Index", "Home");

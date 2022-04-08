@@ -11,15 +11,15 @@
       "Type": null,
       "Value": "westeurope"
     },
-    "tokictest.resourceName": {
-      "Name": "tokictest.resourceName",
-      "Type": null,
-      "Value": "tokictest"
-    },
     "secrets1.resourceGroupName": {
       "Name": "secrets1.resourceGroupName",
       "Type": "resourceGroup",
       "Value": "bartogrg"
+    },
+    "tokictest.resourceName": {
+      "Name": "tokictest.resourceName",
+      "Type": null,
+      "Value": "tokictest"
     },
     "subscriptionId": {
       "Name": "subscriptionId",
