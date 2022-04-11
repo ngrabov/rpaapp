@@ -23,7 +23,7 @@
             }
         </thead>
         <tbody>
-            @foreach (var item in Model.Where(c => c.isUploaded == false).Where(c => c.isDownloaded == true))
+            @foreach (var item in Model.Where(c => c.isDownloaded == true))
             {
                 var mb = @item.fsize / 1000000.0;
                 <tr>

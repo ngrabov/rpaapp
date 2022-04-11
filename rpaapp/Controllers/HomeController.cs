@@ -36,7 +36,7 @@ public class HomeController : Controller
     [Route("Repository")]
     public async Task<IActionResult> Repository()
     {
-        var files = await _context.pdfs.Include(c => c.Writer).ToListAsync();
+        var files = await _context.pdfs.Include(c => c.Writer).Where(c => c.isUploaded == false).ToListAsync();
         return View(files);
     }
 
@@ -179,7 +179,7 @@ public class HomeController : Controller
                 ViewData["CurrentTime"] = date.Value.ToString("yyyy-MM-dd");
             }
 
-            var group = from doc in await _context.Documents.AsQueryable().ToListAsync() 
+            var group = from doc in await _context.Documents.ToListAsync()
                         group doc by doc.fguid into divdoc
                         select divdoc;
 
@@ -189,11 +189,11 @@ public class HomeController : Controller
                 docs.Add(doc);
             }
 
-            var prblms = from prblm in await _context.Documents.Where(c => c.Status == Status.Problem).AsQueryable().ToListAsync()
+            var prblms = from prblm in await _context.Documents.Where(c => c.Status == Status.Problem).ToListAsync()
                         group prblm by prblm.uploaded.Date into divprb
                         select divprb;
 
-            var ready = from rdy in await _context.Documents.Where(c => c.Status == Status.Ready).AsQueryable().ToListAsync()
+            var ready = from rdy in await _context.Documents.Where(c => c.Status == Status.Ready).ToListAsync()
                         group rdy by rdy.uploaded.Date into divrdy
                         select divrdy;
 
@@ -204,8 +204,7 @@ public class HomeController : Controller
             {
                 docs = docs.Where(c => c.pdfname.Contains(search) || (c.RAC_number != null) && (c.RAC_number.Contains(search)) || (c.writername.ToUpper().Contains(search.ToUpper()))).ToList();
             }
-            docs = docs.Where(c => c.uploaded.Date == date).ToList();
-            docs = docs.OrderByDescending(c => c.uploaded).ToList();
+            docs = docs.Where(c => c.uploaded.Date == date).OrderByDescending(c => c.uploaded).ToList();
             
             return View(docs);
         }

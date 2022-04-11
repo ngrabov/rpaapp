@@ -7,16 +7,16 @@ using Azure.Identity;
 using rpaapp.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
-if (builder.Environment.IsProduction()) //azure key vault
+if (builder.Environment.IsProduction())
 {
     builder.Configuration.AddAzureKeyVault(
         new Uri($"https://{builder.Configuration["KeyVaultName"]}.vault.azure.net/"),
         new DefaultAzureCredential());
 }
 
-var connectionString = builder.Configuration.GetConnectionString("MyDbConnection");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlite(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddScoped<IProcessRepository, ProcessRepository>();
@@ -35,11 +35,10 @@ builder.Services.AddIdentity<Writer, IdentityRole<int>>(options =>
     .AddDefaultTokenProviders();
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
-//builder.Services.AddIdentityServer();
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope()) //initialize async
+using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     try
@@ -74,7 +73,6 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-//app.UseIdentityServer();
 app.UseAuthentication();
 app.UseAuthorization();
 
