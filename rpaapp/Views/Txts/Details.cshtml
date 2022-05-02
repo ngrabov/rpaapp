@@ -1,10 +1,16 @@
 @model rpaapp.Models.Txt
+@inject rpaapp.Data.ApplicationDbContext context
 
 @{
     ViewData["Title"] = "Invoice details";
     var temp = Model.DocId;
     string path = "Document/" + temp.ToString() + "/" + temp.ToString() + ".pdf";
-    string vis = (string)ViewData["visible"];
+    var lyt = context.Layouts.FirstOrDefault(c => c.Id == 1); //loše
+    string vis = "false"; 
+    if(lyt.isVisible)
+    {
+        vis = "true";
+    }
 }
 
 <div style="padding: 0 15px 0 15px;">
@@ -19,7 +25,7 @@
             <form asp-action="Details" asp-method="post" asp-route-id="@Model.DocId" id="frm" name="frm" enctype="multipart/form-data"> 
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group col-md-8">
-                    <b><label asp-for="Name"></label></b>
+                    <b><label asp-for="Name">@if(vis == "true"){<p style="margin-bottom: 0px;">Partner</p>}</label></b>
                     @if(Model.isReviewed && !Model.isDownloaded)
                     {
                         <input asp-for="Name" class="form-control" style="height: 25px;" disabled required/>
@@ -30,23 +36,8 @@
                     }
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
-                @if(vis == "true")
-                {
-                    <div class="form-group col-md-8">
-                        <b><label asp-for="ClientCode" class="control-label"></label></b>
-                        @if(Model.isReviewed && !Model.isDownloaded)
-                        {
-                            <input asp-for="ClientCode" class="form-control" style="height: 25px;" disabled />
-                        }
-                        else 
-                        {
-                            <input asp-for="ClientCode" class="form-control" style="height: 25px;" />
-                        }
-                        <span asp-validation-for="ClientCode" class="text-danger"></span>
-                    </div>
-                }
                 <div class="form-group col-md-8">
-                    <b><label asp-for="Group" class="control-label"></label></b>
+                    <b><label asp-for="Group" class="control-label">@if(vis == "true"){<p style="margin-bottom: 0px;">Vrsta računa</p>}</label></b>
                     @if(Model.isReviewed && !Model.isDownloaded)
                     {
                         <input asp-for="Group" class="form-control" style="height: 25px;" disabled required/>
@@ -60,7 +51,7 @@
                 @if(vis == "true")
                 {
                     <div class="form-group col-md-8">
-                    <b><label asp-for="InvoiceTypeId" class="control-label"></label></b>
+                    <b><label asp-for="InvoiceTypeId" class="control-label">Pot računa</label></b>
                         @if(Model.isReviewed && !Model.isDownloaded)
                         {
                             <select asp-for="InvoiceTypeId" style="padding: 0px 10px;" class="form-control" asp-items="ViewBag.invoices" disabled required>
@@ -79,7 +70,7 @@
                 @if(vis == "true")
                 {
                     <div class="form-group col-md-8">
-                        <b><label asp-for="State" class="control-label"></label></b>
+                        <b><label asp-for="State" class="control-label">Država</label></b>
                         @if(Model.isReviewed && !Model.isDownloaded)
                         {
                             <input asp-for="State" class="form-control" style="height: 25px;" disabled />
@@ -104,7 +95,7 @@
                     <span asp-validation-for="VAT" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-8">
-                    <b><label asp-for="InvoiceNumber" class="control-label"></label></b>
+                    <b><label asp-for="InvoiceNumber" class="control-label">@if(vis == "true"){<p style="margin-bottom: 0px;">Številka</p>}</label></b>
                     @if(Model.isReviewed && !Model.isDownloaded)
                     {
                         <input asp-for="InvoiceNumber" class="form-control" style="height: 25px;" disabled required/>
@@ -116,7 +107,7 @@
                     <span asp-validation-for="InvoiceNumber" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-8">
-                    <b><label asp-for="InvoiceDate" class="control-label"></label></b>
+                    <b><label asp-for="InvoiceDate" class="control-label">@if(vis == "true"){<p style="margin-bottom: 0px;">Datum dokumenta</p>}</label></b>
                     @if(Model.isReviewed && !Model.isDownloaded)
                     {
                         <input asp-for="InvoiceDate" class="form-control" style="height: 25px;" disabled required/>
@@ -128,7 +119,7 @@
                     <span asp-validation-for="InvoiceDate" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-8">
-                    <b><label asp-for="InvoiceDueDate" class="control-label"></label></b>
+                    <b><label asp-for="InvoiceDueDate" class="control-label">@if(vis == "true"){<p style="margin-bottom: 0px;">Datum zapadlosti</p>}</label></b>
                     @if(Model.isReviewed && !Model.isDownloaded)
                     {
                         <input asp-for="InvoiceDueDate" class="form-control" style="height: 25px;" disabled required/>
@@ -140,7 +131,7 @@
                     <span asp-validation-for="InvoiceDueDate" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-8">
-                    <b><label asp-for="Neto" class="control-label"></label></b>
+                    <b><label asp-for="Neto" class="control-label">@if(vis == "true"){<p style="margin-bottom: 0px;">Znesek brez DDV</p>}</label></b>
                     @if(Model.isReviewed && !Model.isDownloaded)
                     {
                         <input asp-for="Neto" class="form-control" style="height: 25px;" disabled required/>
@@ -152,7 +143,7 @@
                     <span asp-validation-for="Neto" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-8">
-                    <b><label asp-for="Currency" class="control-label"></label></b>
+                    <b><label asp-for="Currency" class="control-label">@if(vis == "true"){<p style="margin-bottom: 0px;">Valuta</p>}</label></b>
                     @if(Model.isReviewed && !Model.isDownloaded)
                     {
                         <input asp-for="Currency" class="form-control" style="height: 25px;" disabled required/>
@@ -171,7 +162,7 @@
                     <span asp-validation-for="Currency" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-8">
-                    <b><label asp-for="Bruto" class="control-label"></label></b>
+                    <b><label asp-for="Bruto" class="control-label">@if(vis == "true"){<p style="margin-bottom: 0px;">Znesek z DDV</p>}</label></b>
                     @if(Model.isReviewed && !Model.isDownloaded)
                     {
                         <input asp-for="Bruto" class="form-control" style="height: 25px;" disabled required/>
@@ -185,7 +176,7 @@
                 @if(vis == "true")
                 {
                 <div class="form-group col-md-8">
-                    <b><label asp-for="ReferenceNumber" class="control-label"></label></b>
+                    <b><label asp-for="ReferenceNumber" class="control-label">Veza na prevzemnico</label></b>
                     @if(Model.isReviewed && !Model.isDownloaded)
                     {
                         <input asp-for="ReferenceNumber" class="form-control" style="height: 25px;" disabled/>
@@ -200,7 +191,7 @@
                 @if(vis == "true")
                 {
                     <div class="form-group col-md-8">
-                        <b><label asp-for="PaymentReference" class="control-label"></label></b>
+                        <b><label asp-for="PaymentReference" class="control-label">Sklic</label></b>
                         @if(Model.isReviewed && !Model.isDownloaded)
                         {
                             <input asp-for="PaymentReference" class="form-control" style="height: 25px;" disabled />
@@ -215,7 +206,7 @@
                 @if(vis == "true")
                 {
                     <div class="form-group col-md-8">
-                    <b><label asp-for="PersonInChargeId" class="control-label"></label></b>
+                    <b><label asp-for="PersonInChargeId" class="control-label">Prvi potvrditelj</label></b>
                     @if(Model.isReviewed && !Model.isDownloaded)
                     {
                         <select asp-for="PersonInChargeId" style="padding: 0px 10px;" class="form-control" asp-items="@ViewBag.people" disabled required>

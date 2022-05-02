@@ -38,11 +38,11 @@ namespace rpaapp.Controllers
                 var lyt = await _context.Layouts.FirstOrDefaultAsync(c => c.Id == 1);
                 if(lyt.isVisible == true)
                 {
-                    ViewData["visible"] = "true";
+                    ViewBag.visible = "true";
                 }
                 else
                 {
-                    ViewData["visible"] = "false";
+                    ViewBag.visible = "false";
                 }
 
                 if(txt == null) return NotFound();
@@ -94,6 +94,9 @@ namespace rpaapp.Controllers
                         } 
                         return RedirectToAction("Dashboard", "Home");
                     } 
+                    await populateInvoices();
+                    await populatePeople();
+                    await populateProcess();
                     return View(text);
                 }
                 else
