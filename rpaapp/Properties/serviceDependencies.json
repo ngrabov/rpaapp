@@ -3,6 +3,14 @@
     "secrets1": {
       "type": "secrets",
       "connectionId": "VaultUri"
+    },
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "MyDbConnection"
+    },
+    "mssql3": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:bartog"
     }
   }
 }

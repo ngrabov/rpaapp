@@ -159,7 +159,14 @@
                     }
                     else 
                     {
-                        <input asp-for="Currency" class="form-control" style="height: 25px;" required/>
+                        if(vis == "true")
+                        {
+                            <input asp-for="Currency" class="form-control" style="height: 25px;" value="EUR" required/>
+                        }
+                        else
+                        {
+                            <input asp-for="Currency" class="form-control" style="height: 25px;" required/>
+                        }
                     }
                     <span asp-validation-for="Currency" class="text-danger"></span>
                 </div>
@@ -181,11 +188,11 @@
                     <b><label asp-for="ReferenceNumber" class="control-label"></label></b>
                     @if(Model.isReviewed && !Model.isDownloaded)
                     {
-                        <input asp-for="ReferenceNumber" class="form-control" style="height: 25px;" disabled required/>
+                        <input asp-for="ReferenceNumber" class="form-control" style="height: 25px;" disabled/>
                     }
                     else 
                     {
-                        <input asp-for="ReferenceNumber" class="form-control" style="height: 25px;" required/>
+                        <input asp-for="ReferenceNumber" class="form-control" style="height: 25px;"/>
                     }
                     <span asp-validation-for="ReferenceNumber" class="text-danger"></span>
                 </div>

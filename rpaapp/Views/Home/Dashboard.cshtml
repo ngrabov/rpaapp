@@ -5,6 +5,7 @@
     var prblm = (IEnumerable<IGrouping<DateTime,Document>>)ViewData["Problem"];
     var cnt = prblm.Count();
     var cn2 = ready.Count();
+    string vis = (string)ViewData["visible"];
 }
 
 <div style="width: 100%; float: right;">
@@ -151,7 +152,14 @@
             <th class="headerSortDown">Uploaded by</th>
             <th class="headerSortDown hide">Upload time</th>
             <th class="hide"><a style="text-decoration: none; color: black;">Status</a></th>
-            <th><a style="text-decoration: none; color: black;">RAC</a></th>
+            @if(vis == "true")
+            {
+                <th><a style="text-decoration: none; color: black;">mFiles ID</a></th>
+            }
+            else
+            {
+                <th><a style="text-decoration: none; color: black;">RAC</a></th>
+            }
         </thead> 
         <tbody>
             @foreach (var item in Model.Where(c => c.Status == Status.Archived))
@@ -241,12 +249,12 @@
                         @if(item.Status == Status.Problem)
                         {
                             <td><a asp-controller="Home" asp-action="Resolve" asp-route-gd="@item.fguid" style="width: 18px; height: 18px;"><i class="fa fa-check-square" style="font-size:18px;color:green; padding-left: 10px;"></i></a>
-                            <a asp-controller="Home" asp-action="Cancel" asp-route-gd="@item.fguid" style="width: 100%; height: 100%;"><i class="fa fa-close" style="font-size:18px;color:red; padding-left: 10px;"></i></a></td>
+                            <a asp-controller="Home" asp-action="Cancel" asp-route-gd="@item.fguid" style="width: 100%; height: 100%;"><i class="fa fa-refresh" style="font-size:18px;color:green; padding-left: 10px;"></i></a></td>
                         }
                         else
                         {
                             <td><i class="fa fa-check-square" style="font-size:18px;color:grey; padding-left: 10px;"></i>
-                        <i class="fa fa-close" style="font-size:18px;color:grey; padding-left: 10px;"></i></td>
+                            <i class="fa fa-refresh" style="font-size:18px;color:grey; padding-left: 10px;"></i></td>
                         }
                     </tr>
                 }

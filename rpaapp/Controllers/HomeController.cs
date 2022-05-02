@@ -43,7 +43,7 @@ public class HomeController : Controller
     [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> Clear()
     {
-        if((await _context.Writers.CountAsync()) < 5)
+        if((await _context.Writers.CountAsync()) < 8)
         {/* 
             var wrt = await _context.Writers.Where(c => c.Id > 3).ToListAsync(); //pazi na broj korisnika
             _context.Writers.RemoveRange(wrt); */
@@ -196,6 +196,16 @@ public class HomeController : Controller
             var ready = from rdy in await _context.Documents.Where(c => c.Status == Status.Ready).ToListAsync()
                         group rdy by rdy.uploaded.Date into divrdy
                         select divrdy;
+
+             var lyt = await _context.Layouts.FirstOrDefaultAsync(c => c.Id == 1);
+            if(lyt.isVisible == true)
+            {
+                ViewData["visible"] = "true";
+            }
+            else
+            {
+                ViewData["visible"] = "false";
+            }
 
             ViewData["Ready"] = ready;
             ViewData["Problem"] = prblms;
@@ -361,10 +371,10 @@ public class HomeController : Controller
     [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> GoFindMe(string rac)
     {
-        var docs = await _context.Documents.Where(c => c.RAC_number == rac).ToListAsync();
-        if(String.IsNullOrEmpty(rac))
+        var docs = new List<Document>();
+        if(!String.IsNullOrEmpty(rac)) 
         {
-            docs.Clear();
+            docs = await _context.Documents.Where(c => c.RAC_number == rac).ToListAsync();
         }
         return View(docs);
     }
@@ -433,6 +443,8 @@ public class HomeController : Controller
                     using(StreamReader sr = new StreamReader("./wwwroot/Document/" + tgd + "/" + wbp))
                     {
                         string line;
+                        text.InvoiceDate = DateTime.Now.Date;
+                        text.InvoiceDueDate = DateTime.Now.Date;
                         while((line = sr.ReadLine()) != null) //parser
                         {
                             if(line == "Name:")

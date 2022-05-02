@@ -5,6 +5,12 @@
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.KeyVault/vaults/bartogkeyvault",
       "type": "secrets.keyVault",
       "connectionId": "VaultUri"
+    },
+    "mssql1": {
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/tokictestserver/databases/mssql1",
+      "type": "mssql.azure",
+      "connectionId": "MyDbConnection"
     }
   }
 }

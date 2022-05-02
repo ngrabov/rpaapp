@@ -1,11 +1,24 @@
 {
   "dependencies": {
+    "mssql2": {
+      "restored": true,
+      "restoreTime": "2022-04-29T12:19:24.1149229Z"
+    },
+    "mssql3": {
+      "restored": true,
+      "restoreTime": "2022-04-29T12:46:01.3856626Z"
+    },
     "secrets1": {
       "restored": true,
       "restoreTime": "2022-02-02T09:41:33.3941645Z"
     }
   },
   "parameters": {
+    "mssql3.subscriptionId": {
+      "Name": "mssql3.subscriptionId",
+      "Type": "subscription",
+      "Value": "3d705111-b2ec-4e6f-9d27-e93676dafda3"
+    },
     "secrets1.resourceGroupName": {
       "Name": "secrets1.resourceGroupName",
       "Type": "resourceGroup",
@@ -15,6 +28,11 @@
       "Name": "secrets1.subscriptionId",
       "Type": "subscription",
       "Value": "3d705111-b2ec-4e6f-9d27-e93676dafda3"
+    },
+    "mssql3.resourceGroupName": {
+      "Name": "mssql3.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "bartogrg"
     }
   }
 }

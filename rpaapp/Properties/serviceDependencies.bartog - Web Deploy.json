@@ -5,6 +5,18 @@
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.KeyVault/vaults/bartogkeyvault",
       "type": "secrets.keyVault",
       "connectionId": "VaultUri"
+    },
+    "mssql2": {
+      "ignored": "true",
+      "suggestion": "true",
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:rpaappIdentityDbContextConnection"
+    },
+    "mssql3": {
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/bartogserver/databases/bartogdb",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:bartog"
     }
   }
 }

@@ -14,9 +14,11 @@ if (builder.Environment.IsProduction())
         new DefaultAzureCredential());
 }
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+//var connectionString = builder.Configuration.GetConnectionString("MyDbConnection");
+var connectionString = builder.Configuration.GetConnectionString("bartog");
+//var connectionString = builder.Configuration.GetConnectionString("tokic");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString));
+    options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddScoped<IProcessRepository, ProcessRepository>();
