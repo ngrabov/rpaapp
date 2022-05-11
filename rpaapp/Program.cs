@@ -15,8 +15,8 @@ if (builder.Environment.IsProduction())
 }
 
 //var connectionString = builder.Configuration.GetConnectionString("MyDbConnection");
-//var connectionString = builder.Configuration.GetConnectionString("bartog");
-var connectionString = builder.Configuration.GetConnectionString("tokic");
+var connectionString = builder.Configuration.GetConnectionString("bartog");
+//var connectionString = builder.Configuration.GetConnectionString("tokic");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();

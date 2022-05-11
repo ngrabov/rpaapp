@@ -530,6 +530,10 @@ public class HomeController : Controller
                             {
                                 text.PaymentReference = sr.ReadLine();
                             }
+                            if(line == "Preorder_number:")
+                            {
+                                text.PreorderNumber = sr.ReadLine();
+                            }
                         }
                     }
                     if(pngs != "")

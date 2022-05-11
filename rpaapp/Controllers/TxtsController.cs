@@ -73,7 +73,7 @@ namespace rpaapp.Controllers
 
                 if(text != null)
                 {
-                    if(await TryUpdateModelAsync<Txt> (text, "", s => s.Bruto,  s => s.Currency,
+                    if(await TryUpdateModelAsync<Txt> (text, "", s => s.Bruto,  s => s.Currency, s => s.Comment, s => s.PreorderNumber,
                     s => s.Group,  s => s.InvoiceDate, s => s.InvoiceDueDate, s => s.PaymentReference,
                     s => s.InvoiceNumber,  s => s.Name, s => s.Neto, s => s.ReferenceNumber, s => s.ClientCode,
                     s => s.State, s => s.VAT, s => s.InvoiceTypeId, s => s.ProcessTypeId, s => s.PersonInChargeId))

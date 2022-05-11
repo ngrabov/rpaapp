@@ -14,6 +14,8 @@ namespace rpaapp.Models
         public string Group { get; set;}
         public string State { get; set; }
         public string VAT { get; set; }
+        public string Comment { get; set; }
+        public string PreorderNumber { get; set; }
         public int? InvoiceTypeId { get; set; }
         public string Currency { get; set; }
         public string InvoiceNumber { get; set; }
