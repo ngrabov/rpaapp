@@ -1,0 +1,27 @@
+@model Document
+
+@{
+    ViewData["Title"] = "File details";
+    var mb =  Model.fsize / 1000000.0;
+}
+
+<div>
+    <table class="table table-hover">
+        <thead>
+            <th>Filename</th>
+            <th>Size</th>
+            <th>Uploaded by</th>
+            <th>Upload time</th>
+            <th>Status</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.pdfname</td>
+                <td>@Math.Round(mb, 2)</td>
+                <td>@Model.writername</td>
+                <td>@Model.uploaded.ToString("dd.MM.yyyy. H:mm:ss")</td>
+                <td>@Model.Status</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

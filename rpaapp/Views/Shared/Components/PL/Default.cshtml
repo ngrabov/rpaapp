@@ -23,6 +23,9 @@
                     <li class="nav-item">
                         <a class="nav-link" style="color: white;" asp-area="" asp-controller="Home" asp-action="Repository">Repository</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" style="color: white;" asp-area="" asp-controller="Txts" asp-action="SearchMe">SearchMe</a>
+                    </li>
                 }
                 @if(SignInManager.IsSignedIn(User) && currentuser!= null &&  (await UserManager.IsInRoleAsync(currentuser, "Administrator")))
                 {

@@ -110,6 +110,26 @@ namespace rpaapp.Controllers
             }
         }
 
+        public async Task<IActionResult> SearchMe(string key)
+        {
+            var txts = new List<Txt>();
+            if(!String.IsNullOrEmpty(key)) 
+            {
+                txts = await _context.Txts.Where(c => c.Name.ToUpper().Contains(key.ToUpper()) || c.InvoiceNumber.ToUpper().Contains(key.ToUpper()) || c.VAT.ToUpper().Contains(key.ToUpper()) ).ToListAsync();
+            }
+            return View(txts.OrderByDescending(c => c.InvoiceDate).Take(50));
+        }
+
+        public async Task<IActionResult> FileDetails(Guid? id)
+        {
+            if(id == null) return NotFound();
+
+            var doc = await _context.Documents.FirstOrDefaultAsync(c => c.fguid == id);
+            if(doc == null) return NotFound();
+
+            return View(doc);
+        }
+
         private async Task populateProcess(object selectedTeam = null)
         {
             var processes = await _context.Processes.ToArrayAsync();
