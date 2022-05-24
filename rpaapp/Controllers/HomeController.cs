@@ -688,7 +688,7 @@ public class HomeController : Controller
         }
     }
 
-    [Authorize(Roles = "Administrator, Manager")]
+    [Authorize(Roles = "Administrator,Manager")]
     public async Task<IActionResult> MassDelete(List<Guid> Del)
     {
         try

@@ -110,6 +110,7 @@ namespace rpaapp.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrator,Manager")]
         public async Task<IActionResult> SearchMe(string key)
         {
             var txts = new List<Txt>();
@@ -120,6 +121,7 @@ namespace rpaapp.Controllers
             return View(txts.OrderByDescending(c => c.InvoiceDate).Take(50));
         }
 
+        [Authorize(Roles = "Administrator,Manager")]
         public async Task<IActionResult> FileDetails(Guid? id)
         {
             if(id == null) return NotFound();
