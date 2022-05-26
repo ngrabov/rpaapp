@@ -7,6 +7,19 @@
     var currentuser = await UserManager.GetUserAsync(User);
 }
 <h3>Waiting list</h3>
+
+<div>
+    @if(currentuser.Id == 1)
+    {
+        <div>
+            <form asp-controller="Pdfs" asp-action="DeletePdfs">
+                <input type="text" name="min">
+                <input type="text" name="max">
+                <input type="submit" class="btn btn-danger" value="Delete Pdfs">
+            </form>
+        </div>
+    }
+</div>
 <div>
     <table class="table table-hover">
         <thead>

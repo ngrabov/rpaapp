@@ -76,6 +76,19 @@ public class PdfsController : Controller
     }
 
     [Authorize(Roles = "Administrator")]
+    public async Task<IActionResult> DeletePdfs(int min, int max)
+    {
+        var pdfs = await _context.pdfs.Where(c => c.Id >= min && c.Id <= max).ToListAsync();
+        var first = pdfs.FirstOrDefault();
+        var name = first.fname;
+        var docs = await _context.Documents.Where(c => c.pdfname == name && c.Status == Status.Ready).ToListAsync(); 
+        _context.pdfs.RemoveRange(pdfs);
+        _context.Documents.RemoveRange(docs);
+        await _context.SaveChangesAsync();
+        return Json("Success");
+    }
+
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> CleanFiles(int? day)
     {
         try
