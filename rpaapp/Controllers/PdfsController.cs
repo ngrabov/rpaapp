@@ -25,14 +25,14 @@ public class PdfsController : Controller
         _informHub = informHub;
     }
 
-    //[Authorize(Roles = "Administrator")]
+    [ApiKey]
     public async Task<IActionResult> Index()
     {
         var pdfs = await _context.pdfs.Where(c => c.isDownloaded == false).ToListAsync();
         return Json(pdfs);
     }
 
-    //[Authorize(Roles = "Administrator")]
+    [ApiKey]
     [HttpPost] //API endpoint za PDFove
     public async Task<IActionResult> UploadFiles()
     {

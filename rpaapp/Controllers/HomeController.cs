@@ -59,7 +59,7 @@ public class HomeController : Controller
         return Json("Could not delete db records.");
     }
     
-    //[Authorize(Roles = "Administrator")]
+    [ApiKey]
     public async Task<IActionResult> DownloadFile(Guid gd) //pdfs
     {
         try
@@ -127,7 +127,7 @@ public class HomeController : Controller
         }
     }
 
-    //[Authorize(Roles = "Administrator")]
+    [ApiKey]
     public async Task<IActionResult> Download(Guid gd) // txts
     {
         string path = Path.Combine(_environment.WebRootPath) + "/Document/" + gd + "/" + gd + ".pdf";
@@ -145,7 +145,7 @@ public class HomeController : Controller
         return File(bytes, "application/octet-stream", dname);
     }
 
-    //[Authorize(Roles = "Administrator")]
+    [ApiKey]
     public async Task<IActionResult> DownloadFiles(Guid gd) //documents
     {
         string path = Path.Combine(_environment.WebRootPath) + "/Document/" + gd + "/" + gd + ".pdf";
@@ -258,7 +258,7 @@ public class HomeController : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    //[Authorize(Roles = "Administrator")]
+    [ApiKey]
     [Route("UploadFiles")] //API endpoint
     [HttpPost]
     public async Task<IActionResult> UploadFiles()
@@ -282,7 +282,7 @@ public class HomeController : Controller
     }
 
     [Route("DmsMove")]
-    //[Authorize(Roles = "Administrator")]
+    [ApiKey]
     public async Task<IActionResult> DmsMove()
     {
         var txts = await _context.Txts.Where(c => c.isReviewed == true).Where(c => c.isDownloaded == false).ToListAsync();
@@ -291,7 +291,7 @@ public class HomeController : Controller
 
     [Route("Archive")]
     [HttpPost]
-    //[Authorize(Roles = "Administrator")]
+    [ApiKey]
     public async Task<IActionResult> ArchiveFile(Guid gd, string rac)
     {
         var docs = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
@@ -324,7 +324,7 @@ public class HomeController : Controller
 
     [Route("ReportProblem")]
     [HttpPost]
-    //[Authorize(Roles = "Administrator")]
+    [ApiKey]
     public async Task<IActionResult> ReportProblem(Guid? gd, string rac, string desc)
     {
         if(gd == Guid.Empty) return NotFound();
@@ -349,7 +349,7 @@ public class HomeController : Controller
     }
 
     [Route("GetRac")]
-    //[Authorize(Roles = "Administrator")]
+    [ApiKey]
     public async Task<IActionResult> GetRac(Guid gd)
     {
         var rac = await _context.Documents.Where(c => c.Status == Status.Archived).Where(c => c.fguid == gd).FirstOrDefaultAsync();
@@ -620,7 +620,7 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    //[Authorize(Roles = "Administrator")]
+    [ApiKey]
     public async Task<IActionResult> DeleteDuplicate(Guid gd)
     {
         try
@@ -641,7 +641,7 @@ public class HomeController : Controller
         }
     }
 
-    //[Authorize(Roles = "Administrator,Manager")]
+    [Authorize(Roles = "Administrator,Manager")]
     public async Task<IActionResult> Cancel(Guid? gd)
     {
         try
@@ -665,7 +665,8 @@ public class HomeController : Controller
             return Json(e.Message.ToString());
         }
     }
-    //[Authorize(Roles = "Administrator,Manager")]
+    
+    [Authorize(Roles = "Administrator,Manager")]
     public async Task<IActionResult> Resolve(Guid? gd)
     {
         try
