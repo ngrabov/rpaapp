@@ -27,6 +27,14 @@ public class LayoutController : Controller
         return View(layouts);
     }
 
+    [Authorize(Roles = "Administrator,Manager")]
+    public async Task<IActionResult> Docs()
+    {
+        var st = await _context.pdfs.MaxAsync(c => c.Id);
+        ViewData["Stats"] = st;
+        return View();
+    }
+
     [HttpPost]
     [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> Edit()
