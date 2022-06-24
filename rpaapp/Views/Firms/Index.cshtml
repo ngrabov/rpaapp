@@ -1,0 +1,40 @@
+@model IEnumerable<rpaapp.Models.Firm>
+@{
+    ViewData["Title"] = "Firms index";
+}
+
+<h3>Firms - index</h3>
+
+<div style="margin: 20px;">
+    <a asp-controller="Firms" asp-action="Create">Create new</a>
+</div>
+
+<div>
+    <table class="table table-hover">
+        <thead>
+            <th>Id</th>
+            <th>Name</th>
+            <th>VAT</th>
+            <th>isTrained</th>
+            <th>Currency</th>
+            <th>Group</th>
+            <th>DueDate</th>
+            <th>Process Type ID</th>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td><a asp-action="Edit" asp-route-id="@item.Id">@item.Name</a></td>
+                    <td>@item.VAT</td>
+                    <td>@item.isTrained</td>
+                    <td>@item.Currency</td>
+                    <td>@item.Group</td>
+                    <td>@item.DueDate</td>
+                    <td>@item.ProcessTypeId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -368,13 +368,13 @@ public class HomeController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator,Manager")]
     public async Task<IActionResult> GoFindMe(string rac)
     {
         var docs = new List<Document>();
         if(!String.IsNullOrEmpty(rac)) 
         {
-            docs = await _context.Documents.Where(c => c.RAC_number == rac).ToListAsync();
+            docs = await _context.Documents.Where(c => c.RAC_number.ToUpper().Contains(rac.ToUpper())).ToListAsync();
         }
         return View(docs);
     }

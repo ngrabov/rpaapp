@@ -19,7 +19,8 @@ public class ApplicationDbContext : IdentityDbContext<Writer, IdentityRole<int>,
     public DbSet<ProcessType> Processes { get; set; }
     public DbSet<LayoutConfig> Layouts { get; set; }
     public DbSet<PersonInCharge> People { get; set; }
-    public DbSet<InvoiceType> Invoices {get; set; }
+    public DbSet<InvoiceType> Invoices { get; set; }
+    public DbSet<Firm> Firms{ get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -32,6 +33,7 @@ public class ApplicationDbContext : IdentityDbContext<Writer, IdentityRole<int>,
         modelBuilder.Entity<LayoutConfig>().ToTable("Layouts");
         modelBuilder.Entity<InvoiceType>().ToTable("Invoices");
         modelBuilder.Entity<PersonInCharge>().ToTable("People");
+        modelBuilder.Entity<Firm>().ToTable("Firms");
     }
         
 }

@@ -1,0 +1,56 @@
+@model rpaapp.Models.Firm
+@{
+    ViewData["Title"] = "Create a Firm";
+}
+<div style="padding: 0 15px 0 15px;">
+    <h1>Create a firm</h1>
+
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Create" id="frm" name="frm" enctype="multipart/form-data"> 
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group col-md-8">
+                    <b><label asp-for="Name" class="control-label"></label></b>
+                    <input asp-for="Name" class="form-control" required/>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-8">
+                    <b><label asp-for="VAT" class="control-label"></label></b>
+                    <input asp-for="VAT" class="form-control" required/>
+                    <span asp-validation-for="VAT" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="isTrained" type="checkbox" name="isTrained" value="true">
+                    <b><label>Is Trained?</label></b>
+                </div>
+                <div class="form-group">
+                    <b><label asp-for="Currency" class="control-label">Currency</label></b>
+                    <input class="form-control" asp-for="Currency">
+                </div>
+                <div class="form-group">
+                    <b><label asp-for="Group" class="control-label">Group</label></b>
+                    <input class="form-control" asp-for="Group">
+                </div>
+                <div class="form-group">
+                    <b><label asp-for="DueDate" class="control-label">Due Date</label></b>
+                    <input class="form-control" asp-for="DueDate">
+                </div>
+                <div class="form-group">
+                    <b><label asp-for="ProcessTypeId" class="control-label">Process Type ID</label></b>
+                    <input class="form-control" asp-for="ProcessTypeId">
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>   
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to list</a>
+    </div>
+</div>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>

@@ -6,14 +6,25 @@
 <div>
     <form asp-action="GoFindMe">
         <input type="text" name="rac" value="@ViewData["CurrentFilter"]" />
-        <input type="submit" value="Search" class="btn btn-primary" />
+        <input type="submit" value="RAC Search" class="btn btn-primary" />
+        <p style="color: grey; font-style: italic;">*Search by RAC number, case insensitive. Result are all of the files associated with invoice (pdf, pngs and txt). Up to 50 results.*</p>
     </form>
 </div>
 
 <div>
     <table class="table table-hover">
+        <thead>
+            <th>ID</th>
+            <th>Filename</th>
+            <th>guid</th>
+            <th>Status</th>
+            <th>RAC</th>
+            <th>Uploaded by</th>
+            <th>Time of upload</th>
+            <th>File size(Bytes)</th>
+        </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.Take(50))
             {
                 <tr>
                     <td>@item.Id</td>
