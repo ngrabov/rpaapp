@@ -14,7 +14,7 @@ if (builder.Environment.IsProduction())
         new DefaultAzureCredential());
 }
 
-var connectionString = builder.Configuration.GetConnectionString("MyDbConnection");
+var connectionString = builder.Configuration.GetConnectionString("MyDbConnection"); //tokictest
 //var connectionString = builder.Configuration.GetConnectionString("bartog");
 //var connectionString = builder.Configuration.GetConnectionString("tokic");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

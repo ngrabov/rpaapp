@@ -87,8 +87,9 @@ namespace rpaapp.Controllers
                         await _context.SaveChangesAsync();
 
                         var currentUser = await _userManager.GetUserAsync(User);
-                        var dct = await _context.Documents.Where(c => c.Status == Status.Ready && (c.writername == currentUser.FullName || c.writername == "E-Račun ")).FirstOrDefaultAsync();
-                        if(await _context.Documents.Where(c => c.Status == Status.Ready && (c.writername == currentUser.FullName || c.writername == "E-Račun ")).CountAsync() != 0)
+                        var dot = await _context.Documents.Where(c => c.fguid == text.DocId).FirstOrDefaultAsync(); //loše
+                        var dct = await _context.Documents.Where(c => c.Status == Status.Ready && (c.uploaded.Date == dot.uploaded.Date) && (c.writername == currentUser.FullName || c.writername == "E-Račun ")).FirstOrDefaultAsync();
+                        if(await _context.Documents.Where(c => c.Status == Status.Ready && (c.uploaded.Date == dot.uploaded.Date) && (c.writername == currentUser.FullName || c.writername == "E-Račun ")).CountAsync() != 0)
                         {
                             return RedirectToAction("Details", "Txts", new{ id = dct.fguid});
                         } 

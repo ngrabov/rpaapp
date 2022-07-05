@@ -18,88 +18,125 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway" rel="stylesheet">
 </head>
 
+<style>
+    .nvbr{
+        text-decoration: none;
+        font-weight: bold;
+        font-size: large;
+        width: 100%;
+        color: lightgrey;
+        padding: 5px 22px;
+    }
+    h3{
+        margin-bottom: 22px;
+        user-select: none;
+    }
+</style>
+
 <body>
-    <p>@st invoices completed so far!</p>
     <div class="row">
-        <div class="col-md-2">
-            <a href="#balance"> NG </a>
+        <div class="col-md-2" style="display: flex; position: sticky; top: 0; height: 600px; flex-direction: column;">
+            <h3 style="padding-left: 22px; padding-top: 12px; user-select: none;">SimplyDoc API</h3>@* 
+            <p>@st invoices completed so far.</p> *@
+            <a class="nvbr" href="#key"> API Key </a>
+            <a class="nvbr" href="#confirmed"> List of confirmed documents </a>
+            <a class="nvbr" href="#upload"> Upload files </a>
+            <a class="nvbr" href="#archive"> Archive file </a>
+            <a class="nvbr" href="#problem"> File transfer to problem </a>
+            <a class="nvbr" href="#download"> Download PDF </a>
+            <a class="nvbr" href="#delete"> Delete document </a>
+            <a class="nvbr" href="#docid"> Get RAC number </a>
+            <a class="nvbr" href="#metadata"> Get PDF Metadata</a>
         </div>
-        <div class="col-md-10">
-            Some text
-            <div style="padding-bottom: 100px;">
-                Da da da
+        <div class="col-md-10" style="border-left: 1px solid lightgrey; padding-left: 65px;">
+            <div id="key" style="padding-bottom: 100px; padding-top: 60px;">
+                <h3>API Key</h3>
+                <div style="display: flex;">
+                    <p class="col-md-6">
+                        ApiKey is fixed value that is mandatory for all GET/POST requests. <br>
+                        It should be inserted under the Header part of the request.
+                    </p>
+                <div class="col-md-6">
+                    <div style="padding: 16px;">
+                        <div style="background-color: #707b8f; border-radius: 10px; margin: auto; width: 90%; height: 100px;">
+                            <div style="height: 25%; width: 100%; background-color: #4f566b; border-radius: 10px 10px 0px 0px;">
+                            <p style="color: #c1c9d2; font-weight: bold; padding-left: 16px;">API KEY
+                            </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
             </div>
-            <div style="padding-bottom: 100px;">
-                Da da da
+            <div id="confirmed" style="padding-bottom: 100px;">
+                <h3>List of confirmed documents</h3>
+                <p>
+                    Get the list of Documents that are in the TAB „Confirmed“ in SimplyDoc. <br>
+                    Those documents are already gone through OCR part of the SimplyDoc and are approved by human in the TAB „Ready“ or they come automatically after they where scanned by SimplyDoc.
+                </p>
             </div>
-            <div style="padding-bottom: 100px;">
-                Da da da
+            <div id="upload" style="padding-bottom: 100px;">
+                <h3>Upload files</h3>
+                <p>
+                    Uploading files (.pdf) to the SimplyDoc. <br>
+                    // Maximum upload size is ~28 MB. <br>
+                    // Maximum of 20 files can be uploaded at the same time
+                </p>
             </div>
-            <div style="padding-bottom: 100px;">
-                Da da da
+            <div id="archive" style="padding-bottom: 100px;">
+                <h3>Archive file</h3>
+                <p>
+                    Send document from „Confirmed“ Tab to „Archived“ Tab. <br>
+                    Attributes: <br>
+                    •	Guid = Document Id that is provided by SimplyDoc // Required <br>
+                    •	DocId = Unique number that is provided by the app where document is stored or any other unique number by which you can later find certain document. // Required <br>
+                    // One at a time.
+                </p>
             </div>
-            <div style="padding-bottom: 100px;">
-                Da da da
+            <div id="problem" style="padding-bottom: 100px;">
+                <h3>File transfer to problem</h3>
+                <p>
+                    Send document from „Confirmed“ Tab to „Problem“ Tab. <br>
+                    Attributes: <br>
+                    •	Guid = Document Id that is provided by SimplyDoc. // Required <br>
+                    •	DocId = Unique number that is provided by the app where document is stored or any other unique number by which you can later find certain document. // Required <br>
+                    •	ErrorDesc = Description of the problem (String). // Optional <br>
+                    // One at a time. <br>
+                    // Since ErrorDesc is an optional parameter, you can pass the Empty String. 
+                </p>
             </div>
-            <div style="padding-bottom: 100px;">
-                Da da da
+            <div id="download" style="padding-bottom: 100px;">
+                <h3>Download PDF</h3>
+                <p>
+                    Downloads .pdf file from SimplyDoc. <br>
+                    Attributes: <br>
+                    •	Guid = Document Id that is provided by SimplyDoc. // Required <br>
+                    // One at a time. 
+                </p>
             </div>
-            <div style="padding-bottom: 100px;">
-                Da da da
+            <div id="delete" style="padding-bottom: 100px;">
+                <h3>Delete document</h3>
+                <p>
+                    Delete document from SimplyDoc.  <br>
+                    Attributes: <br>
+                    •	Guid = Document Id that is provided by SimplyDoc. // Required <br>
+                    // One at a time.
+                </p>
             </div>
-            <div style="padding-bottom: 100px;">
-                Da da da
+            <div id="docid" style="padding-bottom: 100px;">
+                <h3>Get RAC number</h3>
+                <p>
+                    Getting DocumentID number from any archived document, by providing documents' GUID. <br>
+                    Attributes: <br>
+                    •	Guid = Document Id that is provided by SimplyDoc. // Required <br>
+                    // One at a time.
+                </p>
             </div>
-            <div style="padding-bottom: 100px;">
-                Da da da
-            </div>
-            <div style="padding-bottom: 100px;">
-                Da da da
-            </div>
-            <div style="padding-bottom: 100px;">
-                Da da da
-            </div>
-            <div style="padding-bottom: 100px;">
-                Da da da
-            </div>
-            <div id="balance" style="padding-bottom: 100px;">
-                NG
-            </div>
-            <div style="padding-bottom: 100px;">
-                Da da da
-            </div>
-            <div style="padding-bottom: 100px;">
-                Da da da
-            </div>
-            <div style="padding-bottom: 100px;">
-                Da da da
-            </div>
-            <div style="padding-bottom: 100px;">
-                Da da da
-            </div>
-            <div style="padding-bottom: 100px;">
-                Da da da
-            </div>
-            <div style="padding-bottom: 100px;">
-                Da da da
-            </div>
-            <div style="padding-bottom: 100px;">
-                Da da da
-            </div>
-            <div style="padding-bottom: 100px;">
-                Da da da
-            </div>
-            <div style="padding-bottom: 100px;">
-                Da da da
-            </div>
-            <div style="padding-bottom: 100px;">
-                Da da da
-            </div>
-            <div style="padding-bottom: 100px;">
-                Da da da
-            </div>
-            <div style="padding-bottom: 100px;">
-                Da da da
+            <div id="metadata" style="padding-bottom: 100px;">
+                <h3>Get PDF Metadata</h3>
+                <p>
+                    Getting list of pdfs in Confirmed state and their metadata. <br>
+                </p>
             </div>
         </div>
     </div>
