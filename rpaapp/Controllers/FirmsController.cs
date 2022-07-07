@@ -34,7 +34,7 @@ public class FirmsController : Controller
     [Authorize(Roles = "Administrator,Manager")]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Name,VAT,isTrained,DueDate,ProcessTypeId,Currency,Group")]Firm firm)
+    public async Task<IActionResult> Create([Bind("Name,VAT,Keyword,isTrained,DueDate,ProcessTypeId,Currency,Group")]Firm firm)
     {
         try
         {
@@ -72,7 +72,7 @@ public class FirmsController : Controller
 
         if(firm != null)
         {
-            if(await TryUpdateModelAsync<Firm>(firm, "", c => c.Name, c => c.VAT, c => c.Currency, c => c.DueDate, c => c.Group, c => c.isTrained, c => c.ProcessTypeId))
+            if(await TryUpdateModelAsync<Firm>(firm, "", c => c.Name, c => c.VAT, c => c.Keyword, c => c.Currency, c => c.DueDate, c => c.Group, c => c.isTrained, c => c.ProcessTypeId))
             {
                 try
                 {
@@ -99,11 +99,11 @@ public class FirmsController : Controller
     }
 
     [ApiKey]
-    public async Task<IActionResult> Parser() //Hardcode, once-used function
+    public async Task<IActionResult> Parser() 
     {
         try
         {
-            WorkBook workbook = WorkBook.Load(_environment.WebRootPath + "/tokic.xlsx");
+            WorkBook workbook = WorkBook.Load(_environment.WebRootPath + "/tokic.xlsx"); //hardcode
             WorkSheet sheet = workbook.WorkSheets.First();
             var rows = sheet.Rows.Skip(1);
 
@@ -114,7 +114,12 @@ public class FirmsController : Controller
                 {
                     if(cell.ColumnIndex == 0 && cell.TryGetValue(out string vat))
                     {
-                        firm.VAT = vat;
+                        var arr = vat.Split('$');
+                        firm.VAT = arr[0];
+                        if(arr.Length > 1)
+                        {
+                            firm.Keyword = arr[1];
+                        }
                     }  
                     if(cell.ColumnIndex == 1 && cell.TryGetValue(out string name))
                     {
@@ -149,9 +154,8 @@ public class FirmsController : Controller
                     }  
                 }
                 await _context.Firms.AddAsync(firm); 
-                await _context.SaveChangesAsync();
             }
-
+            await _context.SaveChangesAsync();
             return Ok();
         }
         catch(Exception e)

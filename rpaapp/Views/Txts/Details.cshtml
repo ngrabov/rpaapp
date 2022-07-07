@@ -297,6 +297,11 @@
                         <input type="submit" value="OK" class="btn btn-primary" style="background-color: #034791;" />
                     }
                     <a asp-controller="Home" asp-action="Dashboard" class="btn btn-primary" style="padding-left: 10px; background-color: #034791;" asp-route-id="@Model.DocId">Back</a>
+                    @if(vis == "true")
+                    {
+                        <a asp-controller="Txts" asp-action="Prev" asp-route-id="@Model.Id" class="btn btn-primary" style="margin-left: 60px; background-color: #034791;" asp-route-id="@Model.DocId">Previous</a>
+                        <a asp-controller="Txts" asp-action="Next" asp-route-id="@Model.Id" class="btn btn-primary" style="padding-left: 10px; background-color: #034791;" asp-route-id="@Model.DocId">Next</a>
+                    }
                 </div> 
             </form>
         </div>

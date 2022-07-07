@@ -112,6 +112,26 @@ namespace rpaapp.Controllers
         }
 
         [Authorize(Roles = "Administrator,Manager")]
+        public async Task<IActionResult> Prev(int? id)
+        {
+            if(id == null) return NotFound();
+
+            var prev = await _context.Txts.Where(c => c.Id < id && !c.isReviewed).OrderBy(c => c.Id).LastOrDefaultAsync();
+            if(prev == null) return Json("No earlier invoices.");
+            return RedirectToAction("Details", "Txts", new{ id = prev.DocId });
+        }
+
+        [Authorize(Roles = "Administrator,Manager")]
+        public async Task<IActionResult> Next(int? id)
+        {
+            if(id == null) return NotFound();
+            
+            var nxt = await _context.Txts.Where(c => c.Id > id && !c.isReviewed).FirstOrDefaultAsync();
+            if(nxt == null) return Json("No newer invoices.");
+            return RedirectToAction("Details", "Txts", new{ id = nxt.DocId });
+        }
+
+        [Authorize(Roles = "Administrator,Manager")]
         public async Task<IActionResult> SearchMe(string key)
         {
             var txts = new List<Txt>();

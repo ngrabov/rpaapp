@@ -22,6 +22,11 @@
                     <input asp-for="VAT" class="form-control" required/>
                     <span asp-validation-for="VAT" class="text-danger"></span>
                 </div>
+                <div class="form-group col-md-8">
+                    <b><label asp-for="Keyword" class="control-label"></label></b>
+                    <input asp-for="Keyword" class="form-control" required/>
+                    <span asp-validation-for="Keyword" class="text-danger"></span>
+                </div>
                 <div class="form-group">
                     <b><input asp-for="isTrained" type="checkbox" name="isTrained" value="true"></b>
                     <label>Is Trained?</label>

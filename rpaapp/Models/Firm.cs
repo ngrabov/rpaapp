@@ -7,6 +7,7 @@ namespace rpaapp.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string VAT { get; set; }
+        public string Keyword { get; set; }
         public string Group { get; set; }
         public string Currency { get; set; }
         

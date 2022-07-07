@@ -31,6 +31,11 @@
         margin-bottom: 22px;
         user-select: none;
     }
+    .txt
+    {
+        color: white;
+        padding: 16px;
+    }
 </style>
 
 <body>
@@ -56,46 +61,168 @@
                         ApiKey is fixed value that is mandatory for all GET/POST requests. <br>
                         It should be inserted under the Header part of the request.
                     </p>
-                <div class="col-md-6">
-                    <div style="padding: 16px;">
-                        <div style="background-color: #707b8f; border-radius: 10px; margin: auto; width: 90%; height: 100px;">
-                            <div style="height: 25%; width: 100%; background-color: #4f566b; border-radius: 10px 10px 0px 0px;">
-                            <p style="color: #c1c9d2; font-weight: bold; padding-left: 16px;">API KEY
-                            </p>
+                    <div class="col-md-6">
+                        <div style="padding: 0 16px 16px 16px;">
+                            <div style="background-color: #707b8f; border-radius: 10px; margin: auto; width: 90%; height: 90px;">
+                                <div style="height: 33%; width: 100%; background-color: #4f566b; border-radius: 10px 10px 0px 0px;">
+                                <p style="color: #c1c9d2; font-weight: bold; padding-left: 16px;">API KEY
+                                </p>
+                                </div>
+                                <div>
+                                    <p class="txt">Header: "ApiKey“:“********-*****-*****“ //fixed ApiKey</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                </div>
             </div>
             <div id="confirmed" style="padding-bottom: 100px;">
                 <h3>List of confirmed documents</h3>
-                <p>
+                <div style="display: flex;">
+                <p class="col-md-6">
                     Get the list of Documents that are in the TAB „Confirmed“ in SimplyDoc. <br>
                     Those documents are already gone through OCR part of the SimplyDoc and are approved by human in the TAB „Ready“ or they come automatically after they where scanned by SimplyDoc.
                 </p>
+                <div class="col-md-6">
+                    <div style="padding: 0 16px 16px 16px;">
+                        <div style="background-color: #707b8f; border-radius: 10px; margin: auto; width: 90%; height: 115px;">
+                            <div style="height: 22%; width: 100%; background-color: #4f566b; border-radius: 10px 10px 0px 0px;">
+                            <p style="color: #c1c9d2; font-weight: bold; padding-left: 16px;">Get /DmsMove
+                            </p>
+                            </div>
+                            <div>
+                                <p class="txt">Header: "content-type“:“application/json“ //for json requests <br>
+                                    Header: "ApiKey“:“********-*****-*****“ //fixed ApiKey
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="padding: 30px; margin: auto; width: 90%;"><b>Example response:</b> // Successful</p>
+                    <div style="background-color: #707b8f; border-radius: 10px; margin: auto; width: 87%; height: 820px;">
+                        <p class="txt">
+                                Status: 200 <br>
+                                { <br>
+                                    "id" : 1,<br>
+                                    "docId" : "64hf2fa2-a1ca-4fee-97a2-9229uj034c14e",<br>
+                                    "isReviewed" : true,<br>
+                                    "isDownloaded" : false,<br>
+                                    "pngNames" : "zasave1.png",<br>
+                                    "name" : "Example d.o.o.",<br>
+                                    "clientCode" : null,<br>
+                                    "group" : "DOM",<br>
+                                    "invoiceTypeId" : 4,<br>
+                                    "currency" : "EUR",<br>
+                                    "invoiceNumber" : "619-3-1",<br>
+                                    "invoiceDate" : "2022-04-06T00:00:00",<br>
+                                    "bruto" : 14591.06,<br>
+                                    "neto" : 11672.85,<br>
+                                }<br>
+                                {<br>
+                                    "id" : 2,<br>
+                                    "docId" : "2uf02-3r2-tge-97a2-7450920jfasd1",<br>
+                                    "isReviewed" : true,<br>
+                                    "isDownloaded" : false,<br>
+                                    "pngNames" : "zasave12.png",<br>
+                                    "name" : "Example d.o.o.",<br>
+                                    "clientCode" : null,<br>
+                                    "group" : "INO",<br>
+                                    "invoiceTypeId" : 3,<br>
+                                    "currency" : "EUR",<br>
+                                    "invoiceNumber" : "619-3-1",<br>
+                                    "invoiceDate" : "2022-04-06T00:00:00",<br>
+                                    "bruto" : 14591.06,<br>
+                                    "neto" : 11672.85,<br>
+                                }
+                        </p>
+                    </div>
+                </div>
+                </div>
             </div>
             <div id="upload" style="padding-bottom: 100px;">
                 <h3>Upload files</h3>
-                <p>
+                <div style="display: flex;">
+                <p class="col-md-6">
                     Uploading files (.pdf) to the SimplyDoc. <br>
                     // Maximum upload size is ~28 MB. <br>
                     // Maximum of 20 files can be uploaded at the same time
                 </p>
+                <div class="col-md-6">
+                    <div style="padding: 0 16px 16px 16px;">
+                        <div style="background-color: #707b8f; border-radius: 10px; margin: auto; width: 90%; height: 115px;">
+                            <div style="height: 25%; width: 100%; background-color: #4f566b; border-radius: 10px 10px 0px 0px;">
+                            <p style="color: #c1c9d2; font-weight: bold; padding-left: 16px;">POST  /pdfs/UploadFiles
+                            </p>
+                            </div>
+                            <div>
+                                <p class="txt">files={"files":("Example.pdf",open("FilePath/Example.pdf","rb"),"application/pdf")} <br>
+                                Header: "ApiKey“:“********-*****-*****“ //fixed ApiKey
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="padding: 30px; margin: auto; width: 90%;"><b>Multiple files upload example</b></p>
+                    <div style="padding: 16px;">
+                        <div style="background-color: #707b8f; border-radius: 10px; margin: auto; width: 90%; height: 175px;">
+                            <div style="height: 15%; width: 100%; background-color: #4f566b; border-radius: 10px 10px 0px 0px;">
+                            <p style="color: #c1c9d2; font-weight: bold; padding-left: 16px;">POST  /pdfs/UploadFiles
+                            </p>
+                            </div>
+                            <div>
+                                <p class="txt">files=[ <br>
+                                ('files':('Example.pdf',open('FilePath/Example.pdf','rb'),'application/pdf')), <br>
+                                ('files':('Example2.pdf',open('FilePath/Example.pdf','rb'),'application/pdf')) <br>
+                                ] <br>
+                                Header: "ApiKey“:“********-*****-*****“ //fixed ApiKey
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="padding: 30px; margin: auto; width: 90%;"><b>Example response:</b> // Successful</p>
+                    <div style="background-color: #707b8f; border-radius: 10px; margin: auto; width: 87%; height: 100px;">
+                        <p class="txt">{ <br>
+                                Status: 200 <br>
+                        }
+                        </p>
+                    </div>
+                </div>
+                </div>
             </div>
             <div id="archive" style="padding-bottom: 100px;">
                 <h3>Archive file</h3>
-                <p>
+                <div style="display: flex;">
+                <p class="col-md-6">
                     Send document from „Confirmed“ Tab to „Archived“ Tab. <br>
                     Attributes: <br>
                     •	Guid = Document Id that is provided by SimplyDoc // Required <br>
                     •	DocId = Unique number that is provided by the app where document is stored or any other unique number by which you can later find certain document. // Required <br>
                     // One at a time.
                 </p>
+                <div class="col-md-6">
+                    <div style="padding: 0 16px 16px 16px;">
+                        <div style="background-color: #707b8f; border-radius: 10px; margin: auto; width: 90%; height: 100px;">
+                            <div style="height: 33%; width: 100%; background-color: #4f566b; border-radius: 10px 10px 0px 0px;">
+                            <p style="color: #c1c9d2; font-weight: bold; padding-left: 16px;">POST  /Archive?gd=guid&rac=DocId
+                            </p>
+                            </div>
+                            <div>
+                                <p class="txt">Header: "ApiKey“:“********-*****-*****“ //Fixed ApiKey</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="padding: 30px; margin: auto; width: 90%;"><b>Example response:</b> // Successful</p>
+                    <div style="background-color: #707b8f; border-radius: 10px; margin: auto; width: 87%; height: 100px;">
+                        <p class="txt">{ <br>
+                                Status: 200 <br>
+                        }
+                        </p>
+                    </div>
+                </div>
+                </div>
             </div>
             <div id="problem" style="padding-bottom: 100px;">
                 <h3>File transfer to problem</h3>
-                <p>
+                <div style="display: flex;">
+                <p class="col-md-6">
                     Send document from „Confirmed“ Tab to „Problem“ Tab. <br>
                     Attributes: <br>
                     •	Guid = Document Id that is provided by SimplyDoc. // Required <br>
@@ -104,39 +231,172 @@
                     // One at a time. <br>
                     // Since ErrorDesc is an optional parameter, you can pass the Empty String. 
                 </p>
+                <div class="col-md-6">
+                    <div style="padding: 0 16px 16px 16px;">
+                        <div style="background-color: #707b8f; border-radius: 10px; margin: auto; width: 90%; height: 100px;">
+                            <div style="height: 33%; width: 100%; background-color: #4f566b; border-radius: 10px 10px 0px 0px;">
+                            <p style="color: #c1c9d2; font-weight: bold; padding-left: 16px;">POST  /ReportProblem?gd=guid&rac=DocId &desc=ErrorDesc
+                            </p>
+                            </div>
+                            <div>
+                                <p class="txt">Header: "ApiKey“:“********-*****-*****“ //Fixed ApiKey</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="padding: 30px; margin: auto; width: 90%;"><b>Example response:</b> // Successful</p>
+                    <div style="background-color: #707b8f; border-radius: 10px; margin: auto; width: 87%; height: 100px;">
+                        <p class="txt">{ <br>
+                                Status: 200 <br>
+                        }
+                        </p>
+                    </div>
+                </div>
+                </div>
             </div>
             <div id="download" style="padding-bottom: 100px;">
                 <h3>Download PDF</h3>
-                <p>
+                <div style="display: flex;">
+                <p class="col-md-6">
                     Downloads .pdf file from SimplyDoc. <br>
                     Attributes: <br>
                     •	Guid = Document Id that is provided by SimplyDoc. // Required <br>
                     // One at a time. 
                 </p>
+                <div class="col-md-6">
+                    <div style="padding: 0 16px 16px 16px;">
+                        <div style="background-color: #707b8f; border-radius: 10px; margin: auto; width: 90%; height: 100px;">
+                            <div style="height: 33%; width: 100%; background-color: #4f566b; border-radius: 10px 10px 0px 0px;">
+                            <p style="color: #c1c9d2; font-weight: bold; padding-left: 16px;">GET  /Home/Download?gd= guid
+                            </p>
+                            </div>
+                            <div>
+                                <p class="txt">Header: "ApiKey“:“********-*****-*****“ //Fixed ApiKey</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="padding: 30px; margin: auto; width: 90%;"><b>Example response:</b> // Successful</p>
+                    <div style="background-color: #707b8f; border-radius: 10px; margin: auto; width: 87%; height: 100px;">
+                        <p class="txt">{ <br>
+                                Status: 200 <br>
+                        }
+                        </p>
+                    </div>
+                </div>
+                </div>
             </div>
             <div id="delete" style="padding-bottom: 100px;">
                 <h3>Delete document</h3>
-                <p>
+                <div style="display: flex;">
+                <p class="col-md-6">
                     Delete document from SimplyDoc.  <br>
                     Attributes: <br>
                     •	Guid = Document Id that is provided by SimplyDoc. // Required <br>
                     // One at a time.
                 </p>
+                <div class="col-md-6">
+                    <div style="padding: 0 16px 16px 16px;">
+                        <div style="background-color: #707b8f; border-radius: 10px; margin: auto; width: 90%; height: 100px;">
+                            <div style="height: 33%; width: 100%; background-color: #4f566b; border-radius: 10px 10px 0px 0px;">
+                            <p style="color: #c1c9d2; font-weight: bold; padding-left: 16px;">GET  /Home/DeleteConfirmed?gd= guid
+                            </p>
+                            </div>
+                            <div>
+                                <p class="txt">Header: "ApiKey“:“********-*****-*****“ //Fixed ApiKey</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="padding: 30px; margin: auto; width: 90%;"><b>Example response:</b> // Successful</p>
+                    <div style="background-color: #707b8f; border-radius: 10px; margin: auto; width: 87%; height: 100px;">
+                        <p class="txt">{ <br>
+                                Status: 200 <br>
+                        }
+                        </p>
+                    </div>
+                </div>
+                </div>
             </div>
             <div id="docid" style="padding-bottom: 100px;">
                 <h3>Get RAC number</h3>
-                <p>
+                <div style="display: flex;">
+                <p class="col-md-6">
                     Getting DocumentID number from any archived document, by providing documents' GUID. <br>
                     Attributes: <br>
                     •	Guid = Document Id that is provided by SimplyDoc. // Required <br>
                     // One at a time.
                 </p>
+                <div class="col-md-6">
+                    <div style="padding: 0 16px 16px 16px;">
+                        <div style="background-color: #707b8f; border-radius: 10px; margin: auto; width: 90%; height: 100px;">
+                            <div style="height: 33%; width: 100%; background-color: #4f566b; border-radius: 10px 10px 0px 0px;">
+                            <p style="color: #c1c9d2; font-weight: bold; padding-left: 16px;">GET  /GetRac?gd=guid
+                            </p>
+                            </div>
+                            <div>
+                                <p class="txt">Header: "ApiKey“:“********-*****-*****“ //Fixed ApiKey</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="padding: 30px; margin: auto; width: 90%;"><b>Example response:</b> // Successful</p>
+                    <div style="background-color: #707b8f; border-radius: 10px; margin: auto; width: 87%; height: 130px;">
+                        <p class="txt">{ <br>
+                                Status: 200 <br>
+                                "RAC_2022_033579" <br>
+                        }
+                        </p>
+                    </div>
+                </div>
+                </div>
             </div>
             <div id="metadata" style="padding-bottom: 100px;">
                 <h3>Get PDF Metadata</h3>
-                <p>
+                <div style="display: flex;">
+                <p class="col-md-6">
                     Getting list of pdfs in Confirmed state and their metadata. <br>
                 </p>
+                <div class="col-md-6">
+                    <div style="padding: 0 16px 16px 16px;">
+                        <div style="background-color: #707b8f; border-radius: 10px; margin: auto; width: 90%; height: 100px;">
+                            <div style="height: 33%; width: 100%; background-color: #4f566b; border-radius: 10px 10px 0px 0px;">
+                            <p style="color: #c1c9d2; font-weight: bold; padding-left: 16px;">GET  /pdfs
+                            </p>
+                            </div>
+                            <div>
+                                <p class="txt">Header: "ApiKey“:“********-*****-*****“ //Fixed ApiKey</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="padding: 30px; margin: auto; width: 90%;"><b>Example response:</b> // Successful</p>
+                    <div style="background-color: #707b8f; border-radius: 10px; margin: auto; width: 87%; height: 690px;">
+                        <p class="txt">{ <br>
+                                Status: 200 <br>
+                                    { <br>
+                                        "id": 157,<br>
+                                        "fname": "test1.pdf",<br>
+                                        "guid": "698ff321-8386-42be-86a3-6d0de3768049",<br>
+                                        "fsize": 89524,<br>
+                                        "isDownloaded": false,<br>
+                                        "isUploaded": false,<br>
+                                        "uploaded": "2022-06-27T12:11:30.383975",<br>
+                                        "writername": " ",<br>
+                                        "writer": <br> {<br>
+                                            "firstName": null,<br>
+                                            "lastName": null,<br>
+                                            "fullName": " ",<br>
+                                            "id": 0,<br>
+                                            "userName": null,<br>
+                                            "normalizedUserName": null,<br>
+                                            "email": null,<br>
+                                            "normalizedEmail": null,<br>
+                                            "emailConfirmed": false,<br>
+                                            "lockoutEnabled": false,<br>
+                                            "accessFailedCount": 0<br>
+                                        }<br>
+                                    }<br>
+                                }
+                        </p>
+                    </div>
+                </div>
+                </div>
             </div>
         </div>
     </div>
