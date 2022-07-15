@@ -17,14 +17,14 @@ public class PeopleController : Controller
     }
 
     [Authorize(Roles = "Administrator")]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index() //List of people in charge
     {
         var people = await context.People.ToListAsync();
         return View(people);
     }
 
     [Authorize(Roles = "Administrator")]
-    public IActionResult Create()
+    public IActionResult Create() //returns html for Person creation from Views
     {
         return View();
     }
@@ -32,7 +32,7 @@ public class PeopleController : Controller
     [Authorize(Roles = "Administrator")]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<IActionResult> Create([Bind("FirstName,LastName,mfilesid")]PersonInCharge person)
+    public async Task<IActionResult> Create([Bind("FirstName,LastName,mfilesid")]PersonInCharge person) //POST action for Person creation
     {
         try
         {

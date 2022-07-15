@@ -21,23 +21,21 @@ public class LayoutController : Controller
     }
 
     [Authorize(Roles = "Administrator")]
-    public async Task<IActionResult> Details()
+    public async Task<IActionResult> Details() // layout dashboard
     {
         var layouts = await _context.Layouts.FirstOrDefaultAsync(c => c.Id == 1);
         return View(layouts);
     }
 
     [Authorize(Roles = "Administrator,Manager")]
-    public async Task<IActionResult> Docs()
-    {
-        var st = await _context.pdfs.MaxAsync(c => c.Id);
-        ViewData["Stats"] = st;
+    public IActionResult Docs() //returns html for documentation from Views
+    { 
         return View();
     }
 
     [HttpPost]
     [Authorize(Roles = "Administrator")]
-    public async Task<IActionResult> Edit()
+    public async Task<IActionResult> Edit() //POST action for editing the layout
     {
         var lyt = await _context.Layouts.FirstOrDefaultAsync(c => c.Id == 1);
 

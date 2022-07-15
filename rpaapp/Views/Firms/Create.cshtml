@@ -22,8 +22,18 @@
                 </div>
                 <div class="form-group col-md-8">
                     <b><label asp-for="Keyword" class="control-label"></label></b>
-                    <input asp-for="Keyword" class="form-control" required/>
+                    <input asp-for="Keyword" class="form-control"/>
                     <span asp-validation-for="Keyword" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-8">
+                    <b><label asp-for="AltVAT" class="control-label"></label></b>
+                    <input asp-for="AltVAT" class="form-control"/>
+                    <span asp-validation-for="AltVAT" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-8">
+                    <b><label asp-for="ClientCode" class="control-label"></label></b>
+                    <input asp-for="ClientCode" class="form-control"/>
+                    <span asp-validation-for="ClientCode" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <input asp-for="isTrained" type="checkbox" name="isTrained" value="true">
@@ -37,15 +47,25 @@
                     <b><label asp-for="Group" class="control-label">Group</label></b>
                     <input class="form-control" asp-for="Group">
                 </div>
+                <div class="form-group col-md-8">
+                    <b><label asp-for="State" class="control-label"></label></b>
+                    <input asp-for="State" class="form-control"/>
+                    <span asp-validation-for="State" class="text-danger"></span>
+                </div>
                 <div class="form-group">
                     <b><label asp-for="DueDate" class="control-label">Due Date</label></b>
                     <input class="form-control" asp-for="DueDate">
+                </div>
+                <div class="form-group col-md-8">
+                    <b><label asp-for="InvoiceType" class="control-label"></label></b>
+                    <input asp-for="InvoiceType" class="form-control"/>
+                    <span asp-validation-for="InvoiceType" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <b><label asp-for="ProcessTypeId" class="control-label">Process Type ID</label></b>
                     <input class="form-control" asp-for="ProcessTypeId">
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="margin-top: 25px;">
                     <input type="submit" value="Create" class="btn btn-primary" />
                 </div>   
             </form>
@@ -53,7 +73,7 @@
     </div>
 
     <div>
-        <a asp-action="Index">Back to list</a>
+        <a asp-action="Index" class="btn btn-primary" style="margin-top: 5px;">Back</a>
     </div>
 </div>
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.1.min.js"></script>

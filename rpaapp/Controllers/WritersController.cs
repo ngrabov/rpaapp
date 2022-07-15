@@ -21,14 +21,14 @@ namespace rpaapp.Controllers
         }
 
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index() //list of writers / users
         {
             var writers = await _context.Writers.ToListAsync();
             return View(writers);
         }
 
         [Authorize(Roles = "Administrator")]
-        public IActionResult Create()
+        public IActionResult Create() //returns html for writer creation from Views
         {
             return View();
         }
@@ -36,7 +36,7 @@ namespace rpaapp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Create([Bind("FirstName,LastName,Email")]Writer writer, string pw, bool admin)
+        public async Task<IActionResult> Create([Bind("FirstName,LastName,Email")]Writer writer, string pw, bool admin) //POST action for writer creation
         {
             var wrtr = await _context.Writers.FirstOrDefaultAsync(c => c.Email == writer.Email);
             if(await _context.Writers.ContainsAsync(wrtr))
@@ -64,7 +64,7 @@ namespace rpaapp.Controllers
         }
 
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id) //returns html for edit writer action
         {
             if(id == null)
             {
@@ -81,7 +81,7 @@ namespace rpaapp.Controllers
         [ValidateAntiForgeryToken]
         [ActionName("Edit")]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> EditPost(int? id)
+        public async Task<IActionResult> EditPost(int? id) //POST Action for editing writers
         {
             if(id == null) return NotFound();
 
@@ -107,7 +107,7 @@ namespace rpaapp.Controllers
         }
         
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> ChangeWriter()
+        public async Task<IActionResult> ChangeWriter() //set invoice uploader to be administrator, one time function
         {
             var cnt = await _context.pdfs.Where(c => c.Writer.FirstName == null).CountAsync();
             if(cnt != 0)
@@ -125,7 +125,7 @@ namespace rpaapp.Controllers
         }
 
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> DeleteWriters()
+        public async Task<IActionResult> DeleteWriters() //delete writers whose first name is null, one time function
         {
             try
             {
@@ -141,7 +141,7 @@ namespace rpaapp.Controllers
         }
     
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id) //returns html for writer deletion from Views
         {
             if(id == null) return NotFound();
             var writer = await _context.Writers.FirstOrDefaultAsync(c => c.Id == id);
@@ -151,7 +151,7 @@ namespace rpaapp.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> DeleteConfirmed(int? id)
+        public async Task<IActionResult> DeleteConfirmed(int? id) // POST Action for user deletion
         {
             if(id == null) return NotFound();
 

@@ -16,10 +16,14 @@
             <th>Name</th>
             <th>VAT</th>
             <th>Keyword</th>
+            <th>AltVAT</th>
+            <th>Client Code</th>
             <th>isTrained</th>
             <th>Currency</th>
             <th>Group</th>
+            <th>State</th>
             <th>DueDate</th>
+            <th>Invoice Type</th>
             <th>Process Type ID</th>
         </thead>
         <tbody>
@@ -30,10 +34,14 @@
                     <td><a asp-action="Edit" asp-route-id="@item.Id">@item.Name</a></td>
                     <td>@item.VAT</td>
                     <td>@item.Keyword</td>
+                    <td>@item.AltVAT</td>
+                    <td>@item.ClientCode</td>
                     <td>@item.isTrained</td>
                     <td>@item.Currency</td>
                     <td>@item.Group</td>
+                    <td>@item.State</td>
                     <td>@item.DueDate</td>
+                    <td>@item.InvoiceType</td>
                     <td>@item.ProcessTypeId</td>
                 </tr>
             }

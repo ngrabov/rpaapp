@@ -4,7 +4,7 @@
 
 namespace rpaapp.Migrations
 {
-    public partial class keyword : Migration
+    public partial class key : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

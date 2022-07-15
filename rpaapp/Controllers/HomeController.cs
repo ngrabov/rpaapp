@@ -27,21 +27,21 @@ public class HomeController : Controller
     }
 
     [Authorize(Roles = "Administrator,Manager")]
-    public async Task<IActionResult> Index(string order, string search, DateTime? date)
+    public async Task<IActionResult> Index(string order, string search, DateTime? date) //redirects to Dashboard
     {
         return await Dashboard(order, search, date);
     }
     
     [Authorize(Roles = "Administrator,Manager")]
     [Route("Repository")]
-    public async Task<IActionResult> Repository()
+    public async Task<IActionResult> Repository() //returns a list of pdfs
     {
         var files = await _context.pdfs.Include(c => c.Writer).Where(c => c.isUploaded == false).ToListAsync();
         return View(files);
     }
 
     [Authorize(Roles = "Administrator")]
-    public async Task<IActionResult> Clear()
+    public async Task<IActionResult> Clear() //ClearDB; deletes all invoice data, pdfs, documents and txts from Database. Use carefully
     {
         if((await _context.Writers.CountAsync()) < 8)
         {/* 
@@ -60,7 +60,7 @@ public class HomeController : Controller
     }
     
     [ApiKey]
-    public async Task<IActionResult> DownloadFile(Guid gd) //pdfs
+    public async Task<IActionResult> DownloadFile(Guid gd) //Download pdfs
     {
         try
         {
@@ -87,7 +87,7 @@ public class HomeController : Controller
     }
 
     [Authorize(Roles = "Administrator")]
-    public async Task<IActionResult> Retry(int? id)
+    public async Task<IActionResult> Retry(int? id) //Return pdfs from 'Waiting' to 'Files to download' in Repository
     {
         try
         {
@@ -108,7 +108,7 @@ public class HomeController : Controller
     }
 
     [Authorize(Roles = "Administrator")]
-    public async Task<IActionResult> Push(int? id)
+    public async Task<IActionResult> Push(int? id) //Clears the pdfs from Repository by setting isDownloaded and isUploaded to true
     {
         try
         {
@@ -128,7 +128,7 @@ public class HomeController : Controller
     }
 
     [ApiKey]
-    public async Task<IActionResult> Download(Guid gd) // txts
+    public async Task<IActionResult> Download(Guid gd) // Download reuploaded pdf
     {
         string path = Path.Combine(_environment.WebRootPath) + "/Document/" + gd + "/" + gd + ".pdf";
 
@@ -146,7 +146,7 @@ public class HomeController : Controller
     }
 
     [ApiKey]
-    public async Task<IActionResult> DownloadFiles(Guid gd) //documents
+    public async Task<IActionResult> DownloadFiles(Guid gd) //Duplicate function, similar to Download
     {
         string path = Path.Combine(_environment.WebRootPath) + "/Document/" + gd + "/" + gd + ".pdf";
 
@@ -162,7 +162,7 @@ public class HomeController : Controller
 
     [Authorize(Roles = "Administrator,Manager")]
     [Route("Dashboard")]
-    public async Task<IActionResult> Dashboard(string order, string search, DateTime? date)
+    public async Task<IActionResult> Dashboard(string order, string search, DateTime? date) //Returns a table of invoices' documents divided in tabs (Ready, Confirmed, Archived, Problem)
     {
         try
         {
@@ -231,13 +231,13 @@ public class HomeController : Controller
     }
 
     [Authorize(Roles = "Administrator")]
-    [Route("Upload")] //files, get, web
+    [Route("Upload")] //Documents, get, web
     public IActionResult Upload()
     {
         return View();
     }
 
-    [Route("Upload")] //Files, web
+    [Route("Upload")] //Documents, web, post
     [HttpPost]
     [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> Upload(List<IFormFile> files)
@@ -259,7 +259,7 @@ public class HomeController : Controller
     }
 
     [ApiKey]
-    [Route("UploadFiles")] //API endpoint
+    [Route("UploadFiles")] //API endpoint for Upload files
     [HttpPost]
     public async Task<IActionResult> UploadFiles()
     {
@@ -283,7 +283,7 @@ public class HomeController : Controller
 
     [Route("DmsMove")]
     [ApiKey]
-    public async Task<IActionResult> DmsMove()
+    public async Task<IActionResult> DmsMove() //get json data for txts
     {
         var txts = await _context.Txts.Where(c => c.isReviewed == true).Where(c => c.isDownloaded == false).ToListAsync();
         return Json(txts);
@@ -292,7 +292,7 @@ public class HomeController : Controller
     [Route("Archive")]
     [HttpPost]
     [ApiKey]
-    public async Task<IActionResult> ArchiveFile(Guid gd, string rac)
+    public async Task<IActionResult> ArchiveFile(Guid gd, string rac) //put invoices into 'Archived' state
     {
         var docs = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
 
@@ -325,7 +325,7 @@ public class HomeController : Controller
     [Route("ReportProblem")]
     [HttpPost]
     [ApiKey]
-    public async Task<IActionResult> ReportProblem(Guid? gd, string rac, string desc)
+    public async Task<IActionResult> ReportProblem(Guid? gd, string rac, string desc) //put invoices into 'Problem' state
     {
         if(gd == Guid.Empty) return NotFound();
         var docs = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
@@ -350,26 +350,26 @@ public class HomeController : Controller
 
     [Route("GetRac")]
     [ApiKey]
-    public async Task<IActionResult> GetRac(Guid gd)
+    public async Task<IActionResult> GetRac(Guid gd) //get rac number
     {
         var rac = await _context.Documents.Where(c => c.Status == Status.Archived).Where(c => c.fguid == gd).FirstOrDefaultAsync();
         var nr = rac.RAC_number;
         return Json(nr);
     }
 
-    public IActionResult Privacy()
+    public IActionResult Privacy() //not used
     {
         return View();
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    public IActionResult Error() //for production errors, .net generated
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    [Authorize(Roles = "Administrator,Manager")]
-    public async Task<IActionResult> GoFindMe(string rac)
+    [Authorize(Roles = "Administrator,Manager")] //search by RAC number
+    public async Task<IActionResult> GoFindMe(string rac) 
     {
         var docs = new List<Document>();
         if(!String.IsNullOrEmpty(rac)) 
@@ -379,7 +379,7 @@ public class HomeController : Controller
         return View(docs);
     }
 
-    public async Task Complex(List<IFormFile> files)
+    public async Task Complex(List<IFormFile> files) //auxiliary function
     {
         string tgd = "";
         long sz = 0;
@@ -565,7 +565,7 @@ public class HomeController : Controller
         }  
     }
 
-    public async Task DirectResolveAsync(Guid? gd)
+    public async Task DirectResolveAsync(Guid? gd) // used for invoices that go straight into confirmed state
     {
         var dcmnts = await _context.Documents.Where(c => c.fguid == gd).ToListAsync();
         foreach(var f in dcmnts)
@@ -579,7 +579,7 @@ public class HomeController : Controller
     }
 
     [Authorize(Roles = "Administrator,Manager")]
-    public async Task<IActionResult> Delete(Guid? gd)
+    public async Task<IActionResult> Delete(Guid? gd) //gets html from Views for document deletion
     {
         if(gd == null) return NotFound();
         var files = await _context.Documents.Where(c => c.fguid == gd).FirstOrDefaultAsync();
@@ -589,7 +589,7 @@ public class HomeController : Controller
 
     [HttpPost]
     [Authorize(Roles = "Administrator,Manager")]
-    public async Task<IActionResult> DeleteConfirmed(Guid gd)
+    public async Task<IActionResult> DeleteConfirmed(Guid gd) //post action for document deletion
     {
         try
         {
@@ -621,7 +621,7 @@ public class HomeController : Controller
 
     [HttpPost]
     [ApiKey]
-    public async Task<IActionResult> DeleteDuplicate(Guid gd)
+    public async Task<IActionResult> DeleteDuplicate(Guid gd) //POST action for deletion of duplicate documents, rarely used
     {
         try
         {
@@ -642,7 +642,7 @@ public class HomeController : Controller
     }
 
     [Authorize(Roles = "Administrator,Manager")]
-    public async Task<IActionResult> Cancel(Guid? gd)
+    public async Task<IActionResult> Cancel(Guid? gd) //function for returning problem invoices into confirmed state
     {
         try
         {
@@ -667,7 +667,7 @@ public class HomeController : Controller
     }
     
     [Authorize(Roles = "Administrator,Manager")]
-    public async Task<IActionResult> Resolve(Guid? gd)
+    public async Task<IActionResult> Resolve(Guid? gd) // function for resolving problem invoices
     {
         try
         {
@@ -690,7 +690,7 @@ public class HomeController : Controller
     }
 
     [Authorize(Roles = "Administrator,Manager")]
-    public async Task<IActionResult> MassDelete(List<Guid> Del)
+    public async Task<IActionResult> MassDelete(List<Guid> Del) //action for deletion of multiple problem invoices
     {
         try
         {

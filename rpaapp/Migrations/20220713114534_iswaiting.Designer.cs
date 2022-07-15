@@ -12,8 +12,8 @@ using rpaapp.Data;
 namespace rpaapp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220707105215_keyword")]
-    partial class keyword
+    [Migration("20220713114534_iswaiting")]
+    partial class iswaiting
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -209,6 +209,12 @@ namespace rpaapp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("AltVAT")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClientCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Currency")
                         .HasColumnType("nvarchar(max)");
 
@@ -218,6 +224,9 @@ namespace rpaapp.Migrations
                     b.Property<string>("Group")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("InvoiceType")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Keyword")
                         .HasColumnType("nvarchar(max)");
 
@@ -225,6 +234,9 @@ namespace rpaapp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProcessTypeId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("VAT")

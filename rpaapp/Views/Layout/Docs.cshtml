@@ -1,6 +1,5 @@
 @{
     ViewData["Title"] = "SimplyDoc Docs";
-    var st = (int)ViewData["Stats"];
     Layout = null;
 }
 
@@ -41,8 +40,7 @@
 <body>
     <div class="row">
         <div class="col-md-2" style="display: flex; position: sticky; top: 0; height: 600px; flex-direction: column;">
-            <h3 style="padding-left: 22px; padding-top: 12px; user-select: none;">SimplyDoc API</h3>@* 
-            <p>@st invoices completed so far.</p> *@
+            <h3 style="padding-left: 22px; padding-top: 12px; user-select: none;">SimplyDoc API</h3>
             <a class="nvbr" href="#key"> API Key </a>
             <a class="nvbr" href="#confirmed"> List of confirmed documents </a>
             <a class="nvbr" href="#upload"> Upload files </a>
@@ -52,6 +50,7 @@
             <a class="nvbr" href="#delete"> Delete document </a>
             <a class="nvbr" href="#docid"> Get RAC number </a>
             <a class="nvbr" href="#metadata"> Get PDF Metadata</a>
+            <a class="nvbr" asp-controller="Home" asp-action="Index" style="color:black;">Back to main page</a>
         </div>
         <div class="col-md-10" style="border-left: 1px solid lightgrey; padding-left: 65px;">
             <div id="key" style="padding-bottom: 100px; padding-top: 60px;">
@@ -87,7 +86,7 @@
                     <div style="padding: 0 16px 16px 16px;">
                         <div style="background-color: #707b8f; border-radius: 10px; margin: auto; width: 90%; height: 115px;">
                             <div style="height: 22%; width: 100%; background-color: #4f566b; border-radius: 10px 10px 0px 0px;">
-                            <p style="color: #c1c9d2; font-weight: bold; padding-left: 16px;">Get /DmsMove
+                            <p style="color: #c1c9d2; font-weight: bold; padding-left: 16px;">GET /DmsMove
                             </p>
                             </div>
                             <div>
@@ -266,7 +265,7 @@
                     <div style="padding: 0 16px 16px 16px;">
                         <div style="background-color: #707b8f; border-radius: 10px; margin: auto; width: 90%; height: 100px;">
                             <div style="height: 33%; width: 100%; background-color: #4f566b; border-radius: 10px 10px 0px 0px;">
-                            <p style="color: #c1c9d2; font-weight: bold; padding-left: 16px;">GET  /Home/Download?gd= guid
+                            <p style="color: #c1c9d2; font-weight: bold; padding-left: 16px;">GET  /Home/Download?gd=guid
                             </p>
                             </div>
                             <div>
@@ -297,7 +296,7 @@
                     <div style="padding: 0 16px 16px 16px;">
                         <div style="background-color: #707b8f; border-radius: 10px; margin: auto; width: 90%; height: 100px;">
                             <div style="height: 33%; width: 100%; background-color: #4f566b; border-radius: 10px 10px 0px 0px;">
-                            <p style="color: #c1c9d2; font-weight: bold; padding-left: 16px;">GET  /Home/DeleteConfirmed?gd= guid
+                            <p style="color: #c1c9d2; font-weight: bold; padding-left: 16px;">GET  /Home/DeleteConfirmed?gd=guid
                             </p>
                             </div>
                             <div>

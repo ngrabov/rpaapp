@@ -26,7 +26,7 @@ public class PdfsController : Controller
     }
 
     [ApiKey]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index() //returns json data for pdfs yet to be downloaded
     {
         var pdfs = await _context.pdfs.Where(c => c.isDownloaded == false).ToListAsync();
         return Json(pdfs);
@@ -49,14 +49,14 @@ public class PdfsController : Controller
     }
 
     [Authorize(Roles = "Administrator,Manager")]
-    public IActionResult Upload() 
+    public IActionResult Upload() //returns html for the pdf upload action from Views
     {
         return View();
     }
 
     [Authorize(Roles = "Administrator,Manager")]
     [HttpPost]
-    public async Task<IActionResult> Upload(List<IFormFile> files)
+    public async Task<IActionResult> Upload(List<IFormFile> files) //POST action for pdf upload
     {
         if(files.Count > 20)
         {
@@ -76,7 +76,7 @@ public class PdfsController : Controller
     }
 
     [Authorize(Roles = "Administrator")]
-    public async Task<IActionResult> DeletePdfs(int min, int max)
+    public async Task<IActionResult> DeletePdfs(int min, int max) //Function for pdf deletion if too many pdfs uploaded, rarely used
     {
         var pdfs = await _context.pdfs.Where(c => c.Id >= min && c.Id <= max).ToListAsync();
         var first = pdfs.FirstOrDefault();
@@ -89,7 +89,7 @@ public class PdfsController : Controller
     }
 
     [Authorize(Roles = "Administrator")]
-    public async Task<IActionResult> CleanFiles(int? day)
+    public async Task<IActionResult> CleanFiles(int? day) //physical deletion of archived invoice files, rarely used
     {
         try
         {
@@ -121,7 +121,7 @@ public class PdfsController : Controller
             else return Json("An error occurred. Please contact administrator.");
         }
     }
-    public async Task Complex(List<IFormFile> files)
+    public async Task Complex(List<IFormFile> files) //auxiliary function
     {
         var currentuser = await _userManager.GetUserAsync(User);
 

@@ -15,28 +15,28 @@ public class ProcessController : Controller
     }
 
     [Authorize(Roles="Administrator")]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index() //list of processes 
     {
         var processes = await repository.GetProcessesAsync();
         return View(processes);
     }
 
     [Authorize(Roles = "Administrator,Manager")]
-    public IActionResult Create()
+    public IActionResult Create() //returns html for process creation
     {
         return View();
     }
 
     [Authorize(Roles = "Administrator,Manager")]
     [HttpPost]
-    public async Task<IActionResult> Create([Bind("name,ptid")] ProcessType process)
+    public async Task<IActionResult> Create([Bind("name,ptid")] ProcessType process) //POST action for process creation
     {
         await repository.AddProcessAsync(process);
         return RedirectToAction("Index", "Home");
     }
 
     [Authorize(Roles = "Administrator")]
-    public async Task<IActionResult> Delete(int? id)
+    public async Task<IActionResult> Delete(int? id) //Action for process deletion
     {
         if(id == null) return NotFound();
 

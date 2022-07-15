@@ -21,13 +21,13 @@ namespace rpaapp.Controllers
             _signInManager = signInManager;
         }
 
-        public IActionResult Index()
+        public IActionResult Index() //Redirect to repository
         {
             return RedirectToAction("Repository", "Home");
         }
 
         [Authorize(Roles = "Administrator,Manager")]
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(Guid? id) // returns main html page for invoice data
         {
             try
             {
@@ -63,7 +63,7 @@ namespace rpaapp.Controllers
         [ActionName("Details")]
         [Authorize(Roles = "Administrator,Manager")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Resolve(Guid? id)
+        public async Task<IActionResult> Resolve(Guid? id) //send invoice into confirmed state
         {
             try
             {
@@ -112,7 +112,7 @@ namespace rpaapp.Controllers
         }
 
         [Authorize(Roles = "Administrator,Manager")]
-        public async Task<IActionResult> Prev(int? id)
+        public async Task<IActionResult> Prev(int? id) //go to previous (by id) not reviewed invoice 
         {
             if(id == null) return NotFound();
 
@@ -122,7 +122,7 @@ namespace rpaapp.Controllers
         }
 
         [Authorize(Roles = "Administrator,Manager")]
-        public async Task<IActionResult> Next(int? id)
+        public async Task<IActionResult> Next(int? id) // go to next not reviewed invoice
         {
             if(id == null) return NotFound();
             
@@ -132,7 +132,7 @@ namespace rpaapp.Controllers
         }
 
         [Authorize(Roles = "Administrator,Manager")]
-        public async Task<IActionResult> SearchMe(string key)
+        public async Task<IActionResult> SearchMe(string key) //search invoice by company name, vat or invoice number
         {
             var txts = new List<Txt>();
             if(!String.IsNullOrEmpty(key)) 
@@ -143,7 +143,7 @@ namespace rpaapp.Controllers
         }
 
         [Authorize(Roles = "Administrator,Manager")]
-        public async Task<IActionResult> FileDetails(Guid? id)
+        public async Task<IActionResult> FileDetails(Guid? id) // go to file details for selected invoice
         {
             if(id == null) return NotFound();
 
@@ -153,19 +153,19 @@ namespace rpaapp.Controllers
             return View(doc);
         }
 
-        private async Task populateProcess(object selectedTeam = null)
+        private async Task populateProcess(object selectedTeam = null) //autofill dropdown for processes
         {
             var processes = await _context.Processes.ToArrayAsync();
             ViewBag.teams = new SelectList(processes, "ptid", "name", selectedTeam);
         }
 
-        private async Task populatePeople(object selectedPerson = null)
+        private async Task populatePeople(object selectedPerson = null) //autofill dropdown for people in charge
         {
             var people = await _context.People.ToArrayAsync();
             ViewBag.people = new SelectList(people, "mfilesid", "fullname", selectedPerson);
         }
 
-        private async Task populateInvoices(object selectedInvoice = null)
+        private async Task populateInvoices(object selectedInvoice = null) // autofill dropdown for invoice types
         {
             var invoices = await _context.Invoices.ToListAsync();
             ViewBag.invoices = new SelectList(invoices, "customid", "name", selectedInvoice);
