@@ -12,8 +12,8 @@ using rpaapp.Data;
 namespace rpaapp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220713114534_iswaiting")]
-    partial class iswaiting
+    [Migration("20220720072347_picid")]
+    partial class picid
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -329,11 +329,11 @@ namespace rpaapp.Migrations
 
             modelBuilder.Entity("rpaapp.Models.PersonInCharge", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
@@ -344,7 +344,7 @@ namespace rpaapp.Migrations
                     b.Property<int>("mfilesid")
                         .HasColumnType("int");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("People", (string)null);
                 });

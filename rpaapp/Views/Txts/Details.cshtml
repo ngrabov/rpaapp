@@ -121,7 +121,7 @@
                     }
                     else 
                     {
-                        <input asp-for="PreorderNumber" id="pon" name="pon" class="form-control" style="height: 25px;"/>
+                        <input asp-for="PreorderNumber" id="pon" class="form-control" style="height: 25px;"/>
                     }
                     <span asp-validation-for="PreorderNumber" class="text-danger"></span>
                     </div>
@@ -238,14 +238,14 @@
                     {
                         if((string)pon == "true")
                         {
-                            <select asp-for="PersonInChargeId" name="pic" id="pic" style="padding: 0px 10px;" class="form-control" asp-items="@ViewBag.people" disabled>
+                            <select asp-for="PersonInChargeId" id="pic" style="padding: 0px 10px;" class="form-control" asp-items="@ViewBag.people" disabled>
                                 <option value="">--Select person--</option>
                             </select>
                             <span asp-validation-for="PersonInChargeId" class="text-danger"></span>
                         }
                         else
                         {
-                        <select asp-for="PersonInChargeId" name="pic" id="pic" style="padding: 0px 10px;" class="form-control" asp-items="@ViewBag.people">
+                        <select asp-for="PersonInChargeId" id="pic" style="padding: 0px 10px;" class="form-control" asp-items="@ViewBag.people">
                             <option value="">--Select person--</option>
                         </select>
                         <span asp-validation-for="PersonInChargeId" class="text-danger"></span>
@@ -341,8 +341,6 @@ var modal = document.getElementById("myModal");
 var i;
 var imgs = document.getElementsByClassName("mimg");
 var modalImg = document.getElementById("img01");
-var pon = document.getElementById("pon");
-var pic = document.getElementById("pic");
 for(i = 0; i < imgs.length; i++)
 {
     imgs[i].onclick = function()

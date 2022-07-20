@@ -4,10 +4,15 @@
 
 namespace rpaapp.Migrations
 {
-    public partial class iswaiting : Migration
+    public partial class picid : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.RenameColumn(
+                name: "id",
+                table: "People",
+                newName: "Id");
+
             migrationBuilder.AddColumn<string>(
                 name: "AltVAT",
                 table: "Firms",
@@ -50,6 +55,11 @@ namespace rpaapp.Migrations
             migrationBuilder.DropColumn(
                 name: "State",
                 table: "Firms");
+
+            migrationBuilder.RenameColumn(
+                name: "Id",
+                table: "People",
+                newName: "id");
         }
     }
 }
